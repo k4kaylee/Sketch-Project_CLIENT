@@ -1,0 +1,395 @@
+/* Main */
+@font-face {
+  font-family: 'GeneralSans-Semibold';
+  src: url('../fonts/GeneralSans-Semibold.woff2') format('woff2'),
+       url('../fonts/GeneralSans-Semibold.woff') format('woff'),
+       url('../fonts/GeneralSans-Semibold.ttf') format('truetype');
+       font-weight: 600;
+       font-display: swap;
+       font-style: normal;
+}
+
+.unselectable {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+li {
+  list-style-type: none;
+ }
+ ul {
+  padding-left: 0;
+ }
+
+html{
+  background: #001220;
+  background-size: cover;
+}
+
+body{
+  overflow-x: hidden;
+}
+
+
+
+
+/* Animations */
+
+@keyframes textFadeIn{
+  from{
+    translate: -80px;
+    opacity: 0;
+  } 
+  to{
+    translate: 0px;
+    opacity: 1;
+    animation-play-state: paused;
+  } 
+}
+
+@keyframes fadeIn{
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+    animation-play-state: paused;
+  }
+}
+
+@keyframes wave1{
+  50%{
+    d: path("M 0 145 L 24 143 C 74 141 106 108 189 93 C 290 75 333.3 83.3 397 96 C 492 121 471 128 574 112 C 666.7 92.3 723 75 801 80 C 901 81 930 106 1086 83 C 1185 75 1173 70 1272 84 C 1291 87 1333.3 97 1441 109 C 1578 124 1533.3 118 1566.7 123.5 L 1600 129 L 1600 401 L 1566.7 401 C 1533.3 401 1466.7 401 1400 401 C 1333.3 401 1266.7 401 1200 401 C 1133.3 401 1066.7 401 1000 401 C 933.3 401 866.7 401 800 401 C 733.3 401 666.7 401 600 401 C 533.3 401 466.7 401 400 401 C 333.3 401 266.7 401 200 401 C 133.3 401 66.7 401 33.3 401 L 0 401 Z");
+  }
+  100%{
+    d:path("M0 145L33.3 140.5C66.7 136 133.3 127 200 113.8C266.7 100.7 333.3 83.3 400 74C466.7 64.7 533.3 63.3 600 77.8C666.7 92.3 733.3 122.7 800 128C866.7 133.3 933.3 113.7 1000 104.7C1066.7 95.7 1133.3 97.3 1200 97.7C1266.7 98 1333.3 97 1400 102C1466.7 107 1533.3 118 1566.7 123.5L1600 129L1600 401L1566.7 401C1533.3 401 1466.7 401 1400 401C1333.3 401 1266.7 401 1200 401C1133.3 401 1066.7 401 1000 401C933.3 401 866.7 401 800 401C733.3 401 666.7 401 600 401C533.3 401 466.7 401 400 401C333.3 401 266.7 401 200 401C133.3 401 66.7 401 33.3 401L0 401Z");
+  }
+}
+
+@keyframes wave2{
+  50%{
+    d: path("M 0 200 L 49 196 C 104 187 97 196 184 168 C 238 146 345 139 413 156 C 466.7 168.7 492 181 599 184 C 734 187 733.3 169.3 800 167.2 C 870 164 864 161 945 169 C 1085 202 1086 204 1204 191 C 1335 161 1333.3 163 1400 172.8 C 1466.7 182.7 1533.3 200.3 1566.7 209.2 L 1600 218 L 1600 401 L 1566.7 401 C 1533.3 401 1466.7 401 1400 401 C 1333.3 401 1266.7 401 1200 401 C 1133.3 401 1066.7 401 1000 401 C 933.3 401 866.7 401 800 401 C 733.3 401 666.7 401 600 401 C 533.3 401 466.7 401 400 401 C 333.3 401 266.7 401 200 401 C 133.3 401 66.7 401 33.3 401 L 0 401 Z");
+  }
+  100%{
+    d:path("M0 200L33.3 188.3C66.7 176.7 133.3 153.3 200 149C266.7 144.7 333.3 159.3 400 164C466.7 168.7 533.3 163.3 600 163.5C666.7 163.7 733.3 169.3 800 167.2C866.7 165 933.3 155 1000 152.3C1066.7 149.7 1133.3 154.3 1200 157.7C1266.7 161 1333.3 163 1400 172.8C1466.7 182.7 1533.3 200.3 1566.7 209.2L1600 218L1600 401L1566.7 401C1533.3 401 1466.7 401 1400 401C1333.3 401 1266.7 401 1200 401C1133.3 401 1066.7 401 1000 401C933.3 401 866.7 401 800 401C733.3 401 666.7 401 600 401C533.3 401 466.7 401 400 401C333.3 401 266.7 401 200 401C133.3 401 66.7 401 33.3 401L0 401Z");
+  }
+}
+
+@keyframes wave3{
+  50%{
+    d: path("M0 291L33.3 283.8C66.7 276.7 133.3 262.3 200 250.5C266.7 238.7 333.3 229.3 400 225.7C466.7 222 533.3 224 600 223C666.7 222 733.3 218 800 228.2C866.7 238.3 933.3 262.7 1000 275.2C1066.7 287.7 1133.3 288.3 1200 274.2C1266.7 260 1333.3 231 1400 223.2C1466.7 215.3 1533.3 228.7 1566.7 235.3L1600 242L1600 401L1566.7 401C1533.3 401 1466.7 401 1400 401C1333.3 401 1266.7 401 1200 401C1133.3 401 1066.7 401 1000 401C933.3 401 866.7 401 800 401C733.3 401 666.7 401 600 401C533.3 401 466.7 401 400 401C333.3 401 266.7 401 200 401C133.3 401 66.7 401 33.3 401L0 401Z");
+  }
+  100%{
+    d:path("M -1 308 L 33.3 283.8 C 114 230 172 241 190 241 C 261 249 264 274 344 265 C 492 243 507 254 595 252 C 690 243 694 217 800 228.2 C 866.7 238.3 933.3 262.7 1000 275.2 c 66.7 12.5 114 -20.2 175 -45.2 c 43 -18 117 -3 208 25 C 1504 284 1502 272 1562 252 L 1600 242 L 1600 401 L 1566.7 401 C 1533.3 401 1466.7 401 1400 401 C 1333.3 401 1266.7 401 1200 401 C 1133.3 401 1066.7 401 1000 401 C 933.3 401 866.7 401 800 401 C 733.3 401 666.7 401 600 401 C 533.3 401 466.7 401 400 401 C 333.3 401 266.7 401 200 401 C 133.3 401 66.7 401 33.3 401 L 0 401 Z");
+  }
+}
+
+@keyframes wave4{
+  50%{
+    d: path("M 0 342 L 22 340 C 65 336 99 290 198 291 C 284 290 330 311 400 338.7 C 462 354 508 392 616 341 C 676 317 697 303 773 298 C 891 291 933.3 319.3 1000 331.5 C 1066.7 343.7 1093 292 1294 273 C 1327 271 1328 271 1332 271 C 1467 268 1530 283 1568 308 L 1600 332 L 1600 401 L 1566.7 401 C 1533.3 401 1466.7 401 1400 401 C 1333.3 401 1266.7 401 1200 401 C 1133.3 401 1066.7 401 1000 401 C 933.3 401 866.7 401 800 401 C 733.3 401 666.7 401 600 401 C 533.3 401 466.7 401 400 401 C 333.3 401 266.7 401 200 401 C 133.3 401 66.7 401 33.3 401 L 0 401 Z");
+  }
+  100%{
+    d:path("M0 322L33.3 329.2C66.7 336.3 133.3 350.7 200 352C266.7 353.3 333.3 341.7 400 338.7C466.7 335.7 533.3 341.3 600 334C666.7 326.7 733.3 306.3 800 304.5C866.7 302.7 933.3 319.3 1000 331.5C1066.7 343.7 1133.3 351.3 1200 349.8C1266.7 348.3 1333.3 337.7 1400 333.2C1466.7 328.7 1533.3 330.3 1566.7 331.2L1600 332L1600 401L1566.7 401C1533.3 401 1466.7 401 1400 401C1333.3 401 1266.7 401 1200 401C1133.3 401 1066.7 401 1000 401C933.3 401 866.7 401 800 401C733.3 401 666.7 401 600 401C533.3 401 466.7 401 400 401C333.3 401 266.7 401 200 401C133.3 401 66.7 401 33.3 401L0 401Z");
+  }
+}
+
+
+
+
+
+.waves{
+  position:absolute;
+ }
+
+.wave1{
+  animation: wave1 4s infinite;
+}
+
+.wave2{
+  animation: wave2 3.1s infinite;
+}
+
+.wave3{
+  animation: wave3 3.7s infinite;
+}
+
+.wave4{
+  animation: wave4 3.3s infinite;
+}
+
+
+.header {
+  width: 100%;
+  height: 100px;
+  padding: 10px 50px 0 50px;
+}
+
+.content {
+  width: auto;
+  height: auto;
+  padding: 50px 50px 0 50px;
+}
+
+.headText {
+  font-family: GeneralSans-Semibold;
+  color: azure;
+  font-size: 70px;
+  margin: 70px auto 0;
+  animation: textFadeIn 1s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.headSubText {
+  font-family: GeneralSans-Semibold;
+  color: #BCC0C4;
+  font-size: 20px;
+  margin: 10px auto 0;
+  animation: textFadeIn 1s;
+  animation-delay: 0.2s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.logo{
+  width: 256px;
+  height: 88px;
+  background: url('../img/logo.png');
+}
+
+.flex{
+  display: flex;
+  align-items: flex-start;
+  height: 265px;
+}
+
+.login{
+  width: 400px;
+  height: 400px;
+  margin-left: 200px;
+  animation: fadeIn 1s;
+}
+
+.login p{
+  color: #f5f5f5;
+  font-size: 25px;
+  margin-bottom: 13px;
+  margin-top: 40px;
+}
+
+.input-group {
+  position: relative;
+ }
+ 
+ .logInput {
+  border: solid 1.5px #9e9e9e;
+  border-radius: 1rem;
+  background: none;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #f5f5f5;
+  transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+  width: 350px;
+  margin-bottom: 10px;
+ }
+ 
+ .user-label {
+  position: absolute;
+  left: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(1rem);
+  transition: 150ms cubic-bezier(0.4,0,0.2,1);
+
+ }
+ 
+ .logInput:focus {
+  outline: none;
+  border: 1.5px solid #e34c67;
+  caret-color: #e34c67;
+ }
+ 
+
+
+ .logInput:focus ~ label{
+  transform: translateY(-50%) scale(0.8);
+  background-color: #001220;
+  padding: 0 .2em;
+  color: #e34c67;
+  opacity: 1;
+ }
+
+
+
+
+ .c-button {
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 0.9em 1.6em;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  z-index: 1;
+  height: 53px;
+ }
+ 
+ .c-button--gooey {
+  color: #DA3F67;
+  background-color: #001220;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 2px solid #DA3F67;
+  border-radius: 0;
+  position: relative;
+  transition: all 700ms ease;
+  border-radius: 1rem;
+ }
+ 
+ .c-button--gooey .c-button__blobs {
+  height: 100%;
+  filter: url(#goo);
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: -3px;
+  right: -1px;
+  z-index: -1;
+  border-radius: 10px;
+ }
+ 
+ .c-button--gooey .c-button__blobs div {
+  background-color: #DA3F67;
+  width: 34%;
+  height: 100%;
+  border-radius: 100%;
+  position: absolute;
+  transform: scale(1.4) translateY(125%) translateZ(0);
+  transition: all 700ms ease;
+ }
+ 
+ .c-button--gooey .c-button__blobs div:nth-child(1) {
+  left: -5%;
+ }
+ 
+ .c-button--gooey .c-button__blobs div:nth-child(2) {
+  left: 30%;
+  transition-delay: 60ms;
+ }
+ 
+ .c-button--gooey .c-button__blobs div:nth-child(3) {
+  left: 66%;
+  transition-delay: 25ms;
+ }
+ 
+ .c-button--gooey:hover {
+  color: #001220;
+  
+ }
+ 
+ .c-button--gooey:hover .c-button__blobs div {
+  transform: scale(1.4) translateY(0) translateZ(0);
+ }
+
+
+
+
+ .registration{
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  width: 400px; 
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  animation: fadeIn 1s;
+  border-radius: 50px;
+  padding: 50px 50px;
+  background: #001230;
+  box-shadow:  0px 0px 120px #b93658,
+               0px 0px 120px #fb4876,
+            inset -35px -35px 70px #000f1b,
+            inset 35px 35px 70px #001525;
+ }
+
+.regText{
+  font-family: GeneralSans-Semibold;
+  color: azure;
+  font-size: 23px;
+  margin: 0 auto 10px;
+}
+
+ .registration-input{
+  border: solid 1.5px #9e9e9e;
+  border-radius: 1rem;
+  background: none;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #f5f5f5;
+  transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+  width: 365px;
+  margin-bottom: 10px;
+ }
+
+ .registration-input:focus{
+  outline: none;
+  border: 1.5px solid #e34c67;
+  caret-color: #e34c67;
+ }
+
+.inputID{
+  margin-bottom: 10px;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  margin-top: 0;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.disabled{
+  pointer-events: none;
+  opacity: 0.3;
+}
