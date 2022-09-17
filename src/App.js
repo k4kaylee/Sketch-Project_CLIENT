@@ -1,5 +1,4 @@
 import './App.css';
-import Register from './pages/Register';
 import { Link } from "react-router-dom";
 
 function App() {

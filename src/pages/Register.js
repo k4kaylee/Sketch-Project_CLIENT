@@ -3,6 +3,7 @@ import '../App.css';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import axios from '../api/axios.js';
 
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{2,23}$/;
@@ -20,6 +21,8 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 */
 
 const EMAIL_REGEX=  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
+const REGISTER_URL = '/register';
 
 const Register = () => {
   const userRef = useRef();
@@ -79,10 +82,30 @@ const Register = () => {
       setErrMsg("Invalid entry");
       return;
     }
-    setSuccess(true);
-    console.log(user);
-    console.log(pwd);
-  }
+    try{
+      const response = await axios.post(REGISTER_URL,
+        JSON.stringify( {user, pwd} ),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      );
+      console.log(response.data);
+      console.log(response.accessToken);
+      console.log(JSON.stringify(response));
+      setSuccess(true);
+    } catch (err) {
+      if (!err.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response?.status === 409){
+        setErrMsg('Username Taken')
+      } else {
+        setErrMsg('Registration Failed')
+      }
+      errRef.current.focus();
+      }
+    }
+  
 
   return (
     <form onSubmit={handleSubmit} className='registration'>
