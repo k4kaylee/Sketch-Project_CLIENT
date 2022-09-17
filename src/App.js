@@ -21,7 +21,9 @@ function App() {
                   <label className="user-label">Password</label>
                 </div>
 
-                <Link style={{height: "22px", position: 'absolute'}} className="c-button c-button--gooey" to='/registration'> Log in
+
+        <div style={{height: "55px"}}>
+                <button style={{height: "55px", position: 'absolute'}} className="c-button c-button--gooey"> Log in
                 <div className="c-button__blobs">
                   <div></div>
                   <div></div>
@@ -36,8 +38,10 @@ function App() {
                   </filter>
                 </defs>
               </svg>
-              </Link>
+              </button>
 
+              <p style={{fontSize: "16px", float: "right", top: "50%", margin: "16px 15px 0 0",}}>First time? <Link to='/registration' style={{color: "#e34c67"}}>Sign up!</Link></p>
+              </div>
             </div>
           </div>
         </div>

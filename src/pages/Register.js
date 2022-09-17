@@ -234,7 +234,7 @@ const Register = () => {
 
 
 
-        <div className="buttonContainer">
+        <div>
           <Link style={{ height: "25px", backgroundColor: "#001230" }} className="c-button c-button--gooey" to='/'> Log in
             <div className="c-button__blobs">
               <div></div>
