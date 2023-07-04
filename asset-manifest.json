@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/Sketch-Project_CLIENT/static/css/main.5c94ef79.css",
-    "main.js": "/Sketch-Project_CLIENT/static/js/main.93325722.js",
-    "static/js/787.5d43d3e1.chunk.js": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js",
-    "static/media/GeneralSans-Semibold.ttf": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.f6a5bacab0316e8117bb.ttf",
-    "static/media/GeneralSans-Semibold.woff": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.f7917c077957122793f6.woff",
-    "static/media/GeneralSans-Semibold.woff2": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.23103addec2ccc9cbc17.woff2",
-    "static/media/logo.png": "/Sketch-Project_CLIENT/static/media/logo.bdc0f62152952552c9e7.png",
-    "index.html": "/Sketch-Project_CLIENT/index.html",
-    "main.5c94ef79.css.map": "/Sketch-Project_CLIENT/static/css/main.5c94ef79.css.map",
-    "main.93325722.js.map": "/Sketch-Project_CLIENT/static/js/main.93325722.js.map",
-    "787.5d43d3e1.chunk.js.map": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js.map"
+    "main.css": "/Sketch-Project/static/css/main.790e9f47.css",
+    "main.js": "/Sketch-Project/static/js/main.ba70d0bc.js",
+    "static/js/787.5d43d3e1.chunk.js": "/Sketch-Project/static/js/787.5d43d3e1.chunk.js",
+    "static/media/GeneralSans-Semibold.ttf": "/Sketch-Project/static/media/GeneralSans-Semibold.f6a5bacab0316e8117bb.ttf",
+    "static/media/GeneralSans-Semibold.woff": "/Sketch-Project/static/media/GeneralSans-Semibold.f7917c077957122793f6.woff",
+    "static/media/GeneralSans-Semibold.woff2": "/Sketch-Project/static/media/GeneralSans-Semibold.23103addec2ccc9cbc17.woff2",
+    "static/media/logo.png": "/Sketch-Project/static/media/logo.bdc0f62152952552c9e7.png",
+    "index.html": "/Sketch-Project/index.html",
+    "main.790e9f47.css.map": "/Sketch-Project/static/css/main.790e9f47.css.map",
+    "main.ba70d0bc.js.map": "/Sketch-Project/static/js/main.ba70d0bc.js.map",
+    "787.5d43d3e1.chunk.js.map": "/Sketch-Project/static/js/787.5d43d3e1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5c94ef79.css",
-    "static/js/main.93325722.js"
+    "static/css/main.790e9f47.css",
+    "static/js/main.ba70d0bc.js"
   ]
 }
