@@ -21,7 +21,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 */
 
 const EMAIL_REGEX=  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-
+ 
 const REGISTER_URL = '/register';
 
 const Register = () => {
@@ -105,15 +105,42 @@ const Register = () => {
       errRef.current.focus();
       }
     }
+
+
+//Handling register button
+const registerUser = () => {
+  // Создать объект с данными пользователя
+  const newUser = { user, email, pwd };
+
+  // Отправить POST-запрос на сервер
+  fetch('/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newUser)
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Обработать ответ от сервера
+      console.log(data);
+    })
+    .catch(error => {
+      // Обработать ошибку при выполнении запроса
+      console.error('Error:', error);
+    });
+};
   
 
   return (
+
+    
     <form onSubmit={handleSubmit} className='registration'>
       {success ? (
         <section>
           <p className="regText unselectable" style={{fontSize: "40px"}}>Success!</p>
-          <p style={{fontSize: "20px"}}>
-            Now, let's <Link to='/' style={{color: "#e34c67"}}>sign you in</Link>
+          <p className="sign-in-link">
+            Now, let's <Link to='/'>sign you in</Link>
           </p>
         </section>
       ):(
@@ -133,11 +160,12 @@ const Register = () => {
 
         <input
           className="registration-input"
-          id="inputID"
           type="text"
+          id="login_input"
           ref={userRef}
           aria-invalid={validName ? "false" : "true"}
           aria-describedby="uidnote"
+          value={user}
           onChange={(e) => setUser(e.target.value)}
           required
           onFocus={() => setUserFocus(true)}
@@ -200,7 +228,7 @@ const Register = () => {
           onChange={(e) => setMatchPwd(e.target.value)}
           placeholder="Repeat password"
           required 
-        />
+        /> 
 
 
         {/* E-mail */}
@@ -215,6 +243,7 @@ const Register = () => {
         <input
           className="registration-input inputID"
           type="email"
+          id="email_input"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail" 
           onFocus={() => setEmailFocus(true)}
@@ -234,8 +263,8 @@ const Register = () => {
 
 
 
-        <div>
-          <Link style={{ height: "25px", backgroundColor: "#001230" }} className="c-button c-button--gooey" to='/'> Log in
+        <div className="button-container">
+          <Link className="c-button c-button--gooey" to='/'> Log in
             <div className="c-button__blobs">
               <div></div>
               <div></div>
@@ -255,10 +284,11 @@ const Register = () => {
 
 
 
-          <button 
-          className={validName && validPwd && validMatch && validEmail ? "c-button c-button--gooey" : "c-button c-button--gooey disabled"} 
+          <a
           disabled={!validName || !validPwd || !validMatch || !validEmail ? true : false}
-          style={{ height: "57.79px", backgroundColor: "#001230", float: 'right' }}
+          className={validName && validPwd && validMatch && validEmail ? "c-button c-button--gooey register" : "c-button c-button--gooey register disabled"} 
+          id="register_btn"
+          onClick={registerUser}
           > 
             Register
             <div className="c-button__blobs">
@@ -266,7 +296,7 @@ const Register = () => {
               <div></div>
               <div></div>
             </div>
-          </button>
+          </a>
           <svg style={{ display: "block", height: 0, width: 0 }} version="1.1" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <filter id="goo">
@@ -285,5 +315,10 @@ const Register = () => {
     
   )
 };
+
+
+
+
+
 
 export default Register;

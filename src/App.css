@@ -34,8 +34,8 @@ html{
 
 body{
   overflow-x: hidden;
+  overflow-y: hidden;
 }
-
 
 
 
@@ -102,10 +102,9 @@ body{
 
 
 
-
-.waves{
-  position:absolute;
- }
+.waves {
+  position: absolute;
+}
 
 .wave1{
   animation: wave1 4s infinite;
@@ -125,9 +124,9 @@ body{
 
 
 .header {
-  width: 100%;
+  width: auto;
   height: 100px;
-  padding: 10px 50px 0 50px;
+  padding: 10px 50px;
 }
 
 .content {
@@ -136,7 +135,7 @@ body{
   padding: 50px 50px 0 50px;
 }
 
-.headText {
+.head-text {
   font-family: GeneralSans-Semibold;
   color: azure;
   font-size: 70px;
@@ -146,7 +145,7 @@ body{
   animation-fill-mode: forwards;
 }
 
-.headSubText {
+.head-subtext{
   font-family: GeneralSans-Semibold;
   color: #BCC0C4;
   font-size: 20px;
@@ -163,16 +162,25 @@ body{
   background: url('../img/logo.png');
 }
 
+.sublogin-container{
+  height: 55px;
+}
+
+.centered{
+  margin: 0 auto;
+}
+
 .flex{
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
   height: 265px;
 }
 
 .login{
   width: 400px;
   height: 400px;
-  margin-left: 200px;
+  margin-right: 50px;
   animation: fadeIn 1s;
 }
 
@@ -183,11 +191,21 @@ body{
   margin-top: 40px;
 }
 
+.login p.registration-link{
+  font-size: 16px;
+  float: right;
+  margin: 16px 15px 0 0;
+}
+
+.login p.registration-link a {
+  color: #e34c67;
+}
+
 .input-group {
   position: relative;
  }
  
- .logInput {
+ .log-input {
   border: solid 1.5px #9e9e9e;
   border-radius: 1rem;
   background: none;
@@ -209,7 +227,7 @@ body{
 
  }
  
- .logInput:focus {
+ .log-input:focus {
   outline: none;
   border: 1.5px solid #e34c67;
   caret-color: #e34c67;
@@ -217,7 +235,7 @@ body{
  
 
 
- .logInput:focus ~ label{
+ .log-input:focus ~ label{
   transform: translateY(-50%) scale(0.8);
   background-color: #001220;
   padding: 0 .2em;
@@ -226,25 +244,35 @@ body{
  }
 
 
+ .button-container {
+  display: flex;
+  justify-content: space-between;
+}
 
+#login-button{
+  background-color: #001220;
+  height: 55px;
+  position: absolute;
+}
 
  .c-button {
-  color: #000;
   font-weight: 700;
   font-size: 16px;
   text-decoration: none;
-  padding: 0.9em 1.6em;
   cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
+  flex: 0 0 auto;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 1;
-  height: 53px;
+  height: 50px;
+  width: 100px;
  }
  
  .c-button--gooey {
   color: #DA3F67;
-  background-color: #001220;
+  background-color: #001230;
   text-transform: uppercase;
   letter-spacing: 2px;
   border: 2px solid #DA3F67;
@@ -300,16 +328,20 @@ body{
   transform: scale(1.4) translateY(0) translateZ(0);
  }
 
+ 
+ #register_btn{
+  width: 115px;
+  margin-left: auto;
+ }
+
 
 
 
  .registration{
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  width: 400px; 
-  min-height: 400px;
+  position: relative;
+  margin: 80px auto 0 auto;
+  max-width: 400px; 
+  max-height: 550px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -318,8 +350,8 @@ body{
   padding: 50px 50px;
   background: #001230;
   color: #f5f5f5;
-  box-shadow:  0px 0px 120px #b93658,
-               0px 0px 120px #fb4876,
+  box-shadow:  0px 0px 80px #b93658,
+               0px 0px 80px #fb4876,
             inset -35px -35px 70px #000f1b,
             inset 35px 35px 70px #001525;
  }
@@ -339,7 +371,7 @@ body{
   font-size: 1rem;
   color: #f5f5f5;
   transition: border 150ms cubic-bezier(0.4,0,0.2,1);
-  width: 365px;
+  max-width: 365px;
   margin-bottom: 10px;
  }
 
@@ -349,7 +381,11 @@ body{
   caret-color: #e34c67;
  }
 
-.inputID{
+.sign-in-link a{
+  color: #e34c67;
+}
+
+#login_input{
   margin-bottom: 10px;
 }
 
@@ -398,4 +434,212 @@ body{
 .disabled{
   pointer-events: none;
   opacity: 0.3;
+}
+
+
+
+
+/*Responsive layouts*/
+
+@media only screen and (max-width: 2000px) {
+	/*Main page*/
+
+
+
+  /*Registration page*/
+}
+
+@media only screen and (max-width: 1385px) {
+  /*Main page*/
+	.head-text{
+    font-size: 60px;
+  }
+
+
+
+  /*Registration page*/
+}
+
+@media only screen and (max-width: 1180px) {
+  /*Main page*/
+	.head-text{
+    font-size: 50px;
+  }
+
+  .head-subtext{
+    font-size: 15px;
+  }
+
+  .login{
+    margin-right: 0;
+  }
+
+  .login p{
+    font-size: 21px;
+  }
+
+  .log-input{
+    font-size: 0.9rem;
+  }
+
+  #login-button{
+    height: 50px;
+  }
+
+  .login p.registration-link{
+    font-size: 13px;
+    margin-top: 17px;
+  }
+
+
+
+  /*Registration page*/
+}
+
+@media only screen and (max-width: 995px) {
+  /*Main page*/
+  .waves{
+    margin-left: -200px;
+  }
+
+
+  /*Registration page*/
+  .registration{
+    margin-top: 50px;
+    box-shadow:  0px 0px 35px #b93658,
+                 0px 0px 35px #fb4876,
+                 inset -35px -35px 70px #000f1b,
+                 inset 35px 35px 70px #001525;
+  }
+}
+
+@media only screen and (max-width: 796px) {
+  /*Main page*/
+  .log-input{
+    width: 300px;
+  }
+
+
+  /*Registration page*/
+	.registration{
+    max-width: 300px;
+  }
+
+  .regText{
+    text-align: center;
+  }
+}
+
+
+@media only screen and (max-width: 716px) {
+  /*Main page*/
+  .flex{
+    flex-direction: column;
+
+  }
+
+  .head-text{
+    margin-top: 0;
+  }
+
+  .App{
+    position: relative;
+    height: 105vh;
+  }
+
+  .waves {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+
+@media only screen and (max-width: 450px) {
+  /*Main page*/
+  .App {
+    position: relative;
+    height: 100vh;
+  }
+
+  .login{
+    width: 310px;
+  }
+
+  .log-input{
+    width: 280px;
+  }
+  
+  .waves {
+    position: absolute;
+    bottom: 0;
+  }
+
+
+  /*Registration page*/
+  .registration{
+    margin-top: 50px;
+    box-shadow:  0px 0px 35px #b93658,
+                 0px 0px 35px #fb4876,
+                 inset -35px -35px 70px #000f1b,
+                 inset 35px 35px 70px #001525;
+  }
+}
+
+@media only screen and (max-width: 450px)  and (max-height: 1000px){
+  /*Main page*/
+  .head-text {
+    font-size: 30px;
+    margin-top: 30px;
+  }
+
+  .login{
+    width: 340px;
+  }
+
+
+
+  /*Registration page*/
+  .registration{
+    margin-top: 100px;
+  }
+}
+
+
+@media only screen and (max-width: 360px) {
+  /*Main page*/
+  .App{
+    height: 105vh;
+  }
+
+  .content{
+    padding-top: 0;
+  }
+
+  .login{
+    width: 275px;
+  }
+
+  .log-input{
+    width: 230px;
+  }
+
+
+  /*Registration page*/
+  .registration{
+    max-width: 200px;
+    box-shadow:  0px 0px 35px #b93658,
+                 0px 0px 35px #fb4876,
+                 inset -35px -35px 70px #000f1b,
+                 inset 35px 35px 70px #001525;
+  }
+
+  .registration-input{
+    max-height: 20px;
+   }
+
+   .registration .c-button{
+      font-size: 10px;
+   }
+
+
 }
