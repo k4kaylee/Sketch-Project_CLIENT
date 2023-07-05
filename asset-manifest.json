@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Sketch-Project_CLIENT/static/css/main.5c94ef79.css",
-    "main.js": "/Sketch-Project_CLIENT/static/js/main.ff54c3be.js",
+    "main.js": "/Sketch-Project_CLIENT/static/js/main.11ad86dd.js",
     "static/js/787.5d43d3e1.chunk.js": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js",
     "static/media/GeneralSans-Semibold.ttf": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.f6a5bacab0316e8117bb.ttf",
     "static/media/GeneralSans-Semibold.woff": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.f7917c077957122793f6.woff",
@@ -9,11 +9,11 @@
     "static/media/logo.png": "/Sketch-Project_CLIENT/static/media/logo.bdc0f62152952552c9e7.png",
     "index.html": "/Sketch-Project_CLIENT/index.html",
     "main.5c94ef79.css.map": "/Sketch-Project_CLIENT/static/css/main.5c94ef79.css.map",
-    "main.ff54c3be.js.map": "/Sketch-Project_CLIENT/static/js/main.ff54c3be.js.map",
+    "main.11ad86dd.js.map": "/Sketch-Project_CLIENT/static/js/main.11ad86dd.js.map",
     "787.5d43d3e1.chunk.js.map": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5c94ef79.css",
-    "static/js/main.ff54c3be.js"
+    "static/js/main.11ad86dd.js"
   ]
 }
