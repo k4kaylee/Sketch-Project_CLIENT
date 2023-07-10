@@ -18,13 +18,22 @@ const Users = () => {
     }
 
     loadUsers();
-  }, [])
+  }, [users])
 
+  const removeUser = async(user) =>{
+    
+    try{
+      const response = await axios.delete('/users', {data: {name: user.name, email: user.email}});
+      console.log(response.data);
+    }catch(error){
+      console.log(error.message);
+    }
+  }
 
   return (
     <>
-      <h2 className="head-text" style={{marginLeft: "100px"}}>User list:</h2>
-        <table style={{color: "azure", marginLeft: "150px"}}>
+      <h2 className="users-lable">User list:</h2>
+        <table className="users-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -35,13 +44,17 @@ const Users = () => {
             {users.length ? (
               users.map((user, i) => (
                 <tr key={i}>
-                  <td style={{padding: "0 30px"}}>{user.name}</td>
-                  <td style={{padding: "0 30px"}}>{user.email}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td className={(user.name === "admin") ? "offscreen" : "remove-user"} 
+                      onClick={() => removeUser(user)} 
+                      key={i}
+                      > X </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="2" style={{color: "azure"}}>User list is empty</td>
+                <td colSpan="2">User list is empty</td>
               </tr>
             )}
           </tbody>

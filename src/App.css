@@ -436,6 +436,42 @@ body{
   opacity: 0.3;
 }
 
+/*USERS PAGE*/
+.users-lable{
+  font-family: GeneralSans-Semibold;
+  color: azure;
+  font-size: 70px;
+  margin: 70px 0 0 100px;
+  animation: fadeIn 1s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.users-table{
+  color: azure;
+  margin-left: 150px;
+  margin-top: 30px;
+  font-size: 20px;
+  animation: fadeIn 1s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.users-table td{
+  padding: 0 30px;
+}
+
+.remove-user:hover{
+  cursor: pointer;
+  color:#b93658;
+}
+
+
+
+
+
+
+
 
 
 
