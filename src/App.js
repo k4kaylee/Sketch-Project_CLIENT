@@ -6,16 +6,18 @@ import axios from './api/axios.js'
 
 
 function App() {
-  const [login, setLogin] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [name, setName] = useState('');
   const [pwd, setPwd] = useState('');
 
   const handleLogin = async() => {
-    const user = {name: login, password: pwd};
+    const user = {name: name, password: pwd};
 
     try{
       const response = await axios.get('/login', {params: user});
       if(response.status === 200){
         alert("SUCCESS!");
+        setLoggedIn(true);
       }
     }catch(error){
       alert("error");
@@ -37,7 +39,7 @@ function App() {
                   <input required="" 
                          type="text" 
                          name="text" 
-                         onChange={(e) => setLogin(e.target.value)}
+                         onChange={(e) => setName(e.target.value)}
                          autoComplete="off" 
                          className="log-input"/>
                   <label className="user-label">Login</label>
@@ -90,3 +92,4 @@ function App() {
 }
 
 export default App;
+export { loggedIn };

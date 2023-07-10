@@ -7,6 +7,7 @@ import Users from '../components/Users.js';
 const AppRoutes = () => {
     return(
         <Routes>
+
             <Route path="/" element={<App />}/>
             <Route exact path="/registration" element={<Register/>}/>
             <Route path="/users" element={<Users/>}/>

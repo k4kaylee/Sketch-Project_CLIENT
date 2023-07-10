@@ -50,6 +50,8 @@ const Register = () => {
     userRef.current.focus();
   }, [])
 
+
+
   useEffect(() => {
     const result = USER_REGEX.test(user);
     setValidName(result);
@@ -91,10 +93,21 @@ const registerUser = async () => {
     const response = await axios.post(REGISTER_URL, newUser);
     console.log(response.data);
     setSuccess(true);
-    alert("SUCCESS!!!");
-  } catch(error){
-    console.log(error.message);
-  }
+    } catch(error){
+      switch(error.response.status){
+        case 400:
+          setErrMsg("Provided data is insufficient.");
+          break;
+        case 401:
+          setErrMsg("Provided email is already taken.");
+          break;
+        case 500:
+          setErrMsg("Internal server error. Please, try again later.");
+          break;
+        default:
+          break;
+      }
+    }
  
 };
   
