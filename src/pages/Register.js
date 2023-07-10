@@ -22,7 +22,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const EMAIL_REGEX=  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
  
-const REGISTER_URL = '/register';
+const REGISTER_URL = '/users';
 
 const Register = () => {
   const userRef = useRef();
@@ -64,7 +64,6 @@ const Register = () => {
 
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
-
     setValidEmail(result);
   }, [email])
 
@@ -72,70 +71,38 @@ const Register = () => {
     setErrMsg('');
   }, [user, pwd, matchPwd])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    //double check!
-    const userAdditionalValidation = USER_REGEX.test(user);
-    const passwordAdditionalValidation = PWD_REGEX.test(pwd);
-    if (!userAdditionalValidation || !passwordAdditionalValidation){
-      setErrMsg("Invalid entry");
-      return;
-    }
-    try{
-      const response = await axios.post(REGISTER_URL,
-        JSON.stringify( {user, pwd} ),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
-      );
-      console.log(response.data);
-      console.log(response.accessToken);
-      console.log(JSON.stringify(response));
-      setSuccess(true);
-    } catch (err) {
-      if (!err.response) {
-        setErrMsg('No Server Response');
-      } else if (err.response?.status === 409){
-        setErrMsg('Username Taken')
-      } else {
-        setErrMsg('Registration Failed')
-      }
-      errRef.current.focus();
-      }
-    }
-
 
 //Handling register button
-const registerUser = () => {
-  // Создать объект с данными пользователя
-  const newUser = { user, email, pwd };
+const registerUser = async () => {
 
-  // Отправить POST-запрос на сервер
-  fetch('/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newUser)
-  })
-    .then(response => response.json())
-    .then(data => {
-      // Обработать ответ от сервера
-      console.log(data);
-    })
-    .catch(error => {
-      // Обработать ошибку при выполнении запроса
-      console.error('Error:', error);
-    });
+  //double check!
+  const userAdditionalValidation = USER_REGEX.test(user);
+  const passwordAdditionalValidation = PWD_REGEX.test(pwd);
+  if (!userAdditionalValidation || !passwordAdditionalValidation){
+    setErrMsg("Invalid entry");
+    return;
+  }
+
+  const newUser = { name: user,
+                    password: pwd, 
+                    email: email };
+
+  try{
+    const response = await axios.post(REGISTER_URL, newUser);
+    console.log(response.data);
+    setSuccess(true);
+    alert("SUCCESS!!!");
+  } catch(error){
+    console.log(error.message);
+  }
+ 
 };
   
 
   return (
 
     
-    <form onSubmit={handleSubmit} className='registration'>
+    <form className='registration'>
       {success ? (
         <section>
           <p className="regText unselectable" style={{fontSize: "40px"}}>Success!</p>
@@ -170,7 +137,7 @@ const registerUser = () => {
           required
           onFocus={() => setUserFocus(true)}
           onBlur={() => setUserFocus(false)}
-          placeholder="Login" />
+          placeholder="Login"/>
 
         <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
           <FontAwesomeIcon icon={faInfoCircle} />
@@ -264,7 +231,7 @@ const registerUser = () => {
 
 
         <div className="button-container">
-          <Link className="c-button c-button--gooey" to='/'> Log in
+          <Link className="c-button c-button--gooey unselectable" to='/'> Log in
             <div className="c-button__blobs">
               <div></div>
               <div></div>
@@ -286,7 +253,7 @@ const registerUser = () => {
 
           <a
           disabled={!validName || !validPwd || !validMatch || !validEmail ? true : false}
-          className={validName && validPwd && validMatch && validEmail ? "c-button c-button--gooey register" : "c-button c-button--gooey register disabled"} 
+          className={validName && validPwd && validMatch && validEmail ? "c-button c-button--gooey register unselectable" : "c-button c-button--gooey register disabled unselectable"} 
           id="register_btn"
           onClick={registerUser}
           > 

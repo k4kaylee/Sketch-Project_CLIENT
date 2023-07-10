@@ -1,29 +1,60 @@
 import './App.css';
 import { Link } from "react-router-dom";
+import {useState} from "react";
+import axios from './api/axios.js'
+
+
 
 function App() {
+  const [login, setLogin] = useState('');
+  const [pwd, setPwd] = useState('');
+
+  const handleLogin = async() => {
+    const user = {name: login, password: pwd};
+
+    try{
+      const response = await axios.get('/login', {params: user});
+      if(response.status === 200){
+        alert("SUCCESS!");
+      }
+    }catch(error){
+      alert("error");
+      console.log(error.message);
+    }
+  }
+
   return (
     <div className="App">
         <div className='content'>
           <div className='flex'>
             <div>
-              <p className='head-text unselectable'>Let's check the font!</p>
+              <p className='head-text unselectable' style={{animationFillMode: "forwards"}}>Let's check the font!</p>
               <p className='head-subtext unselectable'>...and header subtext font</p>
             </div>
             <div className="login">
                 <p className="unselectable">Are we familliar?</p>
                 <div className="input-group">
-                  <input required="" type="text" name="text" autoComplete="off" className="log-input"/>
+                  <input required="" 
+                         type="text" 
+                         name="text" 
+                         onChange={(e) => setLogin(e.target.value)}
+                         autoComplete="off" 
+                         className="log-input"/>
                   <label className="user-label">Login</label>
                 </div>
                 <div className="input-group">
-                  <input required="" type="password" name="text" autoComplete="off" className="log-input"/>
+                  <input required="" 
+                         type="password" 
+                         name="text" 
+                         autoComplete="off" 
+                         onChange={(e) => setPwd(e.target.value)}
+                         className="log-input"/>
                   <label className="user-label">Password</label>
                 </div>
 
 
         <div>
-                <button id="login-button"  className="c-button c-button--gooey"> Log in
+                <button id="login-button"  className="c-button c-button--gooey" onClick={handleLogin}> Log in
                 <div className="c-button__blobs">
                   <div></div>
                   <div></div>

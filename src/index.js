@@ -10,7 +10,7 @@ import Navbar from './components/NavBar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>   
+  <BrowserRouter basename="/Sketch-Project_CLIENT"  >   
     <Navbar/>
     <AppRoutes/>
   </BrowserRouter>

@@ -561,6 +561,10 @@ body{
     height: 100vh;
   }
 
+  .body{
+    overflow-y: visible;
+  }
+
   .login{
     width: 310px;
   }
@@ -642,4 +646,10 @@ body{
    }
 
 
+}
+
+@media only screen and (max-height: 500px) {
+  .waves{
+    display: none;
+  }
 }
