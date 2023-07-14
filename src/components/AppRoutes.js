@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Routes, Route} from 'react-router-dom';
-import MainPage from '../MainPage.js';
+import AuthContext from '../context/AuthContext.jsx';
+import Login from '../pages/Login.js';
 import Register from '../pages/Register.js';
 import Users from '../components/Users.js';
+import MainPage from '../pages/MainPage.js';
+
+
 
 const AppRoutes = () => {
+    const {isAuth, setIsAuth} = useContext(AuthContext);
+
     return(
+        isAuth ? (
         <Routes>
-            <Route path="/" element={<MainPage />}/>
+            <Route path="/users" element={<Users/>}/>
+            <Route path="/" element={<MainPage/>}/>
+        </Routes>
+        ) : (
+        <Routes>
+            <Route path="/" element={<Login />}/>
             <Route exact path="/registration" element={<Register/>}/>
             <Route path="/users" element={<Users/>}/>
         </Routes>
+        )
     )   
 };
 

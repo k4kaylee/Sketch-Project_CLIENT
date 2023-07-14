@@ -1,23 +1,33 @@
-import './App.css';
+import '../App.css';
 import { Link } from "react-router-dom";
-import {useState} from "react";
-import axios from './api/axios.js'
+import React, {useState, useEffect, useContext} from 'react';
+import AuthContext from '../context/AuthContext';
+import axios from '../api/axios.js';
+import Cookies from 'js-cookie';
 
 
 
-const MainPage = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+
+const Login = () => {
+  const {isAuth, setIsAuth} = useContext(AuthContext);
   const [name, setName] = useState('');
   const [pwd, setPwd] = useState('');
+
+  useEffect(() => {
+    console.log(isAuth); // This will log the updated value of loggedIn
+  }, [isAuth]);
 
   const handleLogin = async() => {
     const user = {name: name, password: pwd};
 
     try{
+      console.log(isAuth);
       const response = await axios.get('/login', {params: user});
+      Cookies.set("isAuth", true, { expires: 7 });
       if(response.status === 200){
         alert("SUCCESS!");
-        setLoggedIn(true);
+        setIsAuth(true);
+        Cookies.set("isAuth", true, { expires: 7 });
       }
     }catch(error){
       alert("error");
@@ -91,5 +101,5 @@ const MainPage = () => {
   );
 }
 
-export default MainPage;
+export default Login;
 

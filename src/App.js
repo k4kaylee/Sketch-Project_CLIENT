@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from './components/AppRoutes';
 import Navbar from './components/NavBar';
 import AuthContext from './context/AuthContext';
+import Cookies from 'js-cookie';
+
+
 
 const App = () => {
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    const savedAuth = Cookies.get("isAuth");
+    if (savedAuth === "true") {
+      setIsAuth(true);
+    }
+  }, []);
+
   return(
-    <AuthContext.Provider value={{}}>
+    <AuthContext.Provider value={{isAuth, setIsAuth}}>
       <BrowserRouter basename="/Sketch-Project_CLIENT">
         <Navbar/>
         <AppRoutes/>
