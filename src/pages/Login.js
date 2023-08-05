@@ -1,4 +1,5 @@
 import '../App.css';
+import Navbar from '../components/NavBar';
 import { Link } from "react-router-dom";
 import React, {useState, useEffect, useContext} from 'react';
 import AuthContext from '../context/AuthContext';
@@ -37,13 +38,14 @@ const Login = () => {
 
   return (
     <div className="App">
+      <Navbar/>
         <div className='content'>
           <div className='flex'>
-            <div>
+            <header>
               <p className='head-text unselectable' style={{animationFillMode: "forwards"}}>Let's check the font!</p>
               <p className='head-subtext unselectable'>...and header subtext font</p>
-            </div>
-            <div className="login">
+            </header>
+            <section className="login">
                 <p className="unselectable">Are we familliar?</p>
                 <div className="input-group">
                   <input required="" 
@@ -54,7 +56,7 @@ const Login = () => {
                          className="log-input"/>
                   <label className="user-label">Login</label>
                 </div>
-                <div className="input-group">
+                <form className="input-group">
                   <input required="" 
                          type="password" 
                          name="text" 
@@ -62,7 +64,7 @@ const Login = () => {
                          onChange={(e) => setPwd(e.target.value)}
                          className="log-input"/>
                   <label className="user-label">Password</label>
-                </div>
+                </form>
 
 
         <div>
@@ -85,7 +87,7 @@ const Login = () => {
 
               <p className="registration-link">First time? <Link to='/registration'>Sign up!</Link></p>
               </div>
-            </div>
+            </section>
           </div>
         </div>
 

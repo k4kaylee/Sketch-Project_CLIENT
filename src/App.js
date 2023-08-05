@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from './components/AppRoutes';
-import Navbar from './components/NavBar';
 import AuthContext from './context/AuthContext';
 import Cookies from 'js-cookie';
 
@@ -20,7 +19,6 @@ const App = () => {
   return(
     <AuthContext.Provider value={{isAuth, setIsAuth}}>
       <BrowserRouter basename="/Sketch-Project_CLIENT">
-        <Navbar/>
         <AppRoutes/>
       </BrowserRouter>
     </AuthContext.Provider>
