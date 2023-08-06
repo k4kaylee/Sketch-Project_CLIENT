@@ -1,19 +1,38 @@
 import React, { useRef, useState, useEffect } from 'react';
+import Messages from '../components/Messages';
+import ChatTopInfo from '../components/ChatTopInfo';
 
 const Chat = () => {
 
   /* For testing purposes */
-  const chats = Array(20).fill(
-    {
-      'username': 'Username',
-      'lastMessage': 'Last message',
-    }
-  );
+  const chats = Array(20).fill().map((_, index) => ({
+    'username': `Username ${index + 1}`,
+    'lastMessage': 'Last message',
+    'messages': [
+      {
+        "author": `Username ${index}`,
+        "content": 'Hello world!'
+      },
+      {
+        "author": `Username ${index + 1}`,
+        "content": 'Hi!'
+      },
+    ]
+  }));
 
 
   const chatRefs = useRef(Array.from({ length: chats.length }, () => React.createRef()));
+
+
   const [isToggled, setIsToggled] = useState(Array(chats.length).fill(false));
+  const [chatIndex, setChatIndex] = useState();
   const [isAnyToggled, setIsAnyToggled] = useState(false);
+  const [currentInterlocutor, setCurrentInterlocutor] = useState({});
+  const [message, setMessage] = useState('');
+
+  const sendMessage = () => {
+    
+  }
 
 
   const toggleFocus = (index) => {
@@ -22,17 +41,19 @@ const Chat = () => {
       newState[index] = !newState[index];
       return newState;
     });
+    setChatIndex(index);
+    setCurrentInterlocutor(chats[index]);
   };
 
   
-  // useEffect(() => {
-  //   isToggled.map((index) => {
-  //     if(isToggled[index] === true)
-  //       setIsAnyToggled(true);
+  useEffect(() => {
+    isToggled.map((_, index) => {
+      if(isToggled[index] === true)
+        setIsAnyToggled(true);
+      })
+  }, [isToggled]);
 
-  //     console.log(isAnyToggled);
-  //   })
-  // }, [isToggled]);
+ 
 
 
 
@@ -40,7 +61,7 @@ const Chat = () => {
     <div className='flex-container'>
       <div className='message-list'>
         <div className="chat-header">
-          <div className="chat-logo"></div>
+          <div className="chat-logo"/>
         </div>
         <ul className='chat-messages'>
           {Array.from({ length: chats.length }).map((_, index) => (
@@ -53,17 +74,26 @@ const Chat = () => {
 
               <div className='chat-avatar'/>
               <div className='chat-preview'>
-                <article className=''>{chats[index].username} {index + 1}</article>
-                <article className=''>{chats[index].lastMessage}</article>
+                <article className='chat-username unselectable'>{chats[index].username}</article>
+                <article className='unselectable'>{chats[index].lastMessage}</article>
               </div>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className={isToggled ? 'chat' : 'chat disabled'}>
+      <div className={isAnyToggled ? 'chat' : 'offscreen'}>
+        <ChatTopInfo user={currentInterlocutor}/>
+        <Messages/>
+
         <div className='chat-container'>
-            <input placeholder='Message...'/><button><div className={isAnyToggled ? 'send-img active' : 'send-img'}/></button>
+            <input placeholder='Message...' onChange={(e) => setMessage(e.target.value)}/>
+            <button 
+              className={message ? 'send-button __active' : 'send-button __inactive'}
+              onClick={sendMessage}
+              >
+              <div className={message ? 'send-img __active' : 'send-img __inactive'}/>
+            </button>
         </div>
       </div>
     </div>

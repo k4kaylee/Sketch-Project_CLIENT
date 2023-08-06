@@ -18,12 +18,13 @@ const AppRoutes = () => {
             <Route path="/users" element={<Users/>}/>
             <Route path="/" element={<MainPage/>}/>
             <Route path="/chat" element={<Chat/>}/>
+            <Route path="*" element={<Navigate to="/chat"/>}/>
         </Routes>
         ) : (
         <Routes>
             <Route path="/" element={<Login />}/>
             <Route exact path="/registration" element={<Register/>}/>
-            <Route path="*" element={<Navigate to="/"/>}/>
+            {/*<Route path="*" element={<Navigate to="/"/>}/>*/}
         </Routes>
         )
     )   
