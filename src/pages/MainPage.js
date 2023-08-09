@@ -1,18 +1,12 @@
 import React, {useContext} from 'react';
-import AuthContext from '../context/AuthContext';
+import { AuthContext }  from '../context/AuthContext';
 import '../App.css';
-import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
 
 
 const MainPage = () => {
-    const {isAuth, setIsAuth} = useContext(AuthContext);
-
-    const handleLogout = () => {
-        setIsAuth(false);
-        Cookies.remove("isAuth");
-    }
+    const { handleLogout } = useContext(AuthContext);
 
 
     return(

@@ -107,8 +107,9 @@ body{
 
 
 .waves {
-  position: absolute;
+    position: absolute;
 }
+
 
 .wave1{
   animation: wave1 4s infinite;
@@ -488,15 +489,30 @@ body{
   display: flex;
 }
 
-.chat-container{
+.chat{
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.chat-waves{
+  position: absolute;
+  bottom: 0;
+  max-width: 100%;
+  z-index: 0;
+  height: auto;
+}
+
+.chat-input{
   display: flex;
-  width: calc(100% - 400px);  
-  position: fixed;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
   bottom: 0;
 }
 
 
-.message-list{
+.chat-chatlist{
   height: 100vh;
   width: 400px;
   background-color: #242a33;
@@ -520,12 +536,15 @@ body{
 }
 
 .chat-messages{
-  
+  position: relative;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  z-index: 1;
+  height: 100%;
 }
 
 .chat-profile{
   width: 100%;
-  /* border-bottom: 2px solid black; */
   border-radius: 15px;
   height: 80px;
   box-sizing: border-box;
@@ -574,7 +593,7 @@ body{
   height: 45px;
 }
 
-.chat-container input{
+.chat-input input{
   flex: 1;
   height: 40px;
   font-size: 15px;
@@ -586,20 +605,36 @@ body{
   margin-bottom: 1px;
 }
 
-.chat-container input:focus{
+.chat-input input:focus{
   outline: none;
   border: 0;
 }
 
 .chat-top-info{
+  z-index: 1;
   width: 100%;
-  position: absolute;
+  position: relative;
   top: 0;
   height: 60px;
   background-color: #242a33;
   border-left: 1px solid #323a47;
   padding: 7.5px 10px;
   box-sizing: border-box;
+}
+
+.message{
+  background: #b7556e;
+  opacity: 0.9;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 0px 10px 10px 10px;
+  margin-bottom: 5px;
+}
+
+.message.byMe{
+  background: #b93658;
+  border-radius: 10px 10px 0px 10px;
+  float: right;
 }
 
 .send-button{
@@ -657,6 +692,13 @@ body{
 
 
   /* Registration page */
+
+
+  /* Chat */
+
+  .chat-chatlist{
+    width: 300px;
+  }
 }
 
 @media only screen and (max-width: 1180px) {
@@ -693,6 +735,9 @@ body{
 
 
   /* Registration page */
+
+
+
 }
 
 @media only screen and (max-width: 995px) {
@@ -709,6 +754,17 @@ body{
                  0px 0px 35px #fb4876,
                  inset -35px -35px 70px #000f1b,
                  inset 35px 35px 70px #001525;
+  }
+
+  
+  /* Chat */
+
+  .chat{
+    position: static;
+  }
+
+  .chat-chatlist{
+    display: none;
   }
 }
 
@@ -727,6 +783,7 @@ body{
   .regText{
     text-align: center;
   }
+
 }
 
 
@@ -749,6 +806,7 @@ body{
     position: absolute;
     bottom: 0;
   }
+
 }
 
 
@@ -804,6 +862,7 @@ body{
   .registration{
     margin-top: 100px;
   }
+
 }
 
 

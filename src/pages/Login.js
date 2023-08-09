@@ -1,40 +1,19 @@
 import '../App.css';
 import Navbar from '../components/NavBar';
 import { Link } from "react-router-dom";
-import React, {useState, useEffect, useContext} from 'react';
-import AuthContext from '../context/AuthContext';
-import axios from '../api/axios.js';
-import Cookies from 'js-cookie';
+import React, {useState, useContext} from 'react';
+import { AuthContext } from '../context/AuthContext';
+
 
 
 
 
 const Login = () => {
-  const {isAuth, setIsAuth} = useContext(AuthContext);
+  const { handleLogin } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [pwd, setPwd] = useState('');
 
-  useEffect(() => {
-    console.log(isAuth); // This will log the updated value of loggedIn
-  }, [isAuth]);
 
-  const handleLogin = async() => {
-    const user = {name: name, password: pwd};
-
-    try{
-      console.log(isAuth);
-      const response = await axios.get('/login', {params: user});
-      Cookies.set("isAuth", true, { expires: 7 });
-      if(response.status === 200){
-        alert("SUCCESS!");
-        setIsAuth(true);
-        Cookies.set("isAuth", true, { expires: 7 });
-      }
-    }catch(error){
-      alert("error");
-      console.log(error.message);
-    }
-  }
 
   return (
     <div className="App">
@@ -68,7 +47,7 @@ const Login = () => {
 
 
         <div>
-                <button id="login-button"  className="c-button c-button--gooey" onClick={handleLogin}> Log in
+                <button id="login-button"  className="c-button c-button--gooey" onClick={() => handleLogin(name, pwd)}> Log in
                 <div className="c-button__blobs">
                   <div></div>
                   <div></div>

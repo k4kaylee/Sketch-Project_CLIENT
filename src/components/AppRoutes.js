@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import {Routes, Route, Navigate} from 'react-router-dom';
-import AuthContext from '../context/AuthContext.jsx';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.jsx';
 import Login from '../pages/Login.js';
 import Register from '../pages/Register.js';
 import Users from '../components/Users.js';
@@ -10,23 +10,24 @@ import Chat from '../pages/Chat.js';
 
 
 const AppRoutes = () => {
-    const {isAuth, setIsAuth} = useContext(AuthContext);
+    const {isAuth} = useContext(AuthContext);
 
     return(
         isAuth ? (
-        <Routes>
-            <Route path="/users" element={<Users/>}/>
-            <Route path="/" element={<MainPage/>}/>
-            <Route path="/chat" element={<Chat/>}/>
-            <Route path="*" element={<Navigate to="/chat"/>}/>
-        </Routes>
-        ) : (
-        <Routes>
-            <Route path="/" element={<Login />}/>
-            <Route exact path="/registration" element={<Register/>}/>
-            {/*<Route path="*" element={<Navigate to="/"/>}/>*/}
-        </Routes>
-        )
+            <Routes>
+              <Route path='/users' element={<Users/>}/>
+              <Route path='/' element={<MainPage/>}/>
+              <Route path='/chat' element={<Chat/>}/>
+              <Route path='*' element={<Navigate to='/chat'/>}/>
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path='/' element={<Login />}/>
+              <Route exact path='/registration' element={<Register/>}/>
+              {/*<Route path='*' element={<Navigate to='/'/>}/>*/}
+            </Routes>
+          )
+          
     )   
 };
 
