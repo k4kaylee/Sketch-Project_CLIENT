@@ -1,8 +1,11 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
+import ChatList from '../components/Chat/ChatList';
+import ChatTopInfo from '../components/Chat/ChatTopInfo';
 import Messages from '../components/Messages';
-import ChatTopInfo from '../components/ChatTopInfo';
+import ChatInput from '../components/Chat/ChatInput';
 import { AuthContext } from '../context/AuthContext';
-import ChatInput from '../components/ChatInput';
+import '../App.css';
+
 
 const Chat = () => {
 
@@ -22,74 +25,41 @@ const Chat = () => {
         "author": 'admin',
         "content": 'Hi!',
         "time": '01.01.2023 17:15'
-      },
+      }
     ]
   }));
 
-
-  const chatRefs = useRef(Array.from({ length: chats.length }, () => React.createRef()));
   const messageInputRef = useRef();
 
   
-  const [isToggled, setIsToggled] = useState(Array(chats.length).fill(false));
   const [chatIndex, setChatIndex] = useState();
   const [isAnyToggled, setIsAnyToggled] = useState(false);
   const [currentInterlocutor, setCurrentInterlocutor] = useState({});
-
-
-  const toggleFocus = (index) => {
-    setIsToggled(() => {
-      const newState = Array(chats.length).fill(false);
-      newState[index] = !newState[index];
-      return newState;
-    });
-    setChatIndex(index);
-    setCurrentInterlocutor(chats[index]);
-    messageInputRef.current.focus();
-  };
-
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    isToggled.map((_, index) => {
-      if (isToggled[index] === true)
-        setIsAnyToggled(true);
-    })
-  }, [isToggled]);
-
-
-
+    if (typeof chatIndex !== 'undefined') {
+      setMessages(chats[chatIndex].messages);
+    }
+  }, [chatIndex])
 
 
   return (
     <div className='flex-container'>
-      <div className='chat-chatlist'>
-        <div className="chat-header">
-          <div className="chat-logo" />
-        </div>
-        <ul>
-          {Array.from({ length: chats.length }).map((_, index) => (
-            <li
-              key={index}
-              className={isToggled[index] ? "chat-profile __focus" : "chat-profile"}
-              ref={chatRefs.current[index]}
-              onClick={() => toggleFocus(index)}
-            >
-
-              <div className='chat-avatar' />
-              <div className='chat-preview'>
-                <article className='chat-username unselectable'>{chats[index].username}</article>
-                <article className='unselectable'>{chats[index].lastMessage}</article>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ChatList chats={ chats } 
+                anyToggled={ isAnyToggled } 
+                setIsAnyToggled={ setIsAnyToggled }
+                setChatIndex={ setChatIndex }
+                chatIndexState={ setChatIndex } 
+                setInterlocutor={ setCurrentInterlocutor }
+                messageInputRef={ messageInputRef }
+      />
 
       <div className={isAnyToggled ? 'chat' : 'offscreen'}>
-        <ChatTopInfo user={currentInterlocutor} />
+        <ChatTopInfo user={ currentInterlocutor } />
         {
           chatIndex !== undefined ? (
-            <Messages messages={chats[chatIndex].messages}/>
+            <Messages messages={ messages } />
           ) : (
             <></>
           )
@@ -101,7 +71,10 @@ const Chat = () => {
           <path d="M0 322L33.3 329.2C66.7 336.3 133.3 350.7 200 352C266.7 353.3 333.3 341.7 400 338.7C466.7 335.7 533.3 341.3 600 334C666.7 326.7 733.3 306.3 800 304.5C866.7 302.7 933.3 319.3 1000 331.5C1066.7 343.7 1133.3 351.3 1200 349.8C1266.7 348.3 1333.3 337.7 1400 333.2C1466.7 328.7 1533.3 330.3 1566.7 331.2L1600 332L1600 401L1566.7 401C1533.3 401 1466.7 401 1400 401C1333.3 401 1266.7 401 1200 401C1133.3 401 1066.7 401 1000 401C933.3 401 866.7 401 800 401C733.3 401 666.7 401 600 401C533.3 401 466.7 401 400 401C333.3 401 266.7 401 200 401C133.3 401 66.7 401 33.3 401L0 401Z" fill="#3b1736" />
         </svg>
 
-        <ChatInput messageInputRef={messageInputRef}/>
+        <ChatInput messageInputRef={ messageInputRef }
+                   messages={ messages }
+                   setMessages={ setMessages } 
+        />
       </div>
     </div>
   );
