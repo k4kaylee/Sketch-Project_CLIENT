@@ -32,6 +32,8 @@ const AuthProvider = ({children}) => {
           }
         }catch(error){
           alert("error");
+          Cookies.remove("isAuth");
+          Cookies.remove("user");
           console.log(error.message);
         }
       }
