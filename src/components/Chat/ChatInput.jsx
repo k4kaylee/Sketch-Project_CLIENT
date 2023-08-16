@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import '../../App.css';
 
-const ChatInput = ({ messageInputRef, setMessages, messages }) => {
+const ChatInput = ({ messageInputRef, setMessages, messages, setPendingMessage }) => {
   const [message, setMessage] = useState('');
   const { user } = useContext(AuthContext);
 
@@ -12,19 +12,22 @@ const ChatInput = ({ messageInputRef, setMessages, messages }) => {
     }
   }
 
-  const sendMessage = () => {
-    const newMessages = [...messages];
+  const sendMessage = async () => {
+    if (message !== '') {
+      const newMessages = [...messages];
 
-    newMessages.push(
-      {
-        author: user,
-        content: message,
-        time: new Date().toLocaleString()
-      }
-    )
+      newMessages.push(
+        {
+          author: user.id,
+          content: message,
+          time: new Date().toLocaleString()
+        }
+      )
 
-    setMessages(newMessages);
-    messageInputRef.current.value = '';
+      setMessages(newMessages);
+      setPendingMessage(message);
+      messageInputRef.current.value = '';
+    }
   }
 
   return (

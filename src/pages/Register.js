@@ -94,7 +94,6 @@ const Register = () => {
 
     try {
       const response = await axios.post(REGISTER_URL, newUser);
-      console.log(response.data);
       setSuccess(true);
     } catch (error) {
       switch (error.response.status) {

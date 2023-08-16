@@ -6,9 +6,10 @@ import ChatListHeader from './ChatListHeader';
 
 
 const ChatList = (props) => {
+  const MAX_LASTMESSAGE_LENGTH = 25;
 
-  const { chats, setInterlocutor, setChatIndex, setIsAnyToggled, anyToggled } = props;
-  const setCurrentInterlocutor = setInterlocutor;
+  const { chats, setChat, setChatIndex, setIsAnyToggled, anyToggled } = props;
+  const setCurrentChat = setChat;
   const isAnyToggled = anyToggled;
 
   const [isToggled, setIsToggled] = useState(Array(chats.length).fill(false));
@@ -28,10 +29,7 @@ const ChatList = (props) => {
 
   useEffect(() => {
     handleSearch();
-    console.log(search);
-    console.log(listContent);
-  }, [search])
-
+  }, [search, chats])
 
 
   const toggleFocus = (index) => {
@@ -41,7 +39,7 @@ const ChatList = (props) => {
       return newState;
     });
     setChatIndex(index);
-    setCurrentInterlocutor(chats[index]);
+    setCurrentChat(chats[index]);
     messageInputRef.current.focus();
   };
 
@@ -51,10 +49,13 @@ const ChatList = (props) => {
       return;
     }
     const result = chats.filter((chat) => {
-      return chat.username.toLowerCase().includes(search.toLowerCase());
+      return chat.name.toLowerCase().includes(search.toLowerCase());
     });
     setListContent(result);
   }
+
+
+
 
 
 
@@ -63,22 +64,41 @@ const ChatList = (props) => {
       <ChatListHeader search={setSearch} />
       <SimpleBar className='scroll'>
         <ul>
-          {Array.from({ length: listContent.length }).map((_, index) => (
-            <li
-              key={index}
-              className={isToggled[index] ? 'chat-profile __focus' : 'chat-profile'}
-              ref={chatRefs.current[index]}
-              onClick={() => toggleFocus(index)}
-            >
-              <div className='chat-avatar' />
-              <div className='chat-preview'>
-                <article className='chat-username unselectable'>{listContent[index].username}</article>
-                <article className='unselectable'>{listContent[index].lastMessage}</article>
-              </div>
-            </li>
-          ))}
+          {chats && chats.length > 0 ? (
+            Array.from({ length: listContent.length }).map((_, index) => {
+              const chat = listContent[index];
+              const lastMessage = chat.messages[chat.messages.length - 1];
 
+              if (lastMessage && lastMessage.content) {
+                let truncatedMessage = lastMessage.content;
+
+                if (truncatedMessage.length >= MAX_LASTMESSAGE_LENGTH) {
+                  truncatedMessage = truncatedMessage.slice(0, MAX_LASTMESSAGE_LENGTH) + "...";
+                }
+
+                return (
+                  <li
+                    key={index}
+                    className={isToggled[index] ? 'chat-profile __focus' : 'chat-profile'}
+                    ref={chatRefs.current[index]}
+                    onClick={() => toggleFocus(index)}
+                  >
+                    <div className='chat-avatar' />
+                    <div className='chat-preview'>
+                      <article className='chat-username unselectable'>{chat.name}</article>
+                      <article className='chat-lastmessage unselectable'>{truncatedMessage}</article>
+                    </div>
+                  </li>
+                );
+              } else {
+                return null;
+              }
+            })
+          ) : (
+            <p className='no-chats-message unselectable'><i>No chats available.</i></p>
+          )}
         </ul>
+
       </SimpleBar>
     </div>
   )

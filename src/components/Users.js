@@ -4,19 +4,18 @@ import axios from '../api/axios.js';
 const Users = () => {
   const [users, setUsers] = useState([]);
   
-  useEffect(() => {
-    const loadUsers = async() =>{
-      try{
-        const response = await axios.get('/users');
-        if(response.status === 200){
-          setUsers(response.data);
-        }
-      }catch(error){
-        alert("error");
-        console.log(error.message);
+  const loadUsers = async() =>{
+    try{
+      const response = await axios.get('/users');
+      if(response.status === 200){
+        setUsers(response.data);
       }
+    }catch(error){
+      console.log(error.message);
     }
+  }
 
+  useEffect(() => {
     loadUsers();
   }, [users])
 
@@ -24,7 +23,6 @@ const Users = () => {
     
     try{
       const response = await axios.delete('/users', {data: {name: user.name, email: user.email}});
-      console.log(response.data);
     }catch(error){
       console.log(error.message);
     }

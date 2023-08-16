@@ -5,7 +5,7 @@ const ChatListHeader = ({search}) => {
     const [focus, setFocus] = useState(false);
     const setSearch = search;
 
-    const handleSearchIconClick = () => {
+    const toggleFocus = () => {
         setFocus(!focus);
     };
 
@@ -13,8 +13,9 @@ const ChatListHeader = ({search}) => {
         <div className='chat-listHeader'>
             {focus ?
                 <>
+                    <i className='arrow-back-icon  ' onClick={toggleFocus}/>
                     <div className='chat-search __focus'>
-                        <i className='search-icon __focus' onClick={handleSearchIconClick} />
+                        <i className='search-icon __focus' />
                         <input className='search-input'
                             placeholder='Search'
                             onChange={(e) => setSearch(e.target.value)}
@@ -25,7 +26,7 @@ const ChatListHeader = ({search}) => {
                 <>
                     <div className='chat-logo' />
                     <div className='chat-search'>
-                        <i className='search-icon' onClick={handleSearchIconClick} />
+                        <i className='search-icon' onClick={toggleFocus} />
                     </div>
                 </>
             }

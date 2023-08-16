@@ -24,7 +24,7 @@ const AppRoutes = () => {
             <Routes>
               <Route path='/' element={<Login />}/>
               <Route exact path='/registration' element={<Register/>}/>
-              {/*<Route path='*' element={<Navigate to='/'/>}/>*/}
+              <Route path='*' element={<Navigate to='/'/>}/>
             </Routes>
           )
           
