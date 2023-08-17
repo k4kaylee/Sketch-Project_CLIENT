@@ -68,31 +68,29 @@ const ChatList = (props) => {
             Array.from({ length: listContent.length }).map((_, index) => {
               const chat = listContent[index];
               const lastMessage = chat.messages[chat.messages.length - 1];
-
+              let truncatedMessage;
               if (lastMessage && lastMessage.content) {
-                let truncatedMessage = lastMessage.content;
+                truncatedMessage = lastMessage.content;
 
                 if (truncatedMessage.length >= MAX_LASTMESSAGE_LENGTH) {
                   truncatedMessage = truncatedMessage.slice(0, MAX_LASTMESSAGE_LENGTH) + "...";
                 }
-
-                return (
-                  <li
-                    key={index}
-                    className={isToggled[index] ? 'chat-profile __focus' : 'chat-profile'}
-                    ref={chatRefs.current[index]}
-                    onClick={() => toggleFocus(index)}
-                  >
-                    <div className='chat-avatar' />
-                    <div className='chat-preview'>
-                      <article className='chat-username unselectable'>{chat.name}</article>
-                      <article className='chat-lastmessage unselectable'>{truncatedMessage}</article>
-                    </div>
-                  </li>
-                );
-              } else {
-                return null;
               }
+
+              return (
+                <li
+                  key={index}
+                  className={isToggled[index] ? 'chat-profile __focus' : 'chat-profile'}
+                  ref={chatRefs.current[index]}
+                  onClick={() => toggleFocus(index)}
+                >
+                  <div className='chat-avatar' />
+                  <div className='chat-preview'>
+                    <article className='chat-username unselectable'>{chat.name}</article>
+                    <article className='chat-lastmessage unselectable'>{truncatedMessage}</article>
+                  </div>
+                </li>
+              );
             })
           ) : (
             <p className='no-chats-message unselectable'><i>No chats available.</i></p>
