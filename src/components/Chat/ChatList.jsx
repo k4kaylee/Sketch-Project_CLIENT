@@ -68,6 +68,7 @@ const ChatList = (props) => {
             Array.from({ length: listContent.length }).map((_, index) => {
               const chat = listContent[index];
               const lastMessage = chat.messages[chat.messages.length - 1];
+              
               let truncatedMessage;
               if (lastMessage && lastMessage.content) {
                 truncatedMessage = lastMessage.content;

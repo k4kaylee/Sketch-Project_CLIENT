@@ -4,12 +4,13 @@ import AppRoutes from './components/AppRoutes';
 import { AuthProvider } from './context/AuthContext';
 
 
+
 const App = () => {
   return(
     <AuthProvider>
-      <BrowserRouter basename="/Sketch-Project_CLIENT">
-        <AppRoutes/>
-      </BrowserRouter>
+        <BrowserRouter basename="/Sketch-Project_CLIENT">
+          <AppRoutes/>
+        </BrowserRouter>
     </AuthProvider>
   )
 }

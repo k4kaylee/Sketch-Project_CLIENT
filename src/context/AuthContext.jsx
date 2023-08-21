@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(); 
   const [isAuth, setIsAuth] = useState(false);
 
 

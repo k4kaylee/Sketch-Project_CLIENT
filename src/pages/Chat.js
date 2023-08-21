@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext, useCallback } from 'react';
 import axios from '../api/axios';
 import ChatList from '../components/Chat/ChatList';
 import ChatTopInfo from '../components/Chat/ChatTopInfo';
-import Messages from '../components/Messages';
+import Messages from '../components/Chat/Messages';
 import ChatInput from '../components/Chat/ChatInput';
 import { AuthContext } from '../context/AuthContext';
 import SimpleBar from 'simplebar-react';
@@ -10,6 +10,7 @@ import 'simplebar-react/dist/simplebar.min.css';
 import '../App.css';
 import Waves from '../components/misc/Waves';
 import useChatUpdater from '../components/hooks/useChatUpdater';
+import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider'
 
 
 const Chat = () => {
@@ -54,7 +55,7 @@ const Chat = () => {
   /* Custom functions */
   const { addMessage } = useChatUpdater();
 
-  const sendMessageToServer = async (newMessage) => {
+  const sendMessageToServer = useCallback( async (newMessage) => {
     try {
       const message = {
         author: user.id,
@@ -72,7 +73,7 @@ const Chat = () => {
     } catch (error) {
     console.log(error.message);
   }
-}
+}, [user.id, currentChat.id, addMessage])
 
 const loadChats = async (userId) => {
   try {
@@ -103,17 +104,19 @@ return (
 
     <div className={isAnyToggled ? 'chat' : 'offscreen'}>
       <ChatTopInfo chat={currentChat} />
-      <SimpleBar className='scroll' style={{ maxHeight: '88vh' }}>
-        {
-          chatIndex !== undefined ? (
-            <Messages messages={messages} />
-          ) : (
-            <></>
-          )
-        }
+        <SimpleBar className='scroll' style={{ maxHeight: '88vh' }}>
+      <ContextMenuProvider>
+          {
+            chatIndex !== undefined ? (
+                <Messages messages={messages} />
+            ) : (
+              <></>
+            )
+          }
 
-        <Waves styles='chat-waves' />
-      </SimpleBar>
+          <Waves styles='chat-waves' />
+      </ContextMenuProvider>
+        </SimpleBar>
 
       <ChatInput messageInputRef={messageInputRef}
         messages={messages}
