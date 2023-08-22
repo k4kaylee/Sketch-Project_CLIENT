@@ -1,0 +1,40 @@
+.container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transition: opacity 2s;
+    opacity: 0;
+    z-index: 10;
+}
+
+.container.visible {
+    opacity: 1;
+}
+
+.unselectable {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+.notification{
+    position: fixed;
+    z-index: 10;
+    height: 60px;
+    width: 300px;
+    background-color: #242a33;
+    opacity: 0.8;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+}
+
+
+
+.notification p{
+    width: 100%;
+    text-align: center;
+}

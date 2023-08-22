@@ -6,7 +6,7 @@ export interface MenuItem {
 }
 
 interface Menu {
-    setContextMenu: (items: MenuItem[], coordinates: number[]) => void;
+    setContextMenu: (items: MenuItem[], coordinates: number[], message: object) => void;
 }
 
 export const ContextMenu = createContext<Menu>({

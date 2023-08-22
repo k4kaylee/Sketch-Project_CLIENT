@@ -18,6 +18,8 @@ const useChatUpdater = () => {
     return {
         addMessage
       };
+
+    
 }
 
 export default useChatUpdater;
