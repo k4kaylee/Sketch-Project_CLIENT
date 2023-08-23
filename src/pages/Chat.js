@@ -32,30 +32,10 @@ const Chat = () => {
   const [pendingMessage, setPendingMessage] = useState('');
 
 
-  /* useEffects */
-  useEffect(() => {
-    if (typeof chatIndex !== 'undefined') {
-      setMessages(chats[chatIndex].messages);
-    }
-  }, [chatIndex])
-
-  useEffect(() => {
-    loadChats(user.id);
-  }, [])
-
-
-  useEffect(() => {
-    if (pendingMessage !== '') {
-      sendMessageToServer(pendingMessage);
-      setPendingMessage('');
-    }
-  }, [pendingMessage, messages, currentChat.id]);
-
-
   /* Custom functions */
   const { addMessage } = useChatUpdater();
 
-  const sendMessageToServer = useCallback( async (newMessage) => {
+  const sendMessageToServer = useCallback(async (newMessage) => {
     try {
       const message = {
         author: user.id,
@@ -71,61 +51,84 @@ const Chat = () => {
 
       addMessage(currentChat.id, message, setChats);
     } catch (error) {
-    console.log(error.message);
-  }
-}, [user.id, currentChat.id, addMessage])
-
-const loadChats = async (userId) => {
-  try {
-    const response = await axios.get(`/chats/${userId}`);
-    if (response.status === 200) {
-      setChats(response.data);
+      console.log(error.message);
     }
-  } catch (error) {
-    console.log(error.message);
+  }, [user.id, currentChat.id, addMessage])
+
+  const loadChats = async (userId) => {
+    try {
+      const response = await axios.get(`/chats/${userId}`);
+      if (response.status === 200) {
+        setChats(response.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
-}
+
+
+  /* useEffects */
+  useEffect(() => {
+    if (typeof chatIndex !== 'undefined') {
+      setMessages(chats[chatIndex].messages);
+    }
+  }, [chatIndex, chats])
+
+  useEffect(() => {
+    loadChats(user.id);
+  }, [user.id])
+
+
+  useEffect(() => {
+    if (pendingMessage !== '') {
+      sendMessageToServer(pendingMessage);
+      setPendingMessage('');
+    }
+  }, [pendingMessage, messages, currentChat.id, sendMessageToServer]);
 
 
 
 
 
 
-return (
-  <div className='flex-container'>
-    <ChatList chats={chats}
-      anyToggled={isAnyToggled}
-      setIsAnyToggled={setIsAnyToggled}
-      setChatIndex={setChatIndex}
-      chatIndexState={setChatIndex}
-      setChat={setCurrentChat}
-      messageInputRef={messageInputRef}
-    />
+  return (
+    <div className='flex-container'>
+      <ChatList chats={chats}
+        anyToggled={isAnyToggled}
+        setIsAnyToggled={setIsAnyToggled}
+        setChatIndex={setChatIndex}
+        chatIndexState={setChatIndex}
+        setChat={setCurrentChat}
+        messageInputRef={messageInputRef}
+      />
 
-    <div className={isAnyToggled ? 'chat' : 'offscreen'}>
-      <ChatTopInfo chat={currentChat} />
+      <div className={isAnyToggled ? 'chat' : 'offscreen'}>
+        <ChatTopInfo chat={currentChat} />
         <SimpleBar className='scroll' style={{ maxHeight: '88vh' }}>
-      <ContextMenuProvider>
-          {
-            chatIndex !== undefined ? (
-                <Messages messages={messages} />
-            ) : (
-              <></>
-            )
-          }
+          <ContextMenuProvider>
+            {
+              chatIndex !== undefined ? (
+                <Messages messages={messages} 
+                          currentChatId={currentChat.id} 
+                          setChats={setChats} 
+                />
+              ) : (
+                <></>
+              )
+            }
 
-          <Waves styles='chat-waves' />
-      </ContextMenuProvider>
+            <Waves styles='chat-waves' />
+          </ContextMenuProvider>
         </SimpleBar>
 
-      <ChatInput messageInputRef={messageInputRef}
-        messages={messages}
-        setMessages={setMessages}
-        setPendingMessage={setPendingMessage}
-      />
+        <ChatInput messageInputRef={messageInputRef}
+          messages={messages}
+          setMessages={setMessages}
+          setPendingMessage={setPendingMessage}
+        />
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Chat;

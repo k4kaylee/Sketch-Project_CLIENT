@@ -3,13 +3,16 @@ import '../../App.css';
 import { AuthContext } from '../../context/AuthContext';
 import { useContextMenu } from '../hooks/useContextMenu';
 import Notice from '../misc/Notice/Notice.tsx'
+import useChatUpdater from '../hooks/useChatUpdater';
 
 
 
-const Messages = ({ messages }) => {
+const Messages = ({ messages, currentChatId, setChats}) => {
   const { user } = useContext(AuthContext);
   const { setContextMenu } = useContextMenu();
   const [notification, setNotification] = useState('');
+
+  const { deleteMessage } = useChatUpdater();
 
   const contextMenu = useMemo(() => [{
     name: 'Edit',
@@ -17,22 +20,19 @@ const Messages = ({ messages }) => {
   },
   {
     name: 'Delete',
-    onClick: (message) => deleteMsg(message)
+    onClick: (message) => deleteMessage(currentChatId, message, setChats)
   },
   {
     name: 'Copy the text',
     onClick: (message) => copyMsg(message) // event.target.value
   },
 
-  ], [])
+  ], [deleteMessage, currentChatId, setChats])
 
   const editMsg = () => { //useChatUpdater
 
   }
 
-  const deleteMsg = () => { //useChatUpdater
-
-  }
 
   const copyMsg = (message) => {
     navigator.clipboard.writeText(message.content)
@@ -42,6 +42,7 @@ const Messages = ({ messages }) => {
       .catch((error) => {
         setNotification('Failed to copy text:', error);
       });
+    setNotification('');
   }
 
   const handleContextMenu = useCallback((event, message) => {

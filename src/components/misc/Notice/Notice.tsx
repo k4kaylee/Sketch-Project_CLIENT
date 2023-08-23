@@ -19,8 +19,8 @@ const Notice = ({ content }) => {
     }, [content]);
 
     return (
-        isVisible ? (
-            <div className={`container ${isVisible ? 'visible' : ''}`}>
+        content ? (
+            <div className={`container ${isVisible ? 'visible' : 'hidden'}`}>
                 <div className='notification unselectable'>
                     {/*<icon></icon>*/}
                     <p>{content}</p>
