@@ -491,6 +491,7 @@ body{
 .flex-container{
   display: flex;
 }
+
 .no-chats-message{
   display: flex;
   align-items: center;

@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {FC, useEffect, useState } from 'react';
 import './Notice.css';
 
-const Notice = ({ content }) => {
-    const [isVisible, setIsVisible] = useState(Boolean(content));
+
+interface NoticeProps {
+    content: string; 
+}
+
+const Notice: FC<NoticeProps> = ({ content }) => {
+    const [isVisible, setIsVisible] = useState<boolean>(Boolean(content));
 
     useEffect(() => {
         if (content) {

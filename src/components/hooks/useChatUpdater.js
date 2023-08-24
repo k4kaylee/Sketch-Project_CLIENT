@@ -2,7 +2,7 @@ import axios from "../../api/axios";
 
 const useChatUpdater = () => {
 
-  const addMessage = (currentChatId, newMessage, setChats) => {
+  const addMessage = (currentChatId, newMessage, setChats) => { //Obsolete?
     setChats(prevChats => {
       const updatedChats = prevChats.map(chat => {
         if (chat.id === currentChatId) {

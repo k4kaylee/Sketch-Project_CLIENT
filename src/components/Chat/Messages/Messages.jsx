@@ -1,18 +1,27 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import '../../App.css';
-import { AuthContext } from '../../context/AuthContext';
-import { useContextMenu } from '../hooks/useContextMenu';
-import Notice from '../misc/Notice/Notice.tsx'
-import useChatUpdater from '../hooks/useChatUpdater';
+import '../../../App.css'; //to be restructurised
+import '../Messages/Messages.css'
+import { AuthContext } from '../../../context/AuthContext';
+import { useContextMenu } from '../../hooks/useContextMenu';
+import Notice from '../../misc/Notice/Notice'
+import useChatUpdater from '../../hooks/useChatUpdater';
+import Modal from '../../misc/Modal/Modal'
 
 
 
-const Messages = ({ messages, currentChatId, setChats}) => {
+const Messages = ({ messages, currentChatId, setChats }) => {
   const { user } = useContext(AuthContext);
   const { setContextMenu } = useContextMenu();
   const [notification, setNotification] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { deleteMessage } = useChatUpdater();
+  const hideDeletedMessage = (id) => {
+    const message = document.getElementById(id);
+    if (message) {
+      message.classList.add('message-fade-away');
+    }
+  }
 
   const contextMenu = useMemo(() => [{
     name: 'Edit',
@@ -20,11 +29,16 @@ const Messages = ({ messages, currentChatId, setChats}) => {
   },
   {
     name: 'Delete',
-    onClick: (message) => deleteMessage(currentChatId, message, setChats)
+    onClick: (message) => {
+      hideDeletedMessage(message.id);
+      setTimeout(() => {
+        deleteMessage(currentChatId, message, setChats);
+      }, 600);
+    }
   },
   {
     name: 'Copy the text',
-    onClick: (message) => copyMsg(message) // event.target.value
+    onClick: (message) => copyMsg(message)
   },
 
   ], [deleteMessage, currentChatId, setChats])
@@ -48,18 +62,20 @@ const Messages = ({ messages, currentChatId, setChats}) => {
   const handleContextMenu = useCallback((event, message) => {
     event.preventDefault();
 
-    const {clientX, clientY} = event
+    const { clientX, clientY } = event
     setContextMenu(contextMenu, [clientX, clientY], message)
   }, [setContextMenu, contextMenu])
 
   return (
+    messages.length !== 0 ? (
       <div className='chat-messages'>
-        <Notice content={notification}/>
+        <Notice content={notification} />
         <ul>
           {
             messages.map((message, index) => (
               <li className={user.id === message.author ? 'message byMe' : 'message'}
                 key={index}
+                id={message.id}
                 onContextMenu={(event) => handleContextMenu(event, message)}
               >
                 {message.content}
@@ -67,7 +83,13 @@ const Messages = ({ messages, currentChatId, setChats}) => {
             ))
           }
         </ul>
+        
+        {/*<Modal/> -- in progress*/}
+
       </div>
+      ) : (
+        <p className='no-messages-info unselectable'><i>There is no messages yet. Send your first!</i></p>
+    )
   )
 }
 

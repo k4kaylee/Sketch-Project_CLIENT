@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import '../../App.css';
 
@@ -27,6 +27,7 @@ const ChatInput = ({ messageInputRef, setMessages, messages, setPendingMessage }
       setMessages(newMessages);
       setPendingMessage(message);
       messageInputRef.current.value = '';
+      setMessage('');
     }
   }
 

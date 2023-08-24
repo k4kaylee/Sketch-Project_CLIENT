@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext, useCallback } from 'rea
 import axios from '../api/axios';
 import ChatList from '../components/Chat/ChatList';
 import ChatTopInfo from '../components/Chat/ChatTopInfo';
-import Messages from '../components/Chat/Messages';
+import Messages from '../components/Chat/Messages/Messages';
 import ChatInput from '../components/Chat/ChatInput';
 import { AuthContext } from '../context/AuthContext';
 import SimpleBar from 'simplebar-react';
@@ -33,31 +33,42 @@ const Chat = () => {
 
 
   /* Custom functions */
-  const { addMessage } = useChatUpdater();
 
   const sendMessageToServer = useCallback(async (newMessage) => {
     try {
-      const message = {
+      await axios.put(`/chats/${currentChat.id}/messages`, {
         author: user.id,
         content: newMessage,
         time: new Date().toLocaleString()
+      });
+      
+      
+      const response = await axios.get(`/chats/${currentChat.id}`);
+      if (response.status === 200) {
+        setChats(prevChats => {
+          return prevChats.map(chat => {
+            if (chat.id === currentChat.id) {
+              return {
+                ...chat,
+                messages: response.data.messages
+              };
+            }
+            return chat;
+          });
+        });
       }
-
-      axios.put(`/chats/${currentChat.id}/messages`, {
-        author: user.id,
-        content: newMessage,
-        time: new Date().toLocaleString()
-      })
-
-      addMessage(currentChat.id, message, setChats);
     } catch (error) {
       console.log(error.message);
     }
-  }, [user.id, currentChat.id, addMessage])
+
+  }, [user.id, currentChat.id]);
+  
+  
+  
 
   const loadChats = async (userId) => {
     try {
-      const response = await axios.get(`/chats/${userId}`);
+      const response = await axios.get(`/chats/user/${userId}`);
       if (response.status === 200) {
         setChats(response.data);
       }
@@ -76,7 +87,7 @@ const Chat = () => {
 
   useEffect(() => {
     loadChats(user.id);
-  }, [user.id])
+  }, [ user.id])
 
 
   useEffect(() => {
