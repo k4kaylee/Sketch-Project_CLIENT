@@ -11,6 +11,7 @@ import '../App.css';
 import Waves from '../components/misc/Waves';
 import useChatUpdater from '../components/hooks/useChatUpdater';
 import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider'
+import Modal from '../components/misc/Modal/Modal';
 
 
 const Chat = () => {
@@ -30,6 +31,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
+  const [showModal, setShowModal] = useState(true);
 
 
   /* Custom functions */
@@ -104,6 +106,12 @@ const Chat = () => {
 
   return (
     <div className='flex-container'>
+      {showModal ? (
+      <Modal header='Delete message'
+             content='It will not be possible to restore this message. Are you sure?'
+             setShowModal={ setShowModal }
+             />
+      ) : <></>}
       <ChatList chats={chats}
         anyToggled={isAnyToggled}
         setIsAnyToggled={setIsAnyToggled}
@@ -121,7 +129,8 @@ const Chat = () => {
               chatIndex !== undefined ? (
                 <Messages messages={messages} 
                           currentChatId={currentChat.id} 
-                          setChats={setChats} 
+                          setChats={setChats}
+                          setShowModal={setShowModal}
                 />
               ) : (
                 <></>

@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState } from 'react';
-import './Notice.css';
+import styles from './Notice.module.css';
 
 
 interface NoticeProps {
@@ -13,20 +13,20 @@ const Notice: FC<NoticeProps> = ({ content }) => {
         if (content) {
             setIsVisible(true);
 
-            const timeout = setTimeout(() => {
+            const timesout = setTimeout(() => {
                 setIsVisible(false);
             }, 2000);
 
             return () => {
-                clearTimeout(timeout);
+                clearTimeout(timesout);
             };
         }
     }, [content]);
 
     return (
         content ? (
-            <div className={`container ${isVisible ? 'visible' : 'hidden'}`}>
-                <div className='notification unselectable'>
+            <div className={`${styles.container} ${isVisible ? styles.visible : styles.hidden}`}>
+                <div className={`${styles.notification} ${styles.unselectable}`}>
                     {/*<icon></icon>*/}
                     <p>{content}</p>
                 </div>

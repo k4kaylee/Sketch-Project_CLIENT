@@ -5,15 +5,13 @@ import { AuthContext } from '../../../context/AuthContext';
 import { useContextMenu } from '../../hooks/useContextMenu';
 import Notice from '../../misc/Notice/Notice'
 import useChatUpdater from '../../hooks/useChatUpdater';
-import Modal from '../../misc/Modal/Modal'
 
 
 
-const Messages = ({ messages, currentChatId, setChats }) => {
+const Messages = ({ messages, currentChatId, setChats, setShowModal }) => {
   const { user } = useContext(AuthContext);
   const { setContextMenu } = useContextMenu();
   const [notification, setNotification] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { deleteMessage } = useChatUpdater();
   const hideDeletedMessage = (id) => {
@@ -30,10 +28,11 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   {
     name: 'Delete',
     onClick: (message) => {
+      setShowModal(true);
       hideDeletedMessage(message.id);
       setTimeout(() => {
         deleteMessage(currentChatId, message, setChats);
-      }, 600);
+      }, 400);
     }
   },
   {
@@ -41,7 +40,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
     onClick: (message) => copyMsg(message)
   },
 
-  ], [deleteMessage, currentChatId, setChats])
+  ], [deleteMessage, currentChatId, setChats, setShowModal])
 
   const editMsg = () => { //useChatUpdater
 
@@ -68,27 +67,28 @@ const Messages = ({ messages, currentChatId, setChats }) => {
 
   return (
     messages.length !== 0 ? (
-      <div className='chat-messages'>
-        <Notice content={notification} />
-        <ul>
-          {
-            messages.map((message, index) => (
-              <li className={user.id === message.author ? 'message byMe' : 'message'}
-                key={index}
-                id={message.id}
-                onContextMenu={(event) => handleContextMenu(event, message)}
-              >
-                {message.content}
-              </li>
-            ))
-          }
-        </ul>
-        
-        {/*<Modal/> -- in progress*/}
+      <>
+        <div className='chat-messages'>
+          <Notice content={notification} />
+          <ul>
+            {
+              messages.map((message, index) => (
+                <li className={user.id === message.author ? 'message byMe' : 'message'}
+                  key={index}
+                  id={message.id}
+                  onContextMenu={(event) => handleContextMenu(event, message)}
+                >
+                  {message.content}
+                </li>
+              ))
+            }
+          </ul>
 
-      </div>
-      ) : (
-        <p className='no-messages-info unselectable'><i>There is no messages yet. Send your first!</i></p>
+        </div>
+      </>
+
+    ) : (
+      <p className='no-messages-info unselectable'><i>There is no messages yet. Send your first!</i></p>
     )
   )
 }

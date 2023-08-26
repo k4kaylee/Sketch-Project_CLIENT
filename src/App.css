@@ -746,6 +746,7 @@ body{
   padding: 10px;
   border-radius: 0px 10px 10px 10px;
   margin-bottom: 5px;
+  word-wrap: break-word;
 }
 
 .message.byMe{
