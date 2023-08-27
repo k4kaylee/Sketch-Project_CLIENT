@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from '../api/axios';
 import ChatList from '../components/Chat/ChatList';
 import ChatTopInfo from '../components/Chat/ChatTopInfo';
@@ -9,9 +9,9 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import '../App.css';
 import Waves from '../components/misc/Waves';
-import useChatUpdater from '../components/hooks/useChatUpdater';
 import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider'
-import Modal from '../components/misc/Modal/Modal';
+import { ModalProvider } from '../context/Modal/Modal.provider'
+import useChatUpdater from '../components/hooks/useChatUpdater';
 
 
 const Chat = () => {
@@ -31,42 +31,11 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
-  const [showModal, setShowModal] = useState(true);
 
 
   /* Custom functions */
-
-  const sendMessageToServer = useCallback(async (newMessage) => {
-    try {
-      await axios.put(`/chats/${currentChat.id}/messages`, {
-        author: user.id,
-        content: newMessage,
-        time: new Date().toLocaleString()
-      });
-      
-      
-      const response = await axios.get(`/chats/${currentChat.id}`);
-      if (response.status === 200) {
-        setChats(prevChats => {
-          return prevChats.map(chat => {
-            if (chat.id === currentChat.id) {
-              return {
-                ...chat,
-                messages: response.data.messages
-              };
-            }
-            return chat;
-          });
-        });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-
-  }, [user.id, currentChat.id]);
-  
-  
-  
+  const { sendMessage } = useChatUpdater();
+  const { updateChat } = useChatUpdater();
 
   const loadChats = async (userId) => {
     try {
@@ -89,15 +58,20 @@ const Chat = () => {
 
   useEffect(() => {
     loadChats(user.id);
-  }, [ user.id])
+  }, [user.id])
 
 
   useEffect(() => {
     if (pendingMessage !== '') {
-      sendMessageToServer(pendingMessage);
-      setPendingMessage('');
+      sendMessage(pendingMessage, user.id, currentChat.id)
+      .then(() => updateChat(setChats, currentChat.id))
+      .then(() => setPendingMessage(''))
+      .catch(error => {
+        console.log("Error:", error);
+        setPendingMessage('');
+      });
     }
-  }, [pendingMessage, messages, currentChat.id, sendMessageToServer]);
+  }, [pendingMessage, currentChat.id, sendMessage, updateChat, user.id]);
 
 
 
@@ -105,49 +79,44 @@ const Chat = () => {
 
 
   return (
-    <div className='flex-container'>
-      {showModal ? (
-      <Modal header='Delete message'
-             content='It will not be possible to restore this message. Are you sure?'
-             setShowModal={ setShowModal }
-             />
-      ) : <></>}
-      <ChatList chats={chats}
-        anyToggled={isAnyToggled}
-        setIsAnyToggled={setIsAnyToggled}
-        setChatIndex={setChatIndex}
-        chatIndexState={setChatIndex}
-        setChat={setCurrentChat}
-        messageInputRef={messageInputRef}
-      />
-
-      <div className={isAnyToggled ? 'chat' : 'offscreen'}>
-        <ChatTopInfo chat={currentChat} />
-        <SimpleBar className='scroll' style={{ maxHeight: '88vh' }}>
-          <ContextMenuProvider>
-            {
-              chatIndex !== undefined ? (
-                <Messages messages={messages} 
-                          currentChatId={currentChat.id} 
-                          setChats={setChats}
-                          setShowModal={setShowModal}
-                />
-              ) : (
-                <></>
-              )
-            }
-
-            <Waves styles='chat-waves' />
-          </ContextMenuProvider>
-        </SimpleBar>
-
-        <ChatInput messageInputRef={messageInputRef}
-          messages={messages}
-          setMessages={setMessages}
-          setPendingMessage={setPendingMessage}
+    <ModalProvider>
+      <div className='flex-container'>
+        <ChatList chats={chats}
+          anyToggled={isAnyToggled}
+          setIsAnyToggled={setIsAnyToggled}
+          setChatIndex={setChatIndex}
+          chatIndexState={setChatIndex}
+          setChat={setCurrentChat}
+          messageInputRef={messageInputRef}
         />
+
+        <div className={isAnyToggled ? 'chat' : 'offscreen'}>
+          <ChatTopInfo chat={currentChat} />
+          <SimpleBar className='scroll' style={{ maxHeight: '88vh' }}>
+            <ContextMenuProvider>
+              {
+                chatIndex !== undefined ? (
+                  <Messages messages={messages}
+                    currentChatId={currentChat.id}
+                    setChats={setChats}
+                  />
+                ) : (
+                  <></>
+                )
+              }
+
+              <Waves styles='chat-waves' />
+            </ContextMenuProvider>
+          </SimpleBar>
+
+          <ChatInput messageInputRef={messageInputRef}
+            messages={messages}
+            setMessages={setMessages}
+            setPendingMessage={setPendingMessage}
+          />
+        </div>
       </div>
-    </div>
+    </ModalProvider>
   );
 };
 

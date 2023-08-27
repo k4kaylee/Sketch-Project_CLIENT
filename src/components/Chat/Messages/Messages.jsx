@@ -3,51 +3,41 @@ import '../../../App.css'; //to be restructurised
 import '../Messages/Messages.css'
 import { AuthContext } from '../../../context/AuthContext';
 import { useContextMenu } from '../../hooks/useContextMenu';
-import Notice from '../../misc/Notice/Notice'
+import { useModal } from '../../hooks/useModal';
+import Notice from '../../misc/Notice/Notice';
 import useChatUpdater from '../../hooks/useChatUpdater';
 
 
 
-const Messages = ({ messages, currentChatId, setChats, setShowModal }) => {
+const Messages = ({ messages, currentChatId, setChats }) => {
+
+  /* Context */
   const { user } = useContext(AuthContext);
-  const { setContextMenu } = useContextMenu();
+
+  /* States */
   const [notification, setNotification] = useState('');
 
+  /* Custom hooks */
+  const { setContextMenu } = useContextMenu();
+  const { setModal } = useModal();
   const { deleteMessage } = useChatUpdater();
-  const hideDeletedMessage = (id) => {
-    const message = document.getElementById(id);
-    if (message) {
-      message.classList.add('message-fade-away');
+
+  /* Custom functions */
+  const hideAndDeleteMessage = (message) => {
+    const messageElement = document.getElementById(message.id);
+    if (messageElement) {
+      messageElement.classList.add('message-fade-away');
     }
+    setTimeout(() => {
+      deleteMessage(currentChatId, message, setChats);
+    }, 400);
   }
-
-  const contextMenu = useMemo(() => [{
-    name: 'Edit',
-    onClick: (message) => editMsg(message)
-  },
-  {
-    name: 'Delete',
-    onClick: (message) => {
-      setShowModal(true);
-      hideDeletedMessage(message.id);
-      setTimeout(() => {
-        deleteMessage(currentChatId, message, setChats);
-      }, 400);
-    }
-  },
-  {
-    name: 'Copy the text',
-    onClick: (message) => copyMsg(message)
-  },
-
-  ], [deleteMessage, currentChatId, setChats, setShowModal])
 
   const editMsg = () => { //useChatUpdater
 
   }
 
-
-  const copyMsg = (message) => {
+  const copyMessageToClipboard = (message) => {
     navigator.clipboard.writeText(message.content)
       .then(() => {
         setNotification('Message was copied to clipboard');
@@ -64,6 +54,30 @@ const Messages = ({ messages, currentChatId, setChats, setShowModal }) => {
     const { clientX, clientY } = event
     setContextMenu(contextMenu, [clientX, clientY], message)
   }, [setContextMenu, contextMenu])
+
+  /* Objects */
+  const contextMenu = useMemo(() => [
+    {
+      name: 'Edit',
+      onClick: (message) => editMsg(message)
+    },
+    {
+      name: 'Delete',
+      onClick: (message) => {
+        setModal({
+          header: 'Delete message',
+          content: 'It will not be possible to restore this message. Are you sure?',
+          onSubmit: () => hideAndDeleteMessage(message)
+        });
+      }
+    },
+    {
+      name: 'Copy the text',
+      onClick: (message) => copyMessageToClipboard(message)
+    },
+  ], [setModal, hideAndDeleteMessage]);
+
+
 
   return (
     messages.length !== 0 ? (
