@@ -1,0 +1,61 @@
+.chat_input {
+    display: flex;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+}
+
+.chat_input input {
+    flex: 1;
+    height: 40px;
+    font-size: 15px;
+    transition: all 0.3s;
+    background-color: #272e39;
+    border: 0;
+    color: #BCC0C4;
+    padding: 2px 10px;
+    margin-bottom: 1px;
+}
+
+.chat_input input:focus {
+    outline: none;
+    border: 0;
+}
+
+.send_button {
+    width: 40px;
+    background-color: #272e39;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    margin-bottom: 1px;
+    height: 44px;
+    transition: all 0.3s;
+}
+
+.send_img {
+    background: url('../../../../img/send-button.png');
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    opacity: 0.5;
+    transition: all 0.2s;
+}
+
+.__active {
+    opacity: 1;
+}
+
+.send_img.__active:hover {
+    transform: rotate(-45deg) translateX(5px) scale(0.8);
+}
+
+.send_button.__active:hover {
+    background-color: #b7556e;
+}
+
+.__inactive:hover {
+    opacity: 0.5;
+    cursor: auto;
+}

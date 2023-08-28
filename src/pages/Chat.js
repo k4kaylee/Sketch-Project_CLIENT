@@ -3,7 +3,7 @@ import axios from '../api/axios';
 import ChatList from '../components/Chat/ChatList';
 import ChatTopInfo from '../components/Chat/ChatTopInfo';
 import Messages from '../components/Chat/Messages/Messages';
-import ChatInput from '../components/Chat/ChatInput';
+import ChatInput from '../components/Chat/ChatInput/ChatInput';
 import { AuthContext } from '../context/AuthContext';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';

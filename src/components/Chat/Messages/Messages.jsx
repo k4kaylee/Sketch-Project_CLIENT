@@ -48,14 +48,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
     setNotification('');
   }
 
-  const handleContextMenu = useCallback((event, message) => {
-    event.preventDefault();
-
-    const { clientX, clientY } = event
-    setContextMenu(contextMenu, [clientX, clientY], message)
-  }, [setContextMenu, contextMenu])
-
-  /* Objects */
+  /* Context Menu */
   const contextMenu = useMemo(() => [
     {
       name: 'Edit',
@@ -76,6 +69,15 @@ const Messages = ({ messages, currentChatId, setChats }) => {
       onClick: (message) => copyMessageToClipboard(message)
     },
   ], [setModal, hideAndDeleteMessage]);
+
+  const handleContextMenu = useCallback((event, message) => {
+    event.preventDefault();
+
+    const { clientX, clientY } = event
+    setContextMenu(contextMenu, [clientX, clientY], message)
+  }, [setContextMenu, contextMenu])
+
+
 
 
 

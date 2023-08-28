@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import '../../App.css';
+import { AuthContext } from '../../../context/AuthContext';
+import styles from './ChatInput.module.css';
 
 const ChatInput = ({ messageInputRef, setMessages, messages, setPendingMessage }) => {
   const [message, setMessage] = useState('');
   const { user } = useContext(AuthContext);
 
   const handleKeyDown = (event) => {
-    if(event.key === 'Enter' && message !== null){
+    if (event.key === 'Enter' && message !== null) {
       sendMessage();
     }
   }
@@ -32,18 +32,18 @@ const ChatInput = ({ messageInputRef, setMessages, messages, setPendingMessage }
   }
 
   return (
-    <div className='chat-input'>
-        <input ref={messageInputRef} 
-               placeholder='Message...' 
-               onChange={(e) => setMessage(e.target.value)} 
-               onKeyDown={ handleKeyDown }
-        />
-        <button
-                className={message ? 'send-button __active' : 'send-button __inactive'}
-                onClick={sendMessage}
-        >
-           <div className={message ? 'send-img __active' : 'send-img __inactive'} />
-        </button>
+    <div className={`${styles.chat_input}`}>
+      <input ref={messageInputRef}
+        placeholder='Message...'
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+      <button
+        className={message ? `${styles.send_button} ${styles.__active}` : `${styles.send_button} ${styles.__inactive}`}
+        onClick={sendMessage}
+      >
+        <div className={message ? `${styles.send_img} ${styles.__active}` : `${styles.send_img} ${styles.__inactive}`} />
+      </button>
     </div>
   )
 }

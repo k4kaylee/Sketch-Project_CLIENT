@@ -80,7 +80,7 @@
     justify-content: space-between;
 }
 
-button{
+.modal_button{
     background: none; 
     border-radius: 5px;
     transition: background 0.2s;

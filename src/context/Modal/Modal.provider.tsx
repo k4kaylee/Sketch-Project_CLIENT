@@ -39,8 +39,8 @@ export const ModalProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
                     <h2>{props.header}</h2>
                     <p>{props.content}</p>
                     <div className={`${styles.button_container}`}>
-                        <button className={`${styles.delete}`} onClick={onSubmit}>Delete</button>
-                        <button onClick={onCancel}>Cancel</button>
+                        <button className={`${styles.modal_button} ${styles.delete}`} onClick={onSubmit}>Delete</button>
+                        <button className={`${styles.modal_button}`} onClick={onCancel}>Cancel</button>
                     </div>
                 </div>
             </div>
