@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import '../../../App.css'; //to be restructurised
-import '../Messages/Messages.css'
+import styles from './Messages.module.css';
 import { AuthContext } from '../../../context/AuthContext';
 import { useContextMenu } from '../../hooks/useContextMenu';
 import { useModal } from '../../hooks/useModal';
@@ -26,7 +25,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   const hideAndDeleteMessage = (message) => {
     const messageElement = document.getElementById(message.id);
     if (messageElement) {
-      messageElement.classList.add('message-fade-away');
+      messageElement.classList.add(`${styles.message_fade_away}`);
     }
     setTimeout(() => {
       deleteMessage(currentChatId, message, setChats);
@@ -84,12 +83,12 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   return (
     messages.length !== 0 ? (
       <>
-        <div className='chat-messages'>
+        <div className={`${styles.chat_messages}`}>
           <Notice content={notification} />
           <ul>
             {
               messages.map((message, index) => (
-                <li className={user.id === message.author ? 'message byMe' : 'message'}
+                <li className={user.id === message.author ? `${styles.message} ${styles.byMe}` : `${styles.message}`}
                   key={index}
                   id={message.id}
                   onContextMenu={(event) => handleContextMenu(event, message)}
@@ -104,7 +103,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
       </>
 
     ) : (
-      <p className='no-messages-info unselectable'><i>There is no messages yet. Send your first!</i></p>
+      <p className={`${styles.no_messages_info} ${styles.unselectable}`}><i>There is no messages yet. Send your first!</i></p>
     )
   )
 }

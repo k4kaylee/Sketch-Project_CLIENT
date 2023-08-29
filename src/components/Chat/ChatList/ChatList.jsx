@@ -1,23 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
-import ChatListHeader from './ChatListHeader';
+import ChatListHeader from '../ChatListHeader/ChatListHeader';
+import styles from './ChatList.module.css'
 
 
 
-const ChatList = (props) => {
+const ChatList = ({ chats, setCurrentChat, setChatIndex, setIsAnyToggled, isAnyToggled, messageInputRef }) => {
+
   const MAX_LASTMESSAGE_LENGTH = 25;
-
-  const { chats, setChat, setChatIndex, setIsAnyToggled, anyToggled } = props;
-  const setCurrentChat = setChat;
-  const isAnyToggled = anyToggled;
 
   const [isToggled, setIsToggled] = useState(Array(chats.length).fill(false));
   const [listContent, setListContent] = useState([]);
   const [search, setSearch] = useState('');
 
   const chatRefs = useRef(Array.from({ length: chats.length }, () => React.createRef()));
-  const messageInputRef = props.messageInputRef;
 
   useEffect(() => {
     isToggled.map((_, index) => {
@@ -60,9 +57,9 @@ const ChatList = (props) => {
 
 
   return (
-    <div className={isAnyToggled ? 'chat-chatlist' : 'chat-chatlist unconcealable'}>
+    <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconceable}`}>
       <ChatListHeader search={setSearch} />
-      <SimpleBar className='scroll'>
+      <SimpleBar className={`${styles.scroll}`}>
         <ul>
           {chats && chats.length > 0 ? (
             Array.from({ length: listContent.length }).map((_, index) => {
@@ -81,20 +78,20 @@ const ChatList = (props) => {
               return (
                 <li
                   key={index}
-                  className={isToggled[index] ? 'chat-profile __focus' : 'chat-profile'}
+                  className={isToggled[index] ? `${styles.profile} ${styles.__focus}` : `${styles.profile}`}
                   ref={chatRefs.current[index]}
                   onClick={() => toggleFocus(index)}
                 >
-                  <div className='chat-avatar' />
-                  <div className='chat-preview'>
-                    <article className='chat-username unselectable'>{chat.name}</article>
-                    <article className='chat-lastmessage unselectable'>{truncatedMessage}</article>
+                  <div className={`${styles.avatar}`} />
+                  <div className={`${styles.preview}`}>
+                  <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
+                    <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
                   </div>
                 </li>
               );
             })
           ) : (
-            <p className='no-chats-message unselectable'><i>No chats available.</i></p>
+            <p className={`${styles.no_chats_message} ${styles.unselectable}`}><i>No chats available.</i></p>
           )}
         </ul>
 

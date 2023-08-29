@@ -1,17 +1,17 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from '../api/axios';
-import ChatList from '../components/Chat/ChatList';
-import ChatTopInfo from '../components/Chat/ChatTopInfo';
+import ChatList from '../components/Chat/ChatList/ChatList';
+import ChatTopInfo from '../components/Chat/ChatTopInfo/ChatTopInfo';
 import Messages from '../components/Chat/Messages/Messages';
 import ChatInput from '../components/Chat/ChatInput/ChatInput';
 import { AuthContext } from '../context/AuthContext';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
-import '../App.css';
 import Waves from '../components/misc/Waves';
-import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider'
-import { ModalProvider } from '../context/Modal/Modal.provider'
+import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider';
+import { ModalProvider } from '../context/Modal/Modal.provider';
 import useChatUpdater from '../components/hooks/useChatUpdater';
+import '../App.css';
 
 
 const Chat = () => {
@@ -82,11 +82,10 @@ const Chat = () => {
     <ModalProvider>
       <div className='flex-container'>
         <ChatList chats={chats}
-          anyToggled={isAnyToggled}
-          setIsAnyToggled={setIsAnyToggled}
+          setCurrentChat={setCurrentChat}
           setChatIndex={setChatIndex}
-          chatIndexState={setChatIndex}
-          setChat={setCurrentChat}
+          setIsAnyToggled={setIsAnyToggled}
+          isAnyToggled={isAnyToggled}
           messageInputRef={messageInputRef}
         />
 
