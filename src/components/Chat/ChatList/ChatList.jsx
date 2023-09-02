@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import ChatListHeader from '../ChatListHeader/ChatListHeader';
+import ResizeHandle from '../../misc/ResizeHandle/ResizeHandle';
 import styles from './ChatList.module.css'
 
 
@@ -22,7 +23,6 @@ const ChatList = ({ chats, setCurrentChat, setChatIndex, setIsAnyToggled, isAnyT
         setIsAnyToggled(true);
     })
   }, [isToggled]);
-
 
   useEffect(() => {
     handleSearch();
@@ -52,51 +52,49 @@ const ChatList = ({ chats, setCurrentChat, setChatIndex, setIsAnyToggled, isAnyT
   }
 
 
-
-
-
-
   return (
-    <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconceable}`}>
-      <ChatListHeader search={setSearch} />
-      <SimpleBar className={`${styles.scroll}`}>
-        <ul>
-          {chats && chats.length > 0 ? (
-            Array.from({ length: listContent.length }).map((_, index) => {
-              const chat = listContent[index];
-              const lastMessage = chat.messages[chat.messages.length - 1];
-              
-              let truncatedMessage;
-              if (lastMessage && lastMessage.content) {
-                truncatedMessage = lastMessage.content;
+    <ResizeHandle isAnyToggled={isAnyToggled}>
+      <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconcealable}`}>
+        <ChatListHeader search={setSearch}/>
+        <SimpleBar className={`${styles.scroll}`}>
+          <ul>
+            {chats && chats.length > 0 ? (
+              Array.from({ length: listContent.length }).map((_, index) => {
+                const chat = listContent[index];
+                const lastMessage = chat.messages[chat.messages.length - 1];
 
-                if (truncatedMessage.length >= MAX_LASTMESSAGE_LENGTH) {
-                  truncatedMessage = truncatedMessage.slice(0, MAX_LASTMESSAGE_LENGTH) + "...";
+                let truncatedMessage;
+                if (lastMessage && lastMessage.content) {
+                  truncatedMessage = lastMessage.content;
+
+                  if (truncatedMessage.length >= MAX_LASTMESSAGE_LENGTH) {
+                    truncatedMessage = truncatedMessage.slice(0, MAX_LASTMESSAGE_LENGTH) + "...";
+                  }
                 }
-              }
 
-              return (
-                <li
-                  key={index}
-                  className={isToggled[index] ? `${styles.profile} ${styles.__focus}` : `${styles.profile}`}
-                  ref={chatRefs.current[index]}
-                  onClick={() => toggleFocus(index)}
-                >
-                  <div className={`${styles.avatar}`} />
-                  <div className={`${styles.preview}`}>
-                  <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
-                    <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
-                  </div>
-                </li>
-              );
-            })
-          ) : (
-            <p className={`${styles.no_chats_message} ${styles.unselectable}`}><i>No chats available.</i></p>
-          )}
-        </ul>
+                return (
+                  <li
+                    key={index}
+                    className={isToggled[index] ? `${styles.profile} ${styles.__focus}` : `${styles.profile}`}
+                    ref={chatRefs.current[index]}
+                    onClick={() => toggleFocus(index)}
+                  >
+                    <div className={`${styles.avatar}`} />
+                    <div className={`${styles.preview}`}>
+                      <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
+                      <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
+                    </div>
+                  </li>
+                );
+              })
+            ) : (
+              <p className={`${styles.no_chats_message} ${styles.unselectable}`}><i>No chats available.</i></p>
+            )}
+          </ul>
 
-      </SimpleBar>
-    </div>
+        </SimpleBar>
+      </div>
+    </ResizeHandle>
   )
 }
 

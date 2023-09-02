@@ -1,0 +1,26 @@
+#resize_handle {
+    width: 1px;
+    background-color: #333; 
+    height: 100%;
+    cursor: ew-resize;
+}
+
+.container{
+    display: flex;
+}
+
+@media only screen and (max-width: 900px) {
+    #resize_handle {
+        display: none;
+    }
+
+    .container.unconcealable {
+        display: block;
+        width: 100% !important;
+    }
+
+    .container {
+        display: none;
+    }
+
+}

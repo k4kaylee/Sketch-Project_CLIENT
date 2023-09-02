@@ -88,7 +88,6 @@ const Chat = () => {
           isAnyToggled={isAnyToggled}
           messageInputRef={messageInputRef}
         />
-
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
           <ChatTopInfo chat={currentChat} />
           <SimpleBar className='scroll' style={{ maxHeight: '88vh' }}>

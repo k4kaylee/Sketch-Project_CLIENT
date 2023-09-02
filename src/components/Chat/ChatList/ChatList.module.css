@@ -7,7 +7,7 @@
 
 .chatlist {
     height: 100vh;
-    width: 400px;
+    width: 100%;
     background-color: #242a33;
     box-sizing: border-box;
 }
@@ -17,14 +17,10 @@
     padding-left: 6px;
 }
 
-
-.chatlist.unconcealable {
-    width: 100%;
-}
-
 .scroll {
     max-height: 92vh;
     margin-right: -3px;
+    width: calc(100% - 1px);
 }
 
 .scroll .simplebar-scrollbar::before {
@@ -98,30 +94,7 @@
     color: #3c4554;
 }
 
-@media only screen and (max-width: 1385px) {
-
-    .chatlist {
-        width: 300px;
-    }
-
-    .chatlist.unconcealable {
-        width: 400px;
-    }
-
-}
-
-@media only screen and (max-width: 995px) {
-
-    .chat-chatlist {
-        display: none;
-    }
-
-    .chat-chatlist.unconcealable {
-        display: block;
-    }
-}
-
-@media only screen and (max-width: 716px) {
+@media only screen and (max-width: 900px) {
 
     .chatlist.unconcealable {
         width: 100%;
