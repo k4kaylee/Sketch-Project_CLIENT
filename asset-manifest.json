@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Sketch-Project_CLIENT/static/css/main.ebe41424.css",
-    "main.js": "/Sketch-Project_CLIENT/static/js/main.2648727b.js",
+    "main.js": "/Sketch-Project_CLIENT/static/js/main.9a5faae2.js",
     "static/js/787.5d43d3e1.chunk.js": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js",
     "static/media/logo.svg": "/Sketch-Project_CLIENT/static/media/logo.afa9093713deb65d0ef0.svg",
     "static/media/GeneralSans-Semibold.ttf": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.f6a5bacab0316e8117bb.ttf",
@@ -12,11 +12,11 @@
     "static/media/arrow-back.svg": "/Sketch-Project_CLIENT/static/media/arrow-back.89385bceb116abe870ac.svg",
     "index.html": "/Sketch-Project_CLIENT/index.html",
     "main.ebe41424.css.map": "/Sketch-Project_CLIENT/static/css/main.ebe41424.css.map",
-    "main.2648727b.js.map": "/Sketch-Project_CLIENT/static/js/main.2648727b.js.map",
+    "main.9a5faae2.js.map": "/Sketch-Project_CLIENT/static/js/main.9a5faae2.js.map",
     "787.5d43d3e1.chunk.js.map": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ebe41424.css",
-    "static/js/main.2648727b.js"
+    "static/js/main.9a5faae2.js"
   ]
 }
