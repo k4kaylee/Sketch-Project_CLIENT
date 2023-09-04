@@ -1,19 +1,22 @@
 {
   "files": {
-    "main.css": "/Sketch-Project_CLIENT/static/css/main.867888ba.css",
-    "main.js": "/Sketch-Project_CLIENT/static/js/main.113850e7.js",
+    "main.css": "/Sketch-Project_CLIENT/static/css/main.ebe41424.css",
+    "main.js": "/Sketch-Project_CLIENT/static/js/main.7fb6dd85.js",
     "static/js/787.5d43d3e1.chunk.js": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js",
+    "static/media/logo.svg": "/Sketch-Project_CLIENT/static/media/logo.afa9093713deb65d0ef0.svg",
     "static/media/GeneralSans-Semibold.ttf": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.f6a5bacab0316e8117bb.ttf",
     "static/media/GeneralSans-Semibold.woff": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.f7917c077957122793f6.woff",
     "static/media/GeneralSans-Semibold.woff2": "/Sketch-Project_CLIENT/static/media/GeneralSans-Semibold.23103addec2ccc9cbc17.woff2",
-    "static/media/logo.png": "/Sketch-Project_CLIENT/static/media/logo.bdc0f62152952552c9e7.png",
+    "static/media/empty-avatar.png": "/Sketch-Project_CLIENT/static/media/empty-avatar.6d068206ea0ea8650d79.png",
+    "static/media/search-icon.svg": "/Sketch-Project_CLIENT/static/media/search-icon.b5962bbd99fb8fe385a7.svg",
+    "static/media/arrow-back.svg": "/Sketch-Project_CLIENT/static/media/arrow-back.89385bceb116abe870ac.svg",
     "index.html": "/Sketch-Project_CLIENT/index.html",
-    "main.867888ba.css.map": "/Sketch-Project_CLIENT/static/css/main.867888ba.css.map",
-    "main.113850e7.js.map": "/Sketch-Project_CLIENT/static/js/main.113850e7.js.map",
+    "main.ebe41424.css.map": "/Sketch-Project_CLIENT/static/css/main.ebe41424.css.map",
+    "main.7fb6dd85.js.map": "/Sketch-Project_CLIENT/static/js/main.7fb6dd85.js.map",
     "787.5d43d3e1.chunk.js.map": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.867888ba.css",
-    "static/js/main.113850e7.js"
+    "static/css/main.ebe41424.css",
+    "static/js/main.7fb6dd85.js"
   ]
 }
