@@ -11,7 +11,7 @@ const MainPage = () => {
 
     return(
        <div className="content">
-        <p className="head-text">Main Page</p>
+        <p className="head-text" style={{animationFillMode: "forwards"}}>Main Page</p>
         <p className="head-subtext">If you see this page, you are logged in!</p>
         <div style={{color: "#e34c67", width: "350px", display:"flex", alignContent: "space-between"}}>
             <a onClick={handleLogout}>Log out</a>

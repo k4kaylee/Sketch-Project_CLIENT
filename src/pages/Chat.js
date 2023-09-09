@@ -25,11 +25,10 @@ const Chat = () => {
 
 
   /* States */
-  const [chatIndex, setChatIndex] = useState();
-  const [isAnyToggled, setIsAnyToggled] = useState(false);
-  const [currentChat, setCurrentChat] = useState({});
-  const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
+  const [isAnyToggled, setIsAnyToggled] = useState(false);
+  const [currentChat, setCurrentChat] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
 
 
@@ -44,38 +43,38 @@ const Chat = () => {
         setChats(response.data);
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   }
 
-
   /* useEffects */
   useEffect(() => {
-    if (typeof chatIndex !== 'undefined') {
-      setMessages(chats[chatIndex].messages);
+    if (currentChat !== null) {
+      setMessages(currentChat.messages);
     }
-  }, [chatIndex, chats])
+  }, [currentChat])
 
   useEffect(() => {
     loadChats(user.id);
-  }, [user.id])
+  }, [user.id, user])
 
 
   useEffect(() => {
-    if (pendingMessage !== '') {
+    if (pendingMessage !== '' && currentChat !== null) {
       sendMessage(pendingMessage, user.id, currentChat.id)
-      .then(() => updateChat(setChats, currentChat.id))
-      .then(() => setPendingMessage(''))
-      .catch(error => {
-        console.log("Error:", error);
-        setPendingMessage('');
-      });
+        .then(() => updateChat(setChats, currentChat.id))
+        .then(() => setPendingMessage(''))
+        .catch(error => {
+          console.log("Error:", error);
+          setPendingMessage('');
+        });
     }
-  }, [pendingMessage, currentChat.id, sendMessage, updateChat, user.id]);
+  }, [pendingMessage, currentChat, sendMessage, updateChat, user.id]);
 
 
 
-
+  /* Constants */
+  const scrollHeight = '88vh';
 
 
   return (
@@ -83,29 +82,28 @@ const Chat = () => {
       <div className='flex-container'>
         <ChatList chats={chats}
           setCurrentChat={setCurrentChat}
-          setChatIndex={setChatIndex}
           setIsAnyToggled={setIsAnyToggled}
           isAnyToggled={isAnyToggled}
           messageInputRef={messageInputRef}
+          loadChats={loadChats}
         />
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
-          <ChatTopInfo chat={currentChat} />
-          <SimpleBar className='scroll' style={{ maxHeight: '88vh' }}>
-            <ContextMenuProvider>
-              {
-                chatIndex !== undefined ? (
+          {currentChat !== null ? (
+            <>
+              <ChatTopInfo chat={currentChat} />
+              <SimpleBar className='scroll' style={{ maxHeight: scrollHeight }}>
+                <ContextMenuProvider>
                   <Messages messages={messages}
                     currentChatId={currentChat.id}
                     setChats={setChats}
                   />
-                ) : (
-                  <></>
-                )
-              }
-
-              <Waves styles='chat-waves' />
-            </ContextMenuProvider>
-          </SimpleBar>
+                  <Waves styles='chat-waves' />
+                </ContextMenuProvider>
+              </SimpleBar>
+            </>
+          ) : (
+            <></>
+          )}
 
           <ChatInput messageInputRef={messageInputRef}
             messages={messages}
@@ -119,3 +117,4 @@ const Chat = () => {
 };
 
 export default Chat;
+
