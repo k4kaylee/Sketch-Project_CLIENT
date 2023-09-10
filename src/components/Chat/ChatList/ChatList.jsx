@@ -3,13 +3,13 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import ChatListHeader from '../ChatListHeader/ChatListHeader';
 import ResizeHandle from '../../misc/ResizeHandle/ResizeHandle';
-import { AuthContext } from '../../../context/AuthContext';
 import styles from './ChatList.module.css'
 import axios from '../../../api/axios';
+import { AuthContext } from '../../../context/AuthContext';
 
 
 
-const ChatList = ({ chats, setCurrentChat, setIsAnyToggled, isAnyToggled, messageInputRef, loadChats }) => {
+const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggled, isAnyToggled, messageInputRef }) => {
 
   const MAX_LASTMESSAGE_LENGTH = 25;
 
@@ -37,6 +37,7 @@ const ChatList = ({ chats, setCurrentChat, setIsAnyToggled, isAnyToggled, messag
       newState[index] = !newState[index];
       return newState;
     });
+    setChatIndex(index);
     setCurrentChat(chats[index]);
     messageInputRef.current.focus();
   };
@@ -54,25 +55,24 @@ const ChatList = ({ chats, setCurrentChat, setIsAnyToggled, isAnyToggled, messag
 
   const { user } = useContext(AuthContext);
   const createChat = async (intelocutor) => {
-    console.log(user)
     try {
-      await axios.post(`/chats`, {
+      const chat = await axios.put(`/chats/user/${user.id}`, {
         name: intelocutor.name,
         participantsId: [user.id, intelocutor.id],
         avatar: intelocutor.avatar
       });
+      return chat;
     } catch (error) {
       console.log(error.message);
     }
-
   }
 
-  const openChat = (user) => {
+  const openChat = async (user) => {
     const chatWithUser = chats.find(chat => {
       return chat.name === user.name && chat.participantsID.includes(user.id);
     });
-
-    if(chatWithUser){
+  
+    if (chatWithUser) {
       const index = listContent.findIndex(chat => chat.id === chatWithUser.id);
       setIsToggled(() => {
         const newState = Array(chats.length).fill(false);
@@ -83,24 +83,25 @@ const ChatList = ({ chats, setCurrentChat, setIsAnyToggled, isAnyToggled, messag
       messageInputRef.current.focus();
       setIsAnyToggled(true);
     } else {
-      createChat(user);
-      loadChats()
-      .then(()=> {
-        setCurrentChat(chatWithUser);
+      try {
+        // Создайте чат и дождитесь ответа
+        const response = await createChat(user);
+        const newChat = response.data;
+        setChats(prevChats => [...prevChats, newChat]);
+        setCurrentChat(newChat);
         messageInputRef.current.focus();
         setIsAnyToggled(true);
+      } catch (error) {
+        console.log("Error:", error.message);
       }
-      );
     }
-    messageInputRef.current.focus();
-    setIsAnyToggled(true);
   }
-
+  
 
   return (
     <ResizeHandle isAnyToggled={isAnyToggled}>
       <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconcealable}`}>
-        <ChatListHeader search={search} setSearch={setSearch} openChat={openChat}/>
+        <ChatListHeader search={search} setSearch={setSearch} openChat={openChat} />
         <SimpleBar className={`${styles.scroll}`}>
           <ul>
             {chats && chats.length > 0 ? (

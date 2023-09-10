@@ -24,8 +24,6 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   /* Custom functions */
   const hideAndDeleteMessage = (message) => {
     const messageElement = document.getElementById(message.id);
-    console.log(messageElement);
-    console.log(message);
     if (messageElement) {
       messageElement.classList.add(`${styles.message_fade_away}`);
     }
@@ -89,10 +87,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
           <Notice content={notification} />
           <ul>
             {
-              messages.map((message, index) => {
-                console.log(message);
-                return (
-                
+              messages.map((message, index) => (
                 <li className={user.id === message.author ? `${styles.message} ${styles.byMe}` : `${styles.message}`}
                   key={index}
                   id={message.id}
@@ -100,7 +95,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
                 >
                   {message.content}
                 </li>
-              )})
+              ))
             }
           </ul>
 

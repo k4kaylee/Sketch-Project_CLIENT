@@ -25,10 +25,11 @@ const Chat = () => {
 
 
   /* States */
-  const [chats, setChats] = useState([]);
+  const [chatIndex, setChatIndex] = useState();
   const [isAnyToggled, setIsAnyToggled] = useState(false);
-  const [currentChat, setCurrentChat] = useState(null);
+  const [currentChat, setCurrentChat] = useState({});
   const [messages, setMessages] = useState([]);
+  const [chats, setChats] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
 
 
@@ -39,59 +40,65 @@ const Chat = () => {
   const loadChats = async (userId) => {
     try {
       const response = await axios.get(`/chats/user/${userId}`);
+      console.log(response.data);
       if (response.status === 200) {
         setChats(response.data);
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   }
 
+
   /* useEffects */
   useEffect(() => {
-    if (currentChat !== null) {
-      setMessages(currentChat.messages);
+    if (typeof chatIndex !== 'undefined') {
+      setMessages(chats[chatIndex].messages);
     }
-  }, [currentChat])
+  }, [chatIndex, chats])
 
   useEffect(() => {
     loadChats(user.id);
-  }, [user.id, user])
+  }, [user.id])
 
 
   useEffect(() => {
-    if (pendingMessage !== '' && currentChat !== null) {
+    if (pendingMessage !== '') {
       sendMessage(pendingMessage, user.id, currentChat.id)
-        .then(() => updateChat(setChats, currentChat.id))
-        .then(() => setPendingMessage(''))
-        .catch(error => {
-          console.log("Error:", error);
-          setPendingMessage('');
-        });
+      .then(() => updateChat(setChats, currentChat.id)
+          .then(() => {
+            const updatedChat = chats.find(chat => chat.id === currentChat.id);
+            console.log(updatedChat.messages);
+          })
+        )
+      .then(() => setPendingMessage(''))
+      .catch(error => {
+        console.log("Error:", error);
+        setPendingMessage('');
+      });
     }
-  }, [pendingMessage, currentChat, sendMessage, updateChat, user.id]);
-
+  }, [pendingMessage, sendMessage, updateChat, user.id]);
 
 
   /* Constants */
   const scrollHeight = '88vh';
 
-
   return (
     <ModalProvider>
       <div className='flex-container'>
         <ChatList chats={chats}
+          setChats={setChats}
           setCurrentChat={setCurrentChat}
           setIsAnyToggled={setIsAnyToggled}
+          setChatIndex={setChatIndex}
           isAnyToggled={isAnyToggled}
           messageInputRef={messageInputRef}
-          loadChats={loadChats}
         />
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
           {currentChat !== null ? (
             <>
               <ChatTopInfo chat={currentChat} />
-              <SimpleBar className='scroll' style={{ maxHeight: scrollHeight }}>
+              <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
                   <Messages messages={messages}
                     currentChatId={currentChat.id}
@@ -117,4 +124,3 @@ const Chat = () => {
 };
 
 export default Chat;
-

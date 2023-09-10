@@ -10,7 +10,8 @@ const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
 
 
-  const getUserFromCookies = async () => {
+
+  useEffect(() => {
     const savedAuth = Cookies.get("isAuth");
     if (savedAuth === "true") {
       setIsAuth(true);
@@ -18,9 +19,6 @@ const AuthProvider = ({ children }) => {
     const cookie = Cookies.get("user");
     const userFromCookies = JSON.parse(cookie);
     setUser(userFromCookies);
-  };
-  useEffect( () => {
-      getUserFromCookies();
   }, []);
 
 

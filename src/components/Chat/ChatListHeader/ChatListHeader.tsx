@@ -76,7 +76,7 @@ const ChatListHeader = ({ search, setSearch, openChat }) => {
             return (
               <div className={`${styles.user}`} key={i} onClick={() => openChat(user)}>
                 <div className={`${styles.avatar} ${styles.diminished}`} />
-                <div className={`${styles.username}`}>{truncatedName}</div>
+                <div className={`${styles.username} ${styles.unselectable}`}>{truncatedName}</div>
               </div>
             )
           })}
