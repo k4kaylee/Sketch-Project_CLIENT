@@ -11,18 +11,15 @@ import Waves from '../components/misc/Waves';
 import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider';
 import { ModalProvider } from '../context/Modal/Modal.provider';
 import useChatUpdater from '../components/hooks/useChatUpdater';
+import Loader from '../components/misc/Loader/Loader';
 import '../App.css';
 
-
 const Chat = () => {
-
   /* Context */
   const { user } = useContext(AuthContext);
 
-
   /* Refs */
   const messageInputRef = useRef();
-
 
   /* States */
   const [chatIndex, setChatIndex] = useState();
@@ -31,7 +28,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
-
+  const [isLoadingChats, setIsLoadingChats] = useState(true); // Состояние для отслеживания загрузки чатов
 
   /* Custom functions */
   const { sendMessage } = useChatUpdater();
@@ -40,15 +37,15 @@ const Chat = () => {
   const loadChats = async (userId) => {
     try {
       const response = await axios.get(`/chats/user/${userId}`);
-      console.log(response.data);
       if (response.status === 200) {
         setChats(response.data);
       }
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setIsLoadingChats(false); // Устанавливаем isLoadingChats в false после загрузки
     }
   }
-
 
   /* useEffects */
   useEffect(() => {
@@ -61,31 +58,33 @@ const Chat = () => {
     loadChats(user.id);
   }, [user.id])
 
-
   useEffect(() => {
     if (pendingMessage !== '') {
       sendMessage(pendingMessage, user.id, currentChat.id)
-      .then(() => updateChat(setChats, currentChat.id)
+        .then(() => updateChat(setChats, currentChat.id)
           .then(() => {
             const updatedChat = chats.find(chat => chat.id === currentChat.id);
             console.log(updatedChat.messages);
           })
         )
-      .then(() => setPendingMessage(''))
-      .catch(error => {
-        console.log("Error:", error);
-        setPendingMessage('');
-      });
+        .then(() => setPendingMessage(''))
+        .catch(error => {
+          console.log("Error:", error);
+          setPendingMessage('');
+        });
     }
   }, [pendingMessage, sendMessage, updateChat, user.id]);
-
 
   /* Constants */
   const scrollHeight = '88vh';
 
+  if (isLoadingChats) {
+    return <Loader />;
+  }
+
   return (
     <ModalProvider>
-      <div className='flex-container'>
+      <div className='flex-container fadeIn'>
         <ChatList chats={chats}
           setChats={setChats}
           setCurrentChat={setCurrentChat}
