@@ -4,7 +4,6 @@ import { AuthContext } from '../context/AuthContext.jsx';
 import Login from '../pages/Login.js';
 import Register from '../pages/Register.js';
 import Users from '../components/Users.js';
-import MainPage from '../pages/MainPage.js';
 import Chat from '../pages/Chat.js';
 
 
@@ -16,9 +15,8 @@ const AppRoutes = () => {
         isAuth ? (
             <Routes>
               <Route path='/users' element={<Users/>}/>
-              <Route path='/' element={<MainPage/>}/>
-              <Route path='/chat' element={<Chat/>}/>
-              <Route path='*' element={<Navigate to='/chat'/>}/>
+              <Route path='/' element={<Chat/>}/>
+              <Route path='*' element={<Navigate to='/'/>}/>
             </Routes>
           ) : (
             <Routes>

@@ -14,7 +14,11 @@ import useChatUpdater from '../components/hooks/useChatUpdater';
 import Loader from '../components/misc/Loader/Loader';
 import '../App.css';
 
+
 const Chat = () => {
+  const socket = new WebSocket('ws://localhost:5000/')
+
+
   /* Context */
   const { user } = useContext(AuthContext);
 
@@ -77,6 +81,18 @@ const Chat = () => {
 
   /* Constants */
   const scrollHeight = '88vh';
+
+  socket.onopen = () => {
+    socket.send(JSON.stringify({
+      userId: user.id,
+      status: 'Online',
+      method: 'connection',
+    }))
+  }
+
+  socket.onmessage = (event) => {
+    console.log("Message from server: ", event.data)
+  }
 
   if (isLoadingChats) {
     return <Loader />;
