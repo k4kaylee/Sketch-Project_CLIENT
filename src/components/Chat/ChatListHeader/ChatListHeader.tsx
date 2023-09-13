@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './ChatListHeader.module.css'
 import '../../../App.css'
-import axios from '../../../api/axios';
+import useUser from 'components/hooks/useUser';
+import { AuthContext } from '../../../context/AuthContext.jsx';
 
 
 interface User {
@@ -16,21 +17,15 @@ const ChatListHeader = ({ search, setSearch, openChat }) => {
   const [focus, setFocus] = useState(false);
   const [users, setUsers] = useState([]);
   const [usersTabContent, setUsersTabContent] = useState<User[]>([]);
+  
+  // @ts-ignore
+  const { handleLogout } = useContext(AuthContext);
 
-  const loadUsers = async () => {
-    try {
-      const response = await axios.get(`/users`);
-      if (response.status === 200) {
-        setUsers(response.data);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+  const {loadUsers} = useUser();
 
   useEffect(() => {
     if (focus)
-      loadUsers();
+      loadUsers(setUsers);
   }, [focus])
 
   useEffect(() => {
@@ -84,6 +79,7 @@ const ChatListHeader = ({ search, setSearch, openChat }) => {
       </>
       :
       <div className={`${styles.list_header}`}>
+        <div className={`${styles.options}`} onClick={handleLogout}/>
         <div className={`${styles.logo}`} />
         <div className={`${styles.search}`}>
           <i className={`${styles.search_icon}`} onClick={toggleFocus} />

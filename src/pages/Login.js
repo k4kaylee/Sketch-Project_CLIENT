@@ -2,12 +2,12 @@ import '../App.css';
 import Navbar from '../components/NavBar';
 import { Link } from "react-router-dom";
 import React, {useState, useContext} from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext.jsx';
 import Waves from '../components/misc/Waves';
 
 
 
-
+  
 
 const Login = () => {
   const { handleLogin } = useContext(AuthContext);
@@ -15,9 +15,16 @@ const Login = () => {
   const [pwd, setPwd] = useState('');
 
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleLogin(name, pwd);
+    }
+  }
+
 
   return (
-    <div className="App">
+    <div className="App" onKeyDown={handleKeyDown}>
       <Navbar/>
         <div className='content'>
           <div className='flex'>

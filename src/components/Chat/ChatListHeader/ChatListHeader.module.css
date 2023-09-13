@@ -16,6 +16,14 @@
     height: 40px;
 }
 
+.options{
+    height: 40px;
+    width: 35px;
+    padding: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
 .arrow_back_icon {
     background: url('../../../../img/arrow-back.svg');
     height: 25px;

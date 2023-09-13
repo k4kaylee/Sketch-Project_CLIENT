@@ -1,14 +1,37 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styles from './ChatTopInfo.module.css'
+import { AuthContext } from '../../../context/AuthContext'
+import useUser from './../../hooks/useUser'
 
-const ChatTopInfo = (current) => {
+const ChatTopInfo = ({currentChat}) => {
+
+  const [intelocutorStatus, setIntelocutorStatus] = useState('Loading');
+
+  const {user} = useContext(AuthContext);
+  const {loadUserStatusById} = useUser();
+
+  const getIntelocutor = () => {
+    if(currentChat.participantsID){
+      const intelocutorId = currentChat.participantsID.find((id) => {
+      if(user.id !== id)
+        return id;
+      })
+    loadUserStatusById(intelocutorId, setIntelocutorStatus);
+  }
+  }
+
+  useEffect(() => {
+    getIntelocutor();
+  }, [currentChat])
+
+
   return (
     <>
         <div className={`${styles.top_info}`}>
             <div className={`${styles.avatar} ${styles.diminished}`}/>
             <div className={`${styles.preview}`}>
-              <article className={`${styles.username} ${styles.unselectable}`}>{current.chat.name}</article>
-              <article className={`${styles.unselectable}`}>status</article>
+              <article className={`${styles.username} ${styles.unselectable}`}>{currentChat.name}</article>
+              <article className={`${styles.unselectable}`}>{intelocutorStatus}</article>
             </div>
         </div>
     </>

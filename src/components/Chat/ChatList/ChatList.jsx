@@ -5,7 +5,7 @@ import ChatListHeader from '../ChatListHeader/ChatListHeader';
 import ResizeHandle from '../../misc/ResizeHandle/ResizeHandle';
 import styles from './ChatList.module.css'
 import axios from '../../../api/axios';
-import { AuthContext } from '../../../context/AuthContext';
+import { AuthContext } from '../../../context/AuthContext.jsx';
 
 
 

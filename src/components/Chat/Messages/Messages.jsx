@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import styles from './Messages.module.css';
-import { AuthContext } from '../../../context/AuthContext';
+import { AuthContext } from '../../../context/AuthContext.jsx';
 import { useContextMenu } from '../../hooks/useContextMenu';
 import { useModal } from '../../hooks/useModal';
 import Notice from '../../misc/Notice/Notice';
@@ -19,7 +19,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   /* Custom hooks */
   const { setContextMenu } = useContextMenu();
   const { setModal } = useModal();
-  const { deleteMessage } = useChatUpdater();
+  const { deleteMessage, editMessage } = useChatUpdater();
 
   /* Custom functions */
   const hideAndDeleteMessage = (message) => {
@@ -30,10 +30,6 @@ const Messages = ({ messages, currentChatId, setChats }) => {
     setTimeout(() => {
       deleteMessage(currentChatId, message, setChats);
     }, 400);
-  }
-
-  const editMsg = () => { //useChatUpdater
-
   }
 
   const copyMessageToClipboard = (message) => {
@@ -51,7 +47,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   const contextMenu = useMemo(() => [
     {
       name: 'Edit',
-      onClick: (message) => editMsg(message)
+      onClick: (message) => editMessage(message)
     },
     {
       name: 'Delete',

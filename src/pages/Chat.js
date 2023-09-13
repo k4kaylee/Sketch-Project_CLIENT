@@ -4,7 +4,7 @@ import ChatList from '../components/Chat/ChatList/ChatList';
 import ChatTopInfo from '../components/Chat/ChatTopInfo/ChatTopInfo';
 import Messages from '../components/Chat/Messages/Messages';
 import ChatInput from '../components/Chat/ChatInput/ChatInput';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext.jsx';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import Waves from '../components/misc/Waves';
@@ -90,9 +90,17 @@ const Chat = () => {
     }))
   }
 
-  socket.onmessage = (event) => {
-    console.log("Message from server: ", event.data)
+  socket.onclose = () => {
+    socket.send(JSON.stringify({
+      userId: user.id,
+      status: 'Offline',
+      method: 'connection',
+    }))
   }
+
+  // socket.onmessage = (event) => {
+  //   console.log("Message from server: ", event.data)
+  // }
 
   if (isLoadingChats) {
     return <Loader />;
@@ -112,7 +120,7 @@ const Chat = () => {
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
           {currentChat !== null ? (
             <>
-              <ChatTopInfo chat={currentChat} />
+              <ChatTopInfo currentChat={currentChat} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
                   <Messages messages={messages}
