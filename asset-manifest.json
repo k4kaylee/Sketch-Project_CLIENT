@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Sketch-Project_CLIENT/static/css/main.08897a2b.css",
+    "main.css": "/Sketch-Project_CLIENT/static/css/main.5214d4b6.css",
     "main.js": "/Sketch-Project_CLIENT/static/js/main.44a5ca62.js",
     "static/js/787.5d43d3e1.chunk.js": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js",
     "static/media/logo.svg": "/Sketch-Project_CLIENT/static/media/logo.29fa80c1faff3f0e2214.svg",
@@ -11,12 +11,12 @@
     "static/media/search-icon.svg": "/Sketch-Project_CLIENT/static/media/search-icon.0d30e2446ce3edd5e004.svg",
     "static/media/arrow-back.svg": "/Sketch-Project_CLIENT/static/media/arrow-back.a3569de4f0a48e2b4898.svg",
     "index.html": "/Sketch-Project_CLIENT/index.html",
-    "main.08897a2b.css.map": "/Sketch-Project_CLIENT/static/css/main.08897a2b.css.map",
+    "main.5214d4b6.css.map": "/Sketch-Project_CLIENT/static/css/main.5214d4b6.css.map",
     "main.44a5ca62.js.map": "/Sketch-Project_CLIENT/static/js/main.44a5ca62.js.map",
     "787.5d43d3e1.chunk.js.map": "/Sketch-Project_CLIENT/static/js/787.5d43d3e1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.08897a2b.css",
+    "static/css/main.5214d4b6.css",
     "static/js/main.44a5ca62.js"
   ]
 }
