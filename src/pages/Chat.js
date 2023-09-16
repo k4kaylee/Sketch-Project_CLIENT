@@ -16,7 +16,6 @@ import '../App.css';
 
 
 const Chat = () => {
-  const socket = new WebSocket('ws://localhost:5000/')
 
 
   /* Context */
@@ -25,14 +24,14 @@ const Chat = () => {
   /* Refs */
   const messageInputRef = useRef();
 
-  /* States */
+  /* States */    
   const [chatIndex, setChatIndex] = useState();
   const [isAnyToggled, setIsAnyToggled] = useState(false);
   const [currentChat, setCurrentChat] = useState({});
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
-  const [isLoadingChats, setIsLoadingChats] = useState(true); // Состояние для отслеживания загрузки чатов
+  const [isLoadingChats, setIsLoadingChats] = useState(true);
 
   /* Custom functions */
   const { sendMessage } = useChatUpdater();
@@ -47,7 +46,7 @@ const Chat = () => {
     } catch (error) {
       console.log(error.message);
     } finally {
-      setIsLoadingChats(false); // Устанавливаем isLoadingChats в false после загрузки
+      setIsLoadingChats(false);
     }
   }
 
@@ -82,33 +81,13 @@ const Chat = () => {
   /* Constants */
   const scrollHeight = '88vh';
 
-  socket.onopen = () => {
-    socket.send(JSON.stringify({
-      userId: user.id,
-      status: 'Online',
-      method: 'connection',
-    }))
-  }
-
-  socket.onclose = () => {
-    socket.send(JSON.stringify({
-      userId: user.id,
-      status: 'Offline',
-      method: 'connection',
-    }))
-  }
-
-  // socket.onmessage = (event) => {
-  //   console.log("Message from server: ", event.data)
-  // }
-
   if (isLoadingChats) {
     return <Loader />;
   }
 
   return (
     <ModalProvider>
-      <div className='flex-container fadeIn'>
+      <div className='flex-container fadeIn' styles={{overflowY: 'hidden'}}>
         <ChatList chats={chats}
           setChats={setChats}
           setCurrentChat={setCurrentChat}

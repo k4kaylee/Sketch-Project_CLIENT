@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext.jsx';
 import Login from '../pages/Login.js';
 import Register from '../pages/Register.js';
-import Users from '../components/Users.js';
 import Chat from '../pages/Chat.js';
 
 
@@ -14,7 +13,6 @@ const AppRoutes = () => {
     return(
         isAuth ? (
             <Routes>
-              <Route path='/users' element={<Users/>}/>
               <Route path='/' element={<Chat/>}/>
               <Route path='*' element={<Navigate to='/'/>}/>
             </Routes>
