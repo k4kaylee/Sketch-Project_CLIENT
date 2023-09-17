@@ -45,6 +45,11 @@ body{
   cursor: pointer;
 }
 
+.container{
+  overflow-y: scroll;
+  height: 100vh;
+  width: 100vw;
+}
 
 /* Animations */
 
@@ -312,21 +317,6 @@ body{
 }
 
 @media only screen and (max-width: 995px) {
-  .waves{
-    margin-left: -200px;
-  }
-
-
-  /* Registration page */
-  .registration{
-    margin-top: 50px;
-    box-shadow:  0px 0px 35px #b93658,
-                 0px 0px 35px #fb4876,
-                 inset -35px -35px 70px #000f1b,
-                 inset 35px 35px 70px #001525;
-  }
-
-  
   /* Chat */
 
   .chat{
@@ -334,25 +324,6 @@ body{
   }
 
 }
-
-@media only screen and (max-width: 796px) {
-  /* Main page */
-  .log-input{
-    width: 300px;
-  }
-
-
-  /* Registration page */
-	.registration{
-    max-width: 300px;
-  }
-
-  .regText{
-    text-align: center;
-  }
-
-}
-
 
 @media only screen and (max-width: 716px) {
   /* Main page */
@@ -372,8 +343,7 @@ body{
 
   .App{
     position: relative;
-    height: 105vh;
-    overflow-y: scroll;
+    height: 130vh;
   }
 
   .waves {
@@ -381,19 +351,11 @@ body{
     bottom: 0;
   }
 
-  .App{
-    height: 130vh;
-  }
 }
 
 
 @media only screen and (max-width: 600px) {
   /* Main page */
-
-  .App{
-    overflow-y: scroll;
-  }
-
   .head-text{
     font-size: 30px;
   }

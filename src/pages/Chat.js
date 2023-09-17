@@ -87,7 +87,7 @@ const Chat = () => {
 
   return (
     <ModalProvider>
-      <div className='flex-container fadeIn' styles={{overflowY: 'hidden'}}>
+      <div className='flex-container fadeIn'>
         <ChatList chats={chats}
           setChats={setChats}
           setCurrentChat={setCurrentChat}

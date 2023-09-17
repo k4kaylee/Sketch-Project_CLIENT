@@ -1,15 +1,15 @@
 import React from 'react';
-import '../App.css';
 import Navbar from '../components/NavBar';
+import '../App.css'
 import RegistrationForm from '../components/Registration/RegistrationForm/RegistrationForm'
 
 const Register = () => {
 
   return (
-    <>
+    <div class='container'>
       <Navbar />
       <RegistrationForm />
-    </>
+    </div>
   )
 };
 

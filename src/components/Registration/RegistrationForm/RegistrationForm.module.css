@@ -100,7 +100,7 @@
 
 .registration {
     position: relative;
-    margin-top: 80px;
+    margin: 80px 0;
     max-width: 400px;
     max-height: 550px;
     display: flex;
@@ -199,3 +199,40 @@
 #login_input {
     margin-bottom: 10px;
 }
+
+@media only screen and (max-width: 995px) {
+
+    /* Registration page */
+    .registration {
+        margin-top: 50px;
+        box-shadow: 0px 0px 35px #b93658,
+            0px 0px 35px #fb4876,
+            inset -35px -35px 70px #000f1b,
+            inset 35px 35px 70px #001525;
+    }
+
+}
+
+@media only screen and (max-width: 796px) {
+    .registration {
+        max-width: 300px;
+    }
+
+    .regText {
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .registration{
+      margin-top: 50px;
+      padding: 50px 20px;
+      margin-bottom: 50px;
+      box-shadow:  0px 0px 35px #b93658,
+                   0px 0px 35px #fb4876,
+                   inset -35px -35px 70px #000f1b,
+                   inset 35px 35px 70px #001525;
+    }
+  
+  
+  }

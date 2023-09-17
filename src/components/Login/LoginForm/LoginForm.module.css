@@ -182,8 +182,6 @@
 }
 
 @media only screen and (max-width: 716px) {
-
-    /* Main page */
     .flex {
         flex-direction: column;
     }
@@ -200,16 +198,12 @@
 
     .App {
         position: relative;
-        height: 105vh;
+        height: 130vh;
     }
 
     .waves {
         position: absolute;
         bottom: 0;
-    }
-
-    .App {
-        height: 130vh;
     }
 
     body {
