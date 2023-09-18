@@ -45,3 +45,26 @@
     font-size: 17px;
     font-weight: 600;
 }
+
+.arrow_back_icon {
+    background: url('../../../../img/arrow-back.svg');
+    height: 25px;
+    width: 25px;
+    margin-right: 5px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    opacity: 0.4;
+    align-self: center;
+    display: none;
+}
+
+.arrow_back_icon:hover {
+    opacity: 1;
+}
+
+@media screen and (max-width: 900px) {
+    .arrow_back_icon {
+        display: block;
+    }
+}

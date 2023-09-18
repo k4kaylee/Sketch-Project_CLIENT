@@ -3,7 +3,7 @@ import styles from './ChatTopInfo.module.css'
 import { AuthContext } from '../../../context/AuthContext'
 import useUser from './../../hooks/useUser'
 
-const ChatTopInfo = ({currentChat}) => {
+const ChatTopInfo = ({currentChat, setCurrentChat, setIsAnyToggled}) => {
 
   const [intelocutorStatus, setIntelocutorStatus] = useState('Loading');
 
@@ -28,6 +28,9 @@ const ChatTopInfo = ({currentChat}) => {
   return (
     <>
         <div className={`${styles.top_info}`}>
+        <i className={`${styles.arrow_back_icon}`} 
+           onClick={() => {setCurrentChat({});
+                           setIsAnyToggled(false);}} />
             <div className={`${styles.avatar} ${styles.diminished}`}/>
             <div className={`${styles.preview}`}>
               <article className={`${styles.username} ${styles.unselectable}`}>{currentChat.name}</article>

@@ -1,18 +1,19 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
-import axios from '../api/axios';
-import ChatList from '../components/Chat/ChatList/ChatList';
-import ChatTopInfo from '../components/Chat/ChatTopInfo/ChatTopInfo';
-import Messages from '../components/Chat/Messages/Messages';
-import ChatInput from '../components/Chat/ChatInput/ChatInput';
-import { AuthContext } from '../context/AuthContext.jsx';
+import axios from '../../api/axios';
+import ChatList from '../../components/Chat/ChatList/ChatList';
+import ChatTopInfo from '../../components/Chat/ChatTopInfo/ChatTopInfo';
+import Messages from '../../components/Chat/Messages/Messages';
+import ChatInput from '../../components/Chat/ChatInput/ChatInput';
+import { AuthContext } from '../../context/AuthContext.jsx';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
-import Waves from '../components/misc/Waves';
-import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider';
-import { ModalProvider } from '../context/Modal/Modal.provider';
-import useChatUpdater from '../components/hooks/useChatUpdater';
-import Loader from '../components/misc/Loader/Loader';
-import '../App.css';
+import Waves from '../../components/misc/Waves';
+import { ContextMenuProvider } from '../../context/ContextMenu/ContextMenu.provider';
+import { ModalProvider } from '../../context/Modal/Modal.provider';
+import useChatUpdater from '../../components/hooks/useChatUpdater';
+import Loader from '../../components/misc/Loader/Loader';
+import './Chat.css';
+
 
 
 const Chat = () => {
@@ -99,7 +100,9 @@ const Chat = () => {
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
           {currentChat !== null ? (
             <>
-              <ChatTopInfo currentChat={currentChat} />
+              <ChatTopInfo currentChat={currentChat} 
+                           setCurrentChat={setCurrentChat} 
+                           setIsAnyToggled={setIsAnyToggled}/>
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
                   <Messages messages={messages}

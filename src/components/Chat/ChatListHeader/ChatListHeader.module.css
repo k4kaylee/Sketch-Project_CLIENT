@@ -17,11 +17,19 @@
 }
 
 .options{
-    height: 40px;
-    width: 35px;
+    height: 23px;
+    width: 23px;
     padding: 5px;
     box-sizing: border-box;
     cursor: pointer;
+    background: url('../../../../img/exit.svg') no-repeat; /* has exit icon for now, as it is its only function atm */
+    background-size: contain;
+    opacity: 0.4;
+    transition: opacity 0.3s;
+}
+
+.options:hover {
+    opacity: 1;
 }
 
 .arrow_back_icon {
@@ -33,7 +41,7 @@
     background-repeat: no-repeat;
     cursor: pointer;
     opacity: 0.4;
-
+    transition: opacity 0.3s;
 }
 
 .arrow_back_icon:hover {
@@ -42,7 +50,6 @@
 
 .search.__focus {
     width: 100%;
-
     border: #9e9e9e 2px solid;
     animation: expands 0.2s;
 }
@@ -55,7 +62,7 @@
     background-repeat: no-repeat;
     cursor: pointer;
     opacity: 0.4;
-
+    transition: opacity 0.3s;
 }
 
 .search_icon:hover {
