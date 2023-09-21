@@ -10,7 +10,7 @@ import LoginForm from '../components/Login/LoginForm/LoginForm'
 
 const Login = () => {
   return (
-    <div className="App">
+    <div className="login-container">
       <Navbar />
       <div className='content'>
         <div className='flex'>

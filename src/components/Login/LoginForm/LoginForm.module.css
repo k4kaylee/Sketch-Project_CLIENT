@@ -205,10 +205,6 @@
         position: absolute;
         bottom: 0;
     }
-
-    body {
-        overflow-y: scroll;
-    }
 }
 
 @media only screen and (max-width: 600px) {

@@ -6,7 +6,7 @@ import RegistrationForm from '../components/Registration/RegistrationForm/Regist
 const Register = () => {
 
   return (
-    <div class='container'>
+    <div class='register-container'>
       <Navbar />
       <RegistrationForm />
     </div>

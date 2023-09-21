@@ -45,8 +45,21 @@ body{
   cursor: pointer;
 }
 
-.container{
+.register-container{
   overflow-y: scroll;
+  height: 100vh;
+  width: 100vw;
+}
+
+.chat-container{
+  display: flex;
+  overflow-y: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-container{
+  overflow-y: hidden;
   height: 100vh;
   width: 100vw;
 }
@@ -341,16 +354,15 @@ body{
     justify-content: center;
   }
 
-  .App{
-    position: relative;
-    height: 130vh;
-  }
-
   .waves {
     position: absolute;
     bottom: 0;
   }
 
+  .login-container{
+    overflow-y: scroll;
+    height: 130vh;
+}
 }
 
 

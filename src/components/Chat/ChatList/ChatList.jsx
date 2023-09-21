@@ -58,7 +58,14 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
     try {
       const chat = await axios.put(`/chats/user/${user.id}`, {
         name: intelocutor.name,
-        participantsId: [user.id, intelocutor.id],
+        participants: [{
+          id: user.id, 
+          name: user.name
+        },
+        {
+          id: intelocutor.id,
+          name: intelocutor.name
+        }],
         avatar: intelocutor.avatar
       });
       return chat;
@@ -69,9 +76,9 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
 
   const openChat = async (user) => {
     const chatWithUser = chats.find(chat => {
-      return chat.name === user.name && chat.participantsID.includes(user.id);
+      return chat.participants.some(participant => participant.id === user.id);
     });
-  
+
     if (chatWithUser) {
       const index = listContent.findIndex(chat => chat.id === chatWithUser.id);
       setIsToggled(() => {
@@ -84,7 +91,6 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
       setIsAnyToggled(true);
     } else {
       try {
-        // Создайте чат и дождитесь ответа
         const response = await createChat(user);
         const newChat = response.data;
         setChats(prevChats => [...prevChats, newChat]);
@@ -96,7 +102,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
       }
     }
   }
-  
+
 
   return (
     <ResizeHandle isAnyToggled={isAnyToggled}>

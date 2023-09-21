@@ -7,16 +7,13 @@ const ChatTopInfo = ({currentChat, setCurrentChat, setIsAnyToggled}) => {
 
   const [intelocutorStatus, setIntelocutorStatus] = useState('Loading');
 
-  const {user} = useContext(AuthContext);
-  const {loadUserStatusById} = useUser();
+  const { user } = useContext(AuthContext);
+  const { loadUserStatusById } = useUser();
 
   const getIntelocutor = () => {
-    if(currentChat.participantsID){
-      const intelocutorId = currentChat.participantsID.find((id) => {
-      if(user.id !== id)
-        return id;
-      })
-    loadUserStatusById(intelocutorId, setIntelocutorStatus);
+    if(currentChat.participants){
+      const intelocutor = currentChat.participants.find(participant => participant.id !== user.id);
+    loadUserStatusById(intelocutor.id, setIntelocutorStatus);
   }
   }
 

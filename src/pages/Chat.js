@@ -1,22 +1,23 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
-import axios from '../../api/axios';
-import ChatList from '../../components/Chat/ChatList/ChatList';
-import ChatTopInfo from '../../components/Chat/ChatTopInfo/ChatTopInfo';
-import Messages from '../../components/Chat/Messages/Messages';
-import ChatInput from '../../components/Chat/ChatInput/ChatInput';
-import { AuthContext } from '../../context/AuthContext.jsx';
+import axios from '../api/axios';
+import ChatList from '../components/Chat/ChatList/ChatList';
+import ChatTopInfo from '../components/Chat/ChatTopInfo/ChatTopInfo';
+import Messages from '../components/Chat/Messages/Messages';
+import ChatInput from '../components/Chat/ChatInput/ChatInput';
+import { AuthContext } from '../context/AuthContext.jsx';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
-import Waves from '../../components/misc/Waves';
-import { ContextMenuProvider } from '../../context/ContextMenu/ContextMenu.provider';
-import { ModalProvider } from '../../context/Modal/Modal.provider';
-import useChatUpdater from '../../components/hooks/useChatUpdater';
-import Loader from '../../components/misc/Loader/Loader';
-import './Chat.css';
+import Waves from '../components/misc/Waves';
+import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider';
+import { ModalProvider } from '../context/Modal/Modal.provider';
+import useChatUpdater from '../components/hooks/useChatUpdater';
+import Loader from '../components/misc/Loader/Loader';
 
 
 
 const Chat = () => {
+  const socket = new WebSocket('ws://localhost:5000/')
+
 
 
   /* Context */
@@ -25,7 +26,7 @@ const Chat = () => {
   /* Refs */
   const messageInputRef = useRef();
 
-  /* States */    
+  /* States */
   const [chatIndex, setChatIndex] = useState();
   const [isAnyToggled, setIsAnyToggled] = useState(false);
   const [currentChat, setCurrentChat] = useState({});
@@ -65,22 +66,44 @@ const Chat = () => {
   useEffect(() => {
     if (pendingMessage !== '') {
       sendMessage(pendingMessage, user.id, currentChat.id)
-        .then(() => updateChat(setChats, currentChat.id)
-          .then(() => {
-            const updatedChat = chats.find(chat => chat.id === currentChat.id);
-            console.log(updatedChat.messages);
-          })
-        )
-        .then(() => setPendingMessage(''))
-        .catch(error => {
-          console.log("Error:", error);
-          setPendingMessage('');
-        });
+      updateChat(setChats, currentChat.id)
+      // const updatedChat = chats.find(chat => chat.id === currentChat.id);
+      setPendingMessage('')
     }
   }, [pendingMessage, sendMessage, updateChat, user.id]);
 
   /* Constants */
   const scrollHeight = '88vh';
+
+  socket.onopen = () => {
+    socket.send(JSON.stringify({
+      userId: user.id,
+      status: 'Online',
+      method: 'connection',
+    }))
+  }
+
+  socket.onclose = () => {
+    socket.send(JSON.stringify({
+      userId: user.id,
+      status: 'Online',
+      method: 'disconnection',
+    }))
+  }
+
+  socket.onmessage = (event) => {
+    const method = JSON.parse(event.data).method;
+    switch (method){
+      case 'changeConnectionStatus':
+        const status = JSON.parse(event.data).status;
+        const message = JSON.parse(event.data).message;
+        console.log("Message from server: ", message);
+      break;
+      default:
+        console.log("Message from server: ", event.data);
+      break;
+    }
+  }
 
   if (isLoadingChats) {
     return <Loader />;
@@ -88,7 +111,7 @@ const Chat = () => {
 
   return (
     <ModalProvider>
-      <div className='flex-container fadeIn'>
+      <div className='chat-container fadeIn'>
         <ChatList chats={chats}
           setChats={setChats}
           setCurrentChat={setCurrentChat}
@@ -100,9 +123,9 @@ const Chat = () => {
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
           {currentChat !== null ? (
             <>
-              <ChatTopInfo currentChat={currentChat} 
-                           setCurrentChat={setCurrentChat} 
-                           setIsAnyToggled={setIsAnyToggled}/>
+              <ChatTopInfo currentChat={currentChat}
+                setCurrentChat={setCurrentChat}
+                setIsAnyToggled={setIsAnyToggled} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
                   <Messages messages={messages}
