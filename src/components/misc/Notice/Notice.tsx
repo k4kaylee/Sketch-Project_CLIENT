@@ -15,6 +15,7 @@ const Notice: FC<NoticeProps> = ({ content }) => {
 
             const timesout = setTimeout(() => {
                 setIsVisible(false);
+                content = '';
             }, 2000);
 
             return () => {

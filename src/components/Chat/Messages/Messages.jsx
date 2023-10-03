@@ -79,7 +79,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   return (
     messages.length !== 0 ? (
       <>
-        <div className={`${styles.chat_messages}`}>
+        <div className={styles.chat_messages}>
           <Notice content={notification} />
           <ul>
             {

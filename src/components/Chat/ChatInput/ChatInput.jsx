@@ -32,7 +32,7 @@ const ChatInput = ({ messageInputRef, setMessages, messages, setPendingMessage }
   }
 
   return (
-    <div className={`${styles.chat_input}`}>
+    <div className={styles.chat_input}>
       <input ref={messageInputRef}
         placeholder='Message...'
         onChange={(e) => setMessage(e.target.value)}

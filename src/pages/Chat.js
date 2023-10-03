@@ -12,13 +12,12 @@ import { ContextMenuProvider } from '../context/ContextMenu/ContextMenu.provider
 import { ModalProvider } from '../context/Modal/Modal.provider';
 import useChatUpdater from '../components/hooks/useChatUpdater';
 import Loader from '../components/misc/Loader/Loader';
+import Notice from '../components/misc/Notice/Notice';
+import { io } from 'socket.io-client'
 
 
 
 const Chat = () => {
-  const socket = new WebSocket('ws://localhost:5000/')
-
-
 
   /* Context */
   const { user } = useContext(AuthContext);
@@ -34,6 +33,8 @@ const Chat = () => {
   const [chats, setChats] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [socket, setSocket] = useState(null);
 
   /* Custom functions */
   const { sendMessage } = useChatUpdater();
@@ -46,13 +47,33 @@ const Chat = () => {
         setChats(response.data);
       }
     } catch (error) {
-      console.log(error.message);
+      setErrorMsg(error.message);
     } finally {
       setIsLoadingChats(false);
     }
   }
 
   /* useEffects */
+
+  useEffect(() => {
+    const newSocket = io("http://localhost:5001");
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    }
+  }, [])
+
+  useEffect(() => {
+    if (socket === null)
+      return;
+    socket.emit("addNewUser", user.id);
+
+    return () => {
+      socket.off("disconnect");
+    };
+  }, [socket])
+
   useEffect(() => {
     if (typeof chatIndex !== 'undefined') {
       setMessages(chats[chatIndex].messages);
@@ -66,44 +87,23 @@ const Chat = () => {
   useEffect(() => {
     if (pendingMessage !== '') {
       sendMessage(pendingMessage, user.id, currentChat.id)
-      updateChat(setChats, currentChat.id)
-      // const updatedChat = chats.find(chat => chat.id === currentChat.id);
-      setPendingMessage('')
+        .then(() => updateChat(setChats, currentChat.id)
+          .then(() => {
+            const updatedChat = chats.find(chat => chat.id === currentChat.id);
+            console.log(updatedChat.messages);
+          })
+        )
+        .then(() => setPendingMessage(''))
+        .catch(error => {
+          console.log("Error:", error);
+          setPendingMessage('');
+        });
     }
   }, [pendingMessage, sendMessage, updateChat, user.id]);
 
   /* Constants */
   const scrollHeight = '88vh';
 
-  socket.onopen = () => {
-    socket.send(JSON.stringify({
-      userId: user.id,
-      status: 'Online',
-      method: 'connection',
-    }))
-  }
-
-  socket.onclose = () => {
-    socket.send(JSON.stringify({
-      userId: user.id,
-      status: 'Online',
-      method: 'disconnection',
-    }))
-  }
-
-  socket.onmessage = (event) => {
-    const method = JSON.parse(event.data).method;
-    switch (method){
-      case 'changeConnectionStatus':
-        const status = JSON.parse(event.data).status;
-        const message = JSON.parse(event.data).message;
-        console.log("Message from server: ", message);
-      break;
-      default:
-        console.log("Message from server: ", event.data);
-      break;
-    }
-  }
 
   if (isLoadingChats) {
     return <Loader />;
@@ -111,6 +111,7 @@ const Chat = () => {
 
   return (
     <ModalProvider>
+      <Notice content={errorMsg}/>
       <div className='chat-container fadeIn'>
         <ChatList chats={chats}
           setChats={setChats}

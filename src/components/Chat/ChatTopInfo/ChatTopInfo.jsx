@@ -24,14 +24,14 @@ const ChatTopInfo = ({currentChat, setCurrentChat, setIsAnyToggled}) => {
 
   return (
     <>
-        <div className={`${styles.top_info}`}>
-        <i className={`${styles.arrow_back_icon}`} 
+        <div className={styles.top_info}>
+        <i className={styles.arrow_back_icon} 
            onClick={() => {setCurrentChat({});
                            setIsAnyToggled(false);}} />
             <div className={`${styles.avatar} ${styles.diminished}`}/>
-            <div className={`${styles.preview}`}>
+            <div className={styles.preview}>
               <article className={`${styles.username} ${styles.unselectable}`}>{currentChat.name}</article>
-              <article className={`${styles.unselectable}`}>{intelocutorStatus}</article>
+              <article className={styles.unselectable}>{intelocutorStatus}</article>
             </div>
         </div>
     </>
