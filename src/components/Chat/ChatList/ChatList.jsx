@@ -68,6 +68,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
         }],
         avatar: intelocutor.avatar
       });
+      console.log(chat)
       return chat;
     } catch (error) {
       console.log(error.message);
@@ -75,6 +76,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
   }
 
   const openChat = async (user) => {
+    console.log(chats);
     const chatWithUser = chats.find(chat => {
       return chat.participants.some(participant => participant.id === user.id);
     });
