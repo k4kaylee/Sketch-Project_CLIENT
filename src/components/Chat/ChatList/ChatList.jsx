@@ -56,46 +56,59 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
   const { user } = useContext(AuthContext);
   const createChat = async (intelocutor) => {
     try {
-      const chat = await axios.put(`/chats/user/${user.id}`, {
-        name: intelocutor.name,
+      const response = await axios.put(`/chats/user/${user.id}`, {
         participants: [{
-          id: user.id, 
+          id: user.id,
           name: user.name
         },
         {
           id: intelocutor.id,
           name: intelocutor.name
         }],
-        avatar: intelocutor.avatar
-      });
-      console.log(chat)
-      return chat;
+        avatar: intelocutor.avatar,
+        nameVocabulary: [{
+          id: user.id,
+          name: intelocutor.name
+        },
+        {
+          id: intelocutor.id,
+          name: user.name
+        }]
+
+      })
+
+      return response;
     } catch (error) {
       console.log(error.message);
     }
   }
+  
 
   const openChat = async (user) => {
-    console.log(chats);
     const chatWithUser = chats.find(chat => {
       return chat.participants.some(participant => participant.id === user.id);
     });
 
+    let index;
     if (chatWithUser) {
-      const index = listContent.findIndex(chat => chat.id === chatWithUser.id);
-      setIsToggled(() => {
-        const newState = Array(chats.length).fill(false);
-        newState[index] = !newState[index];
-        return newState;
-      });
+
+      index = listContent.findIndex(chat => chat.id === chatWithUser.id);
+
       setCurrentChat(chatWithUser);
       messageInputRef.current.focus();
       setIsAnyToggled(true);
     } else {
       try {
         const response = await createChat(user);
-        const newChat = response.data;
+        const chatName = response.data.nameVocabulary.find((entry) => entry.id !== user.id).name;
+        const newChat = {
+          ...response.data,
+          name: chatName
+        };
+
+        console.log(newChat.id)
         setChats(prevChats => [...prevChats, newChat]);
+        index = chats.length;
         setCurrentChat(newChat);
         messageInputRef.current.focus();
         setIsAnyToggled(true);
@@ -103,6 +116,12 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
         console.log("Error:", error.message);
       }
     }
+
+    setIsToggled(() => {
+      const newState = Array(chats.length).fill(false);
+      newState[index] = !newState[index];
+      return newState;
+    });
   }
 
 
@@ -115,7 +134,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
             {chats && chats.length > 0 ? (
               Array.from({ length: listContent.length }).map((_, index) => {
                 const chat = listContent[index];
-                const lastMessage = chat.messages[chat.messages.length - 1];
+                const lastMessage = chat?.messages && chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
 
                 let truncatedMessage;
                 if (lastMessage && lastMessage.content) {

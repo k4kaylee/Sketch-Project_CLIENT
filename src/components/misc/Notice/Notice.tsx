@@ -24,10 +24,6 @@ const Notice: FC<NoticeProps> = ({ content }) => {
         }
     }, [content]);
 
-    useEffect(() => {
-        console.log(isVisible, content)
-    }, [isVisible])
-
     return (
         isVisible ? (
             <div className={`${styles.container} ${isVisible ? styles.visible : styles.hidden}`}>

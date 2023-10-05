@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from '../api/axios.js';
 import Cookies from 'js-cookie';
-import socket from "./../api/socket.js"
+// import socket from "./../api/socket.js"
 
 
 const AuthContext = createContext(null);
@@ -41,11 +41,6 @@ const AuthProvider = ({ children }) => {
         setIsAuth(true);
         Cookies.set("isAuth", true, { expires: 7 });
         Cookies.set("user", JSON.stringify(userData), { expires: 3 });
-        socket.send(JSON.stringify({
-          userId: user.id,
-          status: 'Online',
-          method: 'connection',
-        }))
       }
     } catch (error) {
       alert("error");
@@ -60,11 +55,6 @@ const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     setIsAuth(false);
     Cookies.remove("isAuth");
-    socket.send(JSON.stringify({
-      userId: user.id,
-      status: 'Offline',
-      method: 'connection',
-    }))
   }
 
 

@@ -1,5 +1,4 @@
 import axios from "../../api/axios";
-import socket from "../../api/socket";
 import { useCallback } from "react";
 
 const useChatUpdater = () => {

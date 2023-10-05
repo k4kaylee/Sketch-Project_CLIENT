@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import styles from './ChatTopInfo.module.css'
 import { AuthContext } from '../../../context/AuthContext'
 import useUser from './../../hooks/useUser'
+import Chat from '../../../pages/Chat'
 
 const ChatTopInfo = ({currentChat, setCurrentChat, setIsAnyToggled}) => {
 
@@ -10,18 +11,8 @@ const ChatTopInfo = ({currentChat, setCurrentChat, setIsAnyToggled}) => {
   const { user } = useContext(AuthContext);
   const { loadUserStatusById } = useUser();
 
-  const getIntelocutor = () => {
-    if(currentChat.participants){
-      const intelocutor = currentChat.participants.find(participant => participant.id !== user.id);
-    loadUserStatusById(intelocutor.id, setIntelocutorStatus);
-  }
-  }
 
-  useEffect(() => {
-    getIntelocutor();
-  }, [currentChat])
-
-
+  
   return (
     <>
         <div className={`${styles.top_info}`}>

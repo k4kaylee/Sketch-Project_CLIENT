@@ -86,7 +86,7 @@
 
 
     return (
-      messages.length !== 0 ? (
+      messages && messages.length !== 0 ? (
         <>
           <div className={`${styles.chat_messages}`}>
             <Notice content={notification} />

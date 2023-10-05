@@ -44,7 +44,14 @@ const Chat = () => {
     try {
       const response = await axios.get(`/chats/user/${userId}`);
       if (response.status === 200) {
-        setChats(response.data);
+        const chats = response.data.map((chat) => {
+          const name = chat.nameVocabulary.find((entry) => entry.id === user.id).name
+          return{
+            ...chat,
+            name: name ? name : 'Unknown',
+          }
+        })
+        setChats(chats);
       }
     } catch (error) {
       setErrorMsg(error.message);
