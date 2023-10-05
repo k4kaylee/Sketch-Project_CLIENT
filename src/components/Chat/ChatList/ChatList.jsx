@@ -56,44 +56,59 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
   const { user } = useContext(AuthContext);
   const createChat = async (intelocutor) => {
     try {
-      const chat = await axios.put(`/chats/user/${user.id}`, {
-        name: intelocutor.name,
+      const response = await axios.put(`/chats/user/${user.id}`, {
         participants: [{
-          id: user.id, 
+          id: user.id,
           name: user.name
         },
         {
           id: intelocutor.id,
           name: intelocutor.name
         }],
-        avatar: intelocutor.avatar
-      });
-      return chat;
+        avatar: intelocutor.avatar,
+        nameVocabulary: [{
+          id: user.id,
+          name: intelocutor.name
+        },
+        {
+          id: intelocutor.id,
+          name: user.name
+        }]
+
+      })
+
+      return response;
     } catch (error) {
       console.log(error.message);
     }
   }
+  
 
   const openChat = async (user) => {
     const chatWithUser = chats.find(chat => {
       return chat.participants.some(participant => participant.id === user.id);
     });
 
+    let index;
     if (chatWithUser) {
-      const index = listContent.findIndex(chat => chat.id === chatWithUser.id);
-      setIsToggled(() => {
-        const newState = Array(chats.length).fill(false);
-        newState[index] = !newState[index];
-        return newState;
-      });
+
+      index = listContent.findIndex(chat => chat.id === chatWithUser.id);
+
       setCurrentChat(chatWithUser);
       messageInputRef.current.focus();
       setIsAnyToggled(true);
     } else {
       try {
         const response = await createChat(user);
-        const newChat = response.data;
+        const chatName = response.data.nameVocabulary.find((entry) => entry.id !== user.id).name;
+        const newChat = {
+          ...response.data,
+          name: chatName
+        };
+
+
         setChats(prevChats => [...prevChats, newChat]);
+        index = chats.length``;
         setCurrentChat(newChat);
         messageInputRef.current.focus();
         setIsAnyToggled(true);
@@ -101,6 +116,12 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
         console.log("Error:", error.message);
       }
     }
+
+    setIsToggled(() => {
+      const newState = Array(chats.length).fill(false);
+      newState[index] = !newState[index];
+      return newState;
+    });
   }
 
 
@@ -108,12 +129,12 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
     <ResizeHandle isAnyToggled={isAnyToggled}>
       <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconcealable}`}>
         <ChatListHeader search={search} setSearch={setSearch} openChat={openChat} />
-        <SimpleBar className={styles.scroll}>
+        <SimpleBar className={`${styles.scroll}`}>
           <ul>
             {chats && chats.length > 0 ? (
               Array.from({ length: listContent.length }).map((_, index) => {
                 const chat = listContent[index];
-                const lastMessage = chat.messages[chat.messages.length - 1];
+                const lastMessage = chat?.messages && chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
 
                 let truncatedMessage;
                 if (lastMessage && lastMessage.content) {
@@ -131,8 +152,8 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
                     ref={chatRefs.current[index]}
                     onClick={() => toggleFocus(index)}
                   >
-                    <div className={styles.avatar} />
-                    <div className={styles.preview}>
+                    <div className={`${styles.avatar}`} />
+                    <div className={`${styles.preview}`}>
                       <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
                       <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
                     </div>
