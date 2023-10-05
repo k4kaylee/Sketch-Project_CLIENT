@@ -106,9 +106,9 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
           name: chatName
         };
 
-        console.log(newChat.id)
+
         setChats(prevChats => [...prevChats, newChat]);
-        index = chats.length;
+        index = chats.length``;
         setCurrentChat(newChat);
         messageInputRef.current.focus();
         setIsAnyToggled(true);
