@@ -34,7 +34,9 @@ const Chat = () => {
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
+
   const [socket, setSocket] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   /* Custom functions */
   const { sendMessage } = useChatUpdater();
@@ -75,6 +77,9 @@ const Chat = () => {
     if (socket === null)
       return;
     socket.emit("addNewUser", user.id);
+    socket.on("getOnlineUsers", (res) => {
+      setOnlineUsers(res);
+    })
 
     return () => {
       socket.off("disconnect");
@@ -133,7 +138,8 @@ const Chat = () => {
             <>
               <ChatTopInfo currentChat={currentChat}
                 setCurrentChat={setCurrentChat}
-                setIsAnyToggled={setIsAnyToggled} />
+                setIsAnyToggled={setIsAnyToggled}
+                onlineUsers={onlineUsers} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
                   <Messages messages={messages}

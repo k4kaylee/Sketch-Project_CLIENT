@@ -23,22 +23,9 @@ const useUser = () => {
             console.log(error.message);
         }
     } */
-
-    const loadUserStatusById = async(id, setUserStatus) => {
-        try {
-            const response = await axios.get(`/users/${id}`);
-            if (response.status === 200) {
-                setUserStatus(response.data.status);
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
     return {
         loadUsers,
         /* loadUserById,  */
-        loadUserStatusById
     }
 }
 
