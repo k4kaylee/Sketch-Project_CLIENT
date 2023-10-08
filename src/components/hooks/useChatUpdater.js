@@ -1,9 +1,7 @@
 import axios from "../../api/axios";
-
 import { useCallback } from "react";
 
 const useChatUpdater = () => {
-
 
   const sendMessage = useCallback(async (newMessage, userId, currentChatId) => {
     try {
@@ -18,24 +16,7 @@ const useChatUpdater = () => {
 
   }, []);
 
-//  A version for web sockets, in development
-// //
-// const sendMessage = useCallback((newMessage, userId, currentChatId) => {
-//   alert("Under re-development, adding web-sockets");
-//     if (socket.readyState === WebSocket.OPEN) {
-//       const message = {
-//         author: userId,
-//         content: newMessage,
-//         time: new Date().toLocaleString(),
-//         chatId: currentChatId,
-//       };
-//       socket.send(JSON.stringify({
-//         message: message,
-//         method: "sendMessage"
-//       }
-//       ));
-//     }
-//   }, []);
+
 
   const updateChat = async( setChats, currentChatId ) => {
     const response = await axios.get(`/chats/${currentChatId}`);

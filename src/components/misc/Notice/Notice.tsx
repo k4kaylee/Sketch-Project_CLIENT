@@ -1,9 +1,8 @@
-import React, {FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styles from './Notice.module.css';
 
-
 interface NoticeProps {
-    content: string; 
+    content: string;
 }
 
 const Notice: FC<NoticeProps> = ({ content }) => {
@@ -13,28 +12,29 @@ const Notice: FC<NoticeProps> = ({ content }) => {
         if (content) {
             setIsVisible(true);
 
-            const timesout = setTimeout(() => {
+            const timeout = setTimeout(() => {
                 setIsVisible(false);
                 content = '';
             }, 2000);
 
             return () => {
-                clearTimeout(timesout);
+                clearTimeout(timeout);
+                setIsVisible(false);
+ 
             };
         }
     }, [content]);
 
     return (
-        content ? (
+        isVisible ? (
             <div className={`${styles.container} ${isVisible ? styles.visible : styles.hidden}`}>
                 <div className={`${styles.notification} ${styles.unselectable}`}>
-                    {/*<icon></icon>*/}
                     <p>{content}</p>
                 </div>
             </div>
-        ) 
-            : 
-        <></>
+        ) : (
+            <></>
+        )
     );
 };
 
