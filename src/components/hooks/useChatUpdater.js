@@ -3,7 +3,6 @@ import { useCallback } from "react";
 
 const useChatUpdater = () => {
 
-
   const sendMessage = useCallback(async (newMessage, userId, currentChatId) => {
     try {
       await axios.put(`/chats/${currentChatId}/messages`, {
@@ -16,6 +15,8 @@ const useChatUpdater = () => {
     }
 
   }, []);
+
+
 
   const updateChat = async( setChats, currentChatId ) => {
     const response = await axios.get(`/chats/${currentChatId}`);

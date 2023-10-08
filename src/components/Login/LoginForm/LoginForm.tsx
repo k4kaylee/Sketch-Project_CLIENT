@@ -21,31 +21,31 @@ const LoginForm = () => {
     }
 
     return (
-        <section className={`${styles.login}`} onKeyDown={handleKeyDown}>
-            <p className={`${styles.unselectable}`}>Are we familliar?</p>
-            <div className={`${styles.input_group}`}>
+        <section className={styles.login} onKeyDown={handleKeyDown}>
+            <p className={styles.unselectable}>Are we familliar?</p>
+            <div className={styles.input_group}>
                 <input
                     type="text"
                     name="login"
                     onChange={(e) => setName(e.target.value)}
                     autoComplete="off"
-                    className={`${styles.log_input}`} />
-                <label className={`${styles.user_label}`}>Login</label>
+                    className={styles.log_input} />
+                <label className={styles.user_label}>Login</label>
             </div>
-            <form className={`${styles.input_group}`}>
+            <form className={styles.input_group}>
                 <input
                     type="password"
                     name="password"
                     autoComplete="off"
                     onChange={(e) => setPwd(e.target.value)}
-                    className={`${styles.log_input}`} />
-                <label className={`${styles.user_label}`}>Password</label>
+                    className={styles.log_input} />
+                <label className={styles.user_label}>Password</label>
             </form>
 
 
             <div>
                 <button id={`${styles.login_button}`} className={`${styles.c_button} ${styles.c_button__gooey}`} onClick={() => handleLogin(name, pwd)}> Log in
-                    <div className={`${styles.c_button__blobs}`}>
+                    <div className={styles.c_button__blobs}>
                         <div></div>
                         <div></div>
                         <div></div>
@@ -61,7 +61,7 @@ const LoginForm = () => {
                     </svg>
                 </button>
 
-                <p className={`${styles.registration_link}`}>First time? <Link to='/registration'>Sign up!</Link></p>
+                <p className={styles.registration_link}>First time? <Link to='/registration'>Sign up!</Link></p>
             </div>
         </section>
     )
