@@ -8,7 +8,7 @@ const useChatUpdater = () => {
       await axios.put(`/chats/${currentChatId}/messages`, {
         author: userId,
         content: newMessage,
-        time: new Date().toLocaleString()
+        time: new Date().toISOString()
       });
     } catch (error) {
       console.log(error.message);

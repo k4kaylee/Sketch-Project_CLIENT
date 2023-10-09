@@ -3,7 +3,6 @@ import axios from '../api/axios.js';
 import Cookies from 'js-cookie';
 
 
-
 const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
