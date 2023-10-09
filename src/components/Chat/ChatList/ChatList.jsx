@@ -129,7 +129,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
     <ResizeHandle isAnyToggled={isAnyToggled}>
       <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconcealable}`}>
         <ChatListHeader search={search} setSearch={setSearch} openChat={openChat} />
-        <SimpleBar className={`${styles.scroll}`}>
+        <SimpleBar className={styles.scroll}>
           <ul>
             {chats && chats.length > 0 ? (
               Array.from({ length: listContent.length }).map((_, index) => {
@@ -152,8 +152,8 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
                     ref={chatRefs.current[index]}
                     onClick={() => toggleFocus(index)}
                   >
-                    <div className={`${styles.avatar}`} />
-                    <div className={`${styles.preview}`}>
+                    <div className={styles.avatar} />
+                    <div className={styles.preview}>
                       <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
                       <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
                     </div>
