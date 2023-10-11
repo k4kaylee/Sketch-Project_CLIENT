@@ -184,11 +184,31 @@
     width: 55px;
     height: 55px;
     align-self: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .avatar.diminished {
     width: 45px;
     height: 45px;
+}
+
+.online {
+    width: 10px;
+    height: 10px;
+    background-color: aquamarine;
+    border-radius: 10px;
+    animation: fadeIn 0.1s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1
+    }
 }
 
 .username {

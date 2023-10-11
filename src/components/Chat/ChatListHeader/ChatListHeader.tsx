@@ -7,11 +7,12 @@ import { AuthContext } from '../../../context/AuthContext.jsx';
 
 interface User {
   avatar: File,
-  name: string
+  name: string,
+  id: number
 }
 
 
-const ChatListHeader = ({ search, setSearch, openChat }) => {
+const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
 
   const MAX_USERNAME_LENGTH = 8;
   const [focus, setFocus] = useState(false);
@@ -68,9 +69,14 @@ const ChatListHeader = ({ search, setSearch, openChat }) => {
             let truncatedName = user.name;
             if (truncatedName.length > MAX_USERNAME_LENGTH)
               truncatedName = truncatedName.slice(0, MAX_USERNAME_LENGTH) + "...";
+
+            const isUserOnline = !!onlineUsers.find((onlineUser) => onlineUser.id === user.id)
+            
             return (
               <div className={styles.user} key={i} onClick={() => openChat(user)}>
-                <div className={`${styles.avatar} ${styles.diminished}`} />
+                <div className={`${styles.avatar} ${styles.diminished}`}>
+                  {isUserOnline && <div className={styles.online} />}
+                </div>
                 <div className={`${styles.username} ${styles.unselectable}`}>{truncatedName}</div>
               </div>
             )

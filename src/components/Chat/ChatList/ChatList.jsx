@@ -9,7 +9,7 @@ import { AuthContext } from '../../../context/AuthContext.jsx';
 
 
 
-const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggled, isAnyToggled, messageInputRef }) => {
+const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggled, isAnyToggled, messageInputRef, onlineUsers }) => {
 
   const MAX_LASTMESSAGE_LENGTH = 25;
 
@@ -128,8 +128,12 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
   return (
     <ResizeHandle isAnyToggled={isAnyToggled}>
       <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconcealable}`}>
-        <ChatListHeader search={search} setSearch={setSearch} openChat={openChat} />
-        <SimpleBar className={`${styles.scroll}`}>
+        <ChatListHeader search={search} 
+                        setSearch={setSearch} 
+                        openChat={openChat} 
+                        onlineUsers={onlineUsers}
+        />
+        <SimpleBar className={styles.scroll}>
           <ul>
             {chats && chats.length > 0 ? (
               Array.from({ length: listContent.length }).map((_, index) => {
@@ -145,6 +149,9 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
                   }
                 }
 
+                const intelocutor = chat.participants.find((participant) => participant.id !== user.id);
+                const isInterlocutorOnline = !!onlineUsers.find((user) => user.id === intelocutor.id)
+
                 return (
                   <li
                     key={index}
@@ -152,8 +159,10 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
                     ref={chatRefs.current[index]}
                     onClick={() => toggleFocus(index)}
                   >
-                    <div className={`${styles.avatar}`} />
-                    <div className={`${styles.preview}`}>
+                    <div className={styles.avatar}>
+                      {isInterlocutorOnline && <div className={styles.online} />}
+                    </div>
+                    <div className={styles.preview}>
                       <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
                       <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
                     </div>

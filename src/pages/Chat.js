@@ -34,7 +34,9 @@ const Chat = () => {
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
+
   const [socket, setSocket] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   /* Custom functions */
   const { sendMessage } = useChatUpdater();
@@ -44,7 +46,14 @@ const Chat = () => {
     try {
       const response = await axios.get(`/chats/user/${userId}`);
       if (response.status === 200) {
-        setChats(response.data);
+        const chats = response.data.map((chat) => {
+          const name = chat.nameVocabulary.find((entry) => entry.id === user.id).name
+          return{
+            ...chat,
+            name: name ? name : 'Unknown',
+          }
+        })
+        setChats(chats);
       }
     } catch (error) {
       setErrorMsg(error.message);
@@ -68,6 +77,9 @@ const Chat = () => {
     if (socket === null)
       return;
     socket.emit("addNewUser", user.id);
+    socket.on("getOnlineUsers", (res) => {
+      setOnlineUsers(res);
+    })
 
     return () => {
       socket.off("disconnect");
@@ -120,13 +132,15 @@ const Chat = () => {
           setChatIndex={setChatIndex}
           isAnyToggled={isAnyToggled}
           messageInputRef={messageInputRef}
+          onlineUsers={onlineUsers}
         />
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
           {currentChat !== null ? (
             <>
               <ChatTopInfo currentChat={currentChat}
                 setCurrentChat={setCurrentChat}
-                setIsAnyToggled={setIsAnyToggled} />
+                setIsAnyToggled={setIsAnyToggled}
+                onlineUsers={onlineUsers} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
                   <Messages messages={messages}
