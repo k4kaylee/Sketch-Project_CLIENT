@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState, useEffect } from 'react';
 import styles from './Messages.module.css';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import { useContextMenu } from '../../hooks/useContextMenu';
@@ -21,6 +21,12 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   const { setModal } = useModal();
   const { deleteMessage, editMessage } = useChatUpdater();
 
+  useEffect(() => {
+    return () => {
+      setNotification('');
+    };
+  }, []);
+
   /* Custom functions */
   const hideAndDeleteMessage = (message) => {
     const messageElement = document.getElementById(message.id);
@@ -36,11 +42,14 @@ const Messages = ({ messages, currentChatId, setChats }) => {
     navigator.clipboard.writeText(message.content)
       .then(() => {
         setNotification('Message was copied to clipboard');
+      }).then(() => {
+        setTimeout(() => {
+          setNotification('');
+        }, 2000)
       })
       .catch((error) => {
         setNotification('Failed to copy text:', error);
       });
-    setNotification('');
   }
 
   /* Context Menu */
@@ -72,12 +81,16 @@ const Messages = ({ messages, currentChatId, setChats }) => {
     setContextMenu(contextMenu, [clientX, clientY], message)
   }, [setContextMenu, contextMenu])
 
+  function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${date.getMinutes()}`;
+}
 
 
 
 
   return (
-    messages.length !== 0 ? (
+    messages && messages.length !== 0 ? (
       <>
         <div className={styles.chat_messages}>
           <Notice content={notification} />
@@ -90,6 +103,10 @@ const Messages = ({ messages, currentChatId, setChats }) => {
                   onContextMenu={(event) => handleContextMenu(event, message)}
                 >
                   {message.content}
+                  <div className={styles.timestamp}>
+                    <span>{formatTimestamp(message.time)}</span>
+                  </div>
+
                 </li>
               ))
             }
