@@ -48,7 +48,7 @@ const Chat = () => {
       if (response.status === 200) {
         const chats = response.data.map((chat) => {
           const name = chat.nameVocabulary.find((entry) => entry.id === user.id).name
-          return{
+          return {
             ...chat,
             name: name ? name : 'Unknown',
           }
@@ -80,6 +80,21 @@ const Chat = () => {
     socket.on("getOnlineUsers", (res) => {
       setOnlineUsers(res);
     })
+    socket.on("getMessage", (res) => {
+      setMessages((prevMessages) => [...prevMessages, res]);
+  
+      setChats((prevChats) => {
+        return prevChats.map((chat) => {
+          if (chat.id === res.chatId) {
+            return {
+              ...chat,
+              messages: [...chat.messages, res],
+            };
+          }
+          return chat;
+        });
+      });
+    });
 
     return () => {
       socket.off("disconnect");
@@ -99,12 +114,7 @@ const Chat = () => {
   useEffect(() => {
     if (pendingMessage !== '') {
       sendMessage(pendingMessage, user.id, currentChat.id)
-        .then(() => updateChat(setChats, currentChat.id)
-          .then(() => {
-            const updatedChat = chats.find(chat => chat.id === currentChat.id);
-            console.log(updatedChat.messages);
-          })
-        )
+        .then(() => updateChat(setChats, currentChat.id))
         .then(() => setPendingMessage(''))
         .catch(error => {
           console.log("Error:", error);
@@ -123,7 +133,7 @@ const Chat = () => {
 
   return (
     <ModalProvider>
-      <Notice content={errorMsg}/>
+      <Notice content={errorMsg} />
       <div className='chat-container fadeIn'>
         <ChatList chats={chats}
           setChats={setChats}
@@ -150,16 +160,18 @@ const Chat = () => {
                   <Waves styles='chat-waves' />
                 </ContextMenuProvider>
               </SimpleBar>
+              <ChatInput messageInputRef={messageInputRef}
+                messages={messages}
+                currentChat={currentChat}
+                setMessages={setMessages}
+                setPendingMessage={setPendingMessage}
+                socket={socket}
+              />
             </>
+
           ) : (
             <></>
           )}
-
-          <ChatInput messageInputRef={messageInputRef}
-            messages={messages}
-            setMessages={setMessages}
-            setPendingMessage={setPendingMessage}
-          />
         </div>
       </div>
     </ModalProvider>

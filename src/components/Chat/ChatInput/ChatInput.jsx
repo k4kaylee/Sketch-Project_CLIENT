@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import styles from './ChatInput.module.css';
 
-const ChatInput = ({ messageInputRef, setMessages, messages, setPendingMessage }) => {
+const ChatInput = ({ messageInputRef, setMessages, messages, currentChat, setPendingMessage, socket }) => {
   const [message, setMessage] = useState('');
   const { user } = useContext(AuthContext);
 
@@ -16,11 +16,22 @@ const ChatInput = ({ messageInputRef, setMessages, messages, setPendingMessage }
     if (message !== '') {
       const newMessages = [...messages];
 
+      if(socket !== null) {
+        const recipientId = currentChat.participants.find((participant) => participant.id !== user.id).id;
+        socket.emit("sendMessage", {
+            author: user.id,
+            content: message,
+            time: new Date().toISOString(),
+            recipientId: recipientId,
+            chatId: currentChat.id
+        })
+      }
+      
       newMessages.push(
         {
           author: user.id,
           content: message,
-          time: new Date().toLocaleString()
+          time: new Date().toISOString()
         }
       )
 

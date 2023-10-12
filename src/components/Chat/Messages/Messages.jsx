@@ -83,7 +83,8 @@ const Messages = ({ messages, currentChatId, setChats }) => {
 
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
-    return `${date.getHours()}:${date.getMinutes()}`;
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${date.getHours()}:${minutes}`;
 }
 
 
@@ -103,7 +104,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
                   onContextMenu={(event) => handleContextMenu(event, message)}
                 >
                   {message.content}
-                  <div className={styles.timestamp}>
+                  <div className={`${styles.timestamp} ${styles.unselectable}`}>
                     <span>{formatTimestamp(message.time)}</span>
                   </div>
 
