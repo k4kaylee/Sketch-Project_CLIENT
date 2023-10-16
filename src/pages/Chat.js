@@ -34,6 +34,8 @@ const Chat = () => {
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
+  const [isInteractionTabVsible, setIsInteractionTabVisible] = useState(false);
+  const [embeddedMessage, setEmbeddedMessage] = useState({});
 
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -96,6 +98,10 @@ const Chat = () => {
       });
     });
 
+    socket.on("updateChat", (chatId) => {
+      updateChat(setChats, chatId);
+    })
+
     return () => {
       socket.off("disconnect");
     };
@@ -108,12 +114,13 @@ const Chat = () => {
   }, [chatIndex, chats])
 
   useEffect(() => {
-    loadChats(user.id);
+    if(user)
+      loadChats(user.id);
   }, [user.id])
 
   useEffect(() => {
     if (pendingMessage !== '') {
-      sendMessage(pendingMessage, user.id, currentChat.id)
+      sendMessage(pendingMessage, user, currentChat.id)
         .then(() => updateChat(setChats, currentChat.id))
         .then(() => setPendingMessage(''))
         .catch(error => {
@@ -153,14 +160,20 @@ const Chat = () => {
                 onlineUsers={onlineUsers} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
-                  <Messages messages={messages}
+                  <Messages setIsInteractionTabVisible={setIsInteractionTabVisible}
+                    setEmbeddedMessage={setEmbeddedMessage}
+                    messages={messages}
                     currentChatId={currentChat.id}
                     setChats={setChats}
+                    socket={socket}
                   />
                   <Waves styles='chat-waves' />
                 </ContextMenuProvider>
               </SimpleBar>
-              <ChatInput messageInputRef={messageInputRef}
+              <ChatInput isInteractionTabVisible={isInteractionTabVsible}
+                setIsInteractionTabVisible={setIsInteractionTabVisible}
+                embeddedMessage={embeddedMessage}
+                messageInputRef={messageInputRef}
                 messages={messages}
                 currentChat={currentChat}
                 setMessages={setMessages}

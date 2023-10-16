@@ -8,7 +8,7 @@ import useChatUpdater from '../../hooks/useChatUpdater';
 
 
 
-const Messages = ({ messages, currentChatId, setChats }) => {
+const Messages = ({ setIsInteractionTabVisible, setEmbeddedMessage, messages, currentChatId, setChats, socket }) => {
 
   /* Context */
   const { user } = useContext(AuthContext);
@@ -28,14 +28,11 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   }, []);
 
   /* Custom functions */
-  const hideAndDeleteMessage = (message) => {
+  const hideMessage = (message) => {
     const messageElement = document.getElementById(message.id);
     if (messageElement) {
       messageElement.classList.add(`${styles.message_fade_away}`);
     }
-    setTimeout(() => {
-      deleteMessage(currentChatId, message, setChats);
-    }, 400);
   }
 
   const copyMessageToClipboard = (message) => {
@@ -56,7 +53,15 @@ const Messages = ({ messages, currentChatId, setChats }) => {
   const contextMenu = useMemo(() => [
     {
       name: 'Edit',
-      onClick: (message) => editMessage(message)
+      onClick: (message) => {
+        editMessage(message);
+        setIsInteractionTabVisible(true);
+        setEmbeddedMessage({
+          icon: 'edit',
+          title: "Editing message",
+          content: message.content
+        })
+      }
     },
     {
       name: 'Delete',
@@ -64,7 +69,14 @@ const Messages = ({ messages, currentChatId, setChats }) => {
         setModal({
           header: 'Delete message',
           content: 'It will not be possible to restore this message. Are you sure?',
-          onSubmit: () => hideAndDeleteMessage(message)
+          onSubmit: () => {
+            hideMessage(message);
+            setTimeout(() => {
+              deleteMessage(currentChatId, message, setChats);
+            }, 400);
+            // socket.emit()
+          }
+
         });
       }
     },
@@ -72,7 +84,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
       name: 'Copy the text',
       onClick: (message) => copyMessageToClipboard(message)
     },
-  ], [setModal, hideAndDeleteMessage]);
+  ], [setModal, hideMessage]);
 
   const handleContextMenu = useCallback((event, message) => {
     event.preventDefault();
@@ -98,7 +110,7 @@ const Messages = ({ messages, currentChatId, setChats }) => {
           <ul>
             {
               messages.map((message, index) => (
-                <li className={user.id === message.author ? `${styles.message} ${styles.byMe}` : `${styles.message}`}
+                <li className={user.id === message.author.id ? `${styles.message} ${styles.byMe}` : `${styles.message}`}
                   key={index}
                   id={message.id}
                   onContextMenu={(event) => handleContextMenu(event, message)}

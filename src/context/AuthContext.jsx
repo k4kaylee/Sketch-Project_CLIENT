@@ -13,13 +13,17 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const savedAuth = Cookies.get("isAuth");
-    if (savedAuth === "true") {
+    if (savedAuth) {
       setIsAuth(true);
     }
     try{
       const cookie = Cookies.get("user");
-      const userFromCookies = JSON.parse(cookie);
-      setUser(userFromCookies);
+      if(cookie !== undefined) {
+        const userFromCookies = JSON.parse(cookie);
+        setUser(userFromCookies);
+      } else {
+        setIsAuth(false);
+      }
     } catch(error){
       console.log(error.message);
     }

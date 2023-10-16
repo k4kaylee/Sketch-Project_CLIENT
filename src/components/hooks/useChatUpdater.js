@@ -3,10 +3,13 @@ import { useCallback } from "react";
 
 const useChatUpdater = () => {
 
-  const sendMessage = useCallback(async (newMessage, userId, currentChatId) => {
+  const sendMessage = useCallback(async (newMessage, user, currentChatId) => {
     try {
       await axios.put(`/chats/${currentChatId}/messages`, {
-        author: userId,
+        author: {
+          name: user.name,
+          id: user.id,
+        },
         content: newMessage,
         time: new Date().toISOString()
       });
@@ -36,7 +39,7 @@ const useChatUpdater = () => {
   }
 
   const editMessage = () => {
-    alert("In development");
+    // alert("In development");
   }
 
   const deleteMessage = (currentChatId, messageToDelete, setChats) => {

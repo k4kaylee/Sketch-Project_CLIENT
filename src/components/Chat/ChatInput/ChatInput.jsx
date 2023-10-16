@@ -1,8 +1,17 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import styles from './ChatInput.module.css';
+import InteractionTab from './InteractionTab/InteractionTab.jsx';
 
-const ChatInput = ({ messageInputRef, setMessages, messages, currentChat, setPendingMessage, socket }) => {
+const ChatInput = ({ isInteractionTabVisible, 
+                     setIsInteractionTabVisible,
+                     embeddedMessage,
+                     messageInputRef, 
+                     setMessages, 
+                     messages, 
+                     currentChat, 
+                     setPendingMessage, 
+                     socket}) => {
   const [message, setMessage] = useState('');
   const { user } = useContext(AuthContext);
 
@@ -19,7 +28,10 @@ const ChatInput = ({ messageInputRef, setMessages, messages, currentChat, setPen
       if(socket !== null) {
         const recipientId = currentChat.participants.find((participant) => participant.id !== user.id).id;
         socket.emit("sendMessage", {
-            author: user.id,
+            author: {
+              name: user.name,
+              id: user.id
+            },
             content: message,
             time: new Date().toISOString(),
             recipientId: recipientId,
@@ -29,7 +41,10 @@ const ChatInput = ({ messageInputRef, setMessages, messages, currentChat, setPen
       
       newMessages.push(
         {
-          author: user.id,
+          author: {
+            name: user.name,
+            id: user.id
+          },
           content: message,
           time: new Date().toISOString()
         }
@@ -42,19 +57,25 @@ const ChatInput = ({ messageInputRef, setMessages, messages, currentChat, setPen
     }
   }
 
+
   return (
-    <div className={styles.chat_input}>
-      <input ref={messageInputRef}
-        placeholder='Message...'
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={handleKeyDown}
-      />
-      <button
-        className={message ? `${styles.send_button} ${styles.__active}` : `${styles.send_button} ${styles.__inactive}`}
-        onClick={sendMessage}
-      >
-        <div className={message ? `${styles.send_img} ${styles.__active}` : `${styles.send_img} ${styles.__inactive}`} />
-      </button>
+    <div className={styles.container}>
+      <InteractionTab isInteractionTabVisible={isInteractionTabVisible}
+                      setIsInteractionTabVisible={setIsInteractionTabVisible}
+                      embeddedMessage={embeddedMessage}/>
+      <div className={styles.chat_input}>
+        <input ref={messageInputRef}
+          placeholder='Message...'
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <button
+          className={message ? `${styles.send_button} ${styles.__active}` : `${styles.send_button} ${styles.__inactive}`}
+          onClick={sendMessage}
+        >
+          <div className={message ? `${styles.send_img} ${styles.__active}` : `${styles.send_img} ${styles.__inactive}`} />
+        </button>
+      </div>
     </div>
   )
 }

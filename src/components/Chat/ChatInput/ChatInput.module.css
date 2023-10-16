@@ -1,9 +1,15 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
 .chat_input {
     display: flex;
     width: 100%;
-    position: absolute;
-    z-index: 2;
-    bottom: 0;
+    z-index: 3;
 }
 
 .chat_input input {
