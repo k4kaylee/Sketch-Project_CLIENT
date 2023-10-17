@@ -33,7 +33,7 @@ export const ModalProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
 
     return (
         <ModalContext.Provider value={{ setModal: setProps }}>
-          {props && ( // Условие проверки наличия props
+          {props && (
             <div className={`${styles.modal_background}`} ref={backgroundRef}>
                 <div className={`${styles.modal}`} ref={modalRef}>
                     <h2>{props.header}</h2>

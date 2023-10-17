@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import styles from './ChatInput.module.css';
 import InteractionTab from './InteractionTab/InteractionTab.jsx';
@@ -11,6 +11,8 @@ const ChatInput = ({ isInteractionTabVisible,
                      messages, 
                      currentChat, 
                      setPendingMessage, 
+                     isEditing,
+                     setIsEditing,
                      socket}) => {
   const [message, setMessage] = useState('');
   const { user } = useContext(AuthContext);
@@ -62,19 +64,28 @@ const ChatInput = ({ isInteractionTabVisible,
     <div className={styles.container}>
       <InteractionTab isInteractionTabVisible={isInteractionTabVisible}
                       setIsInteractionTabVisible={setIsInteractionTabVisible}
-                      embeddedMessage={embeddedMessage}/>
+                      embeddedMessage={embeddedMessage}
+                      messageInputRef={messageInputRef}
+                      isEditing={isEditing}
+                      setIsEditing={setIsEditing}/>
       <div className={styles.chat_input}>
         <input ref={messageInputRef}
           placeholder='Message...'
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
         />
-        <button
-          className={message ? `${styles.send_button} ${styles.__active}` : `${styles.send_button} ${styles.__inactive}`}
-          onClick={sendMessage}
-        >
-          <div className={message ? `${styles.send_img} ${styles.__active}` : `${styles.send_img} ${styles.__inactive}`} />
-        </button>
+        {isEditing? 
+          <button className={styles.accept_button}>
+            <div className={styles.accept_img}></div>
+          </button>
+          :
+          <button
+            className={message ? `${styles.send_button} ${styles.__active}` : `${styles.send_button} ${styles.__inactive}`}
+            onClick={sendMessage}
+          >
+            <div className={message ? `${styles.send_img} ${styles.__active}` : `${styles.send_img} ${styles.__inactive}`} />
+          </button>
+        }
       </div>
     </div>
   )

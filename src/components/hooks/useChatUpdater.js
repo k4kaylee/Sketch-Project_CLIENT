@@ -38,8 +38,13 @@ const useChatUpdater = () => {
       }
   }
 
-  const editMessage = () => {
-    // alert("In development");
+  const editMessage = (editedMessage, currentChatId) => {
+    try{
+      
+    } catch (error) {
+
+    }
+    
   }
 
   const deleteMessage = (currentChatId, messageToDelete, setChats) => {

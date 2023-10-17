@@ -34,8 +34,9 @@ const Chat = () => {
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
-  const [isInteractionTabVsible, setIsInteractionTabVisible] = useState(false);
+  const [isInteractionTabVisible, setIsInteractionTabVisible] = useState(false);
   const [embeddedMessage, setEmbeddedMessage] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
 
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -165,12 +166,14 @@ const Chat = () => {
                     messages={messages}
                     currentChatId={currentChat.id}
                     setChats={setChats}
+                    messageInputRef={messageInputRef}
+                    setIsEditing={setIsEditing}
                     socket={socket}
                   />
                   <Waves styles='chat-waves' />
                 </ContextMenuProvider>
               </SimpleBar>
-              <ChatInput isInteractionTabVisible={isInteractionTabVsible}
+              <ChatInput isInteractionTabVisible={isInteractionTabVisible}
                 setIsInteractionTabVisible={setIsInteractionTabVisible}
                 embeddedMessage={embeddedMessage}
                 messageInputRef={messageInputRef}
@@ -178,6 +181,8 @@ const Chat = () => {
                 currentChat={currentChat}
                 setMessages={setMessages}
                 setPendingMessage={setPendingMessage}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
                 socket={socket}
               />
             </>

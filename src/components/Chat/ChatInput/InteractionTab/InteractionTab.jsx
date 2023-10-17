@@ -1,9 +1,16 @@
 import React from 'react'
 import styles from './InteractionTab.module.css'
 
-const InteractionTab = ({isInteractionTabVisible, setIsInteractionTabVisible, embeddedMessage}) => {
+const InteractionTab = ({isInteractionTabVisible, 
+                         setIsInteractionTabVisible, 
+                         embeddedMessage, 
+                         messageInputRef,
+                         setIsEditing}) => {
+
   const handleCancel = () => {
     setIsInteractionTabVisible(false);
+    messageInputRef.current.value = '';
+    setIsEditing(false);
   }
 
 

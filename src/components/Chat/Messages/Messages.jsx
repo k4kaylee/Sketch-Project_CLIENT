@@ -8,7 +8,14 @@ import useChatUpdater from '../../hooks/useChatUpdater';
 
 
 
-const Messages = ({ setIsInteractionTabVisible, setEmbeddedMessage, messages, currentChatId, setChats, socket }) => {
+const Messages = ({ setIsInteractionTabVisible, 
+                    setEmbeddedMessage, 
+                    messages, 
+                    currentChatId, 
+                    setChats, 
+                    messageInputRef, 
+                    setIsEditing,
+                    socket }) => {
 
   /* Context */
   const { user } = useContext(AuthContext);
@@ -58,10 +65,17 @@ const Messages = ({ setIsInteractionTabVisible, setEmbeddedMessage, messages, cu
         setIsInteractionTabVisible(true);
         setEmbeddedMessage({
           icon: 'edit',
-          title: "Editing message",
-          content: message.content
-        })
+          title: 'Editing message',
+          content: message.content,
+        });
+        messageInputRef.current.value = message.content;
+        messageInputRef.current.focus();
+        setIsEditing(true);
       }
+    },
+    {
+      name: 'Response',
+      onClick: (message) => {}
     },
     {
       name: 'Delete',
@@ -84,6 +98,10 @@ const Messages = ({ setIsInteractionTabVisible, setEmbeddedMessage, messages, cu
       name: 'Copy the text',
       onClick: (message) => copyMessageToClipboard(message)
     },
+    {
+      name: 'Select',
+      onClick: (message) => {}
+    }
   ], [setModal, hideMessage]);
 
   const handleContextMenu = useCallback((event, message) => {
@@ -97,7 +115,7 @@ const Messages = ({ setIsInteractionTabVisible, setEmbeddedMessage, messages, cu
     const date = new Date(timestamp);
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${date.getHours()}:${minutes}`;
-}
+  }
 
 
 
