@@ -14,6 +14,7 @@ const Messages = ({ setIsInteractionTabVisible,
                     currentChatId, 
                     setChats, 
                     messageInputRef, 
+                    setMessageBeforeEdit,
                     setIsEditing,
                     socket }) => {
 
@@ -71,6 +72,7 @@ const Messages = ({ setIsInteractionTabVisible,
         messageInputRef.current.value = message.content;
         messageInputRef.current.focus();
         setIsEditing(true);
+        setMessageBeforeEdit(message.content)
       }
     },
     {

@@ -34,9 +34,12 @@ const Chat = () => {
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
+
+  /* To be restructured */
   const [isInteractionTabVisible, setIsInteractionTabVisible] = useState(false);
   const [embeddedMessage, setEmbeddedMessage] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const [messageBeforeEdit, setMessageBeforeEdit] = useState('');
 
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -167,6 +170,7 @@ const Chat = () => {
                     currentChatId={currentChat.id}
                     setChats={setChats}
                     messageInputRef={messageInputRef}
+                    setMessageBeforeEdit={setMessageBeforeEdit}
                     setIsEditing={setIsEditing}
                     socket={socket}
                   />
@@ -183,6 +187,7 @@ const Chat = () => {
                 setPendingMessage={setPendingMessage}
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}
+                messageBeforeEdit={messageBeforeEdit}
                 socket={socket}
               />
             </>

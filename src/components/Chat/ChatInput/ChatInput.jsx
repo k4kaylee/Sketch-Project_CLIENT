@@ -11,15 +11,22 @@ const ChatInput = ({ isInteractionTabVisible,
                      messages, 
                      currentChat, 
                      setPendingMessage, 
+                     messageBeforeEdit,
                      isEditing,
                      setIsEditing,
                      socket}) => {
+  /* To be restructured: too many props */
+
   const [message, setMessage] = useState('');
+  const [editedMessage, setEditedMessage] = useState('');
   const { user } = useContext(AuthContext);
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && message !== null) {
-      sendMessage();
+      isEditing ?
+        handleEdit()
+      :
+        sendMessage();
     }
   }
 
@@ -59,6 +66,20 @@ const ChatInput = ({ isInteractionTabVisible,
     }
   }
 
+  const handleEdit = () => {
+    console.log(editedMessage)
+     if(editedMessage !== '' && editedMessage !== messageBeforeEdit){
+      alert("Message after edit: ", editedMessage)
+      setIsEditing(false);
+      setIsInteractionTabVisible(false);
+      messageInputRef.current.value = '';
+    } else {
+      setIsEditing(false);
+      setIsInteractionTabVisible(false);
+      messageInputRef.current.value = '';
+    }
+  }
+
 
   return (
     <div className={styles.container}>
@@ -71,11 +92,16 @@ const ChatInput = ({ isInteractionTabVisible,
       <div className={styles.chat_input}>
         <input ref={messageInputRef}
           placeholder='Message...'
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            isEditing ? 
+              setEditedMessage(e.target.value)
+            :
+              setMessage(e.target.value);
+          }}
           onKeyDown={handleKeyDown}
         />
         {isEditing? 
-          <button className={styles.accept_button}>
+          <button className={styles.accept_button} onClick={handleEdit}>
             <div className={styles.accept_img}></div>
           </button>
           :
