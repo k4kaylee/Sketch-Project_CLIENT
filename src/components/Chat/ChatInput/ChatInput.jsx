@@ -2,24 +2,25 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import styles from './ChatInput.module.css';
 import InteractionTab from './InteractionTab/InteractionTab.jsx';
+import useChatUpdater from '../../hooks/useChatUpdater.js';
 
-const ChatInput = ({ isInteractionTabVisible, 
-                     setIsInteractionTabVisible,
-                     embeddedMessage,
+const ChatInput = ({ embeddedMessage,
                      messageInputRef, 
                      setMessages, 
                      messages, 
                      currentChat, 
                      setPendingMessage, 
                      messageBeforeEdit,
+                     setChats,
                      isEditing,
                      setIsEditing,
                      socket}) => {
+                      
   /* To be restructured: too many props */
 
   const [message, setMessage] = useState('');
-  const [editedMessage, setEditedMessage] = useState('');
   const { user } = useContext(AuthContext);
+  const { editMessage } = useChatUpdater();
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && message !== null) {
@@ -67,25 +68,21 @@ const ChatInput = ({ isInteractionTabVisible,
   }
 
   const handleEdit = () => {
-    console.log(editedMessage)
+    const editedMessage = messageInputRef.current.value
      if(editedMessage !== '' && editedMessage !== messageBeforeEdit){
-      alert("Message after edit: ", editedMessage)
-      setIsEditing(false);
-      setIsInteractionTabVisible(false);
-      messageInputRef.current.value = '';
-    } else {
-      setIsEditing(false);
-      setIsInteractionTabVisible(false);
-      messageInputRef.current.value = '';
-    }
+      editMessage({
+        id: embeddedMessage.content.id, 
+        message: editedMessage
+      }, currentChat.id, setChats);
+     }
+    setIsEditing(false);
+    messageInputRef.current.value = '';
   }
 
 
   return (
     <div className={styles.container}>
-      <InteractionTab isInteractionTabVisible={isInteractionTabVisible}
-                      setIsInteractionTabVisible={setIsInteractionTabVisible}
-                      embeddedMessage={embeddedMessage}
+      <InteractionTab embeddedMessage={embeddedMessage}
                       messageInputRef={messageInputRef}
                       isEditing={isEditing}
                       setIsEditing={setIsEditing}/>
@@ -93,15 +90,13 @@ const ChatInput = ({ isInteractionTabVisible,
         <input ref={messageInputRef}
           placeholder='Message...'
           onChange={(e) => {
-            isEditing ? 
-              setEditedMessage(e.target.value)
-            :
+            if(!isEditing)
               setMessage(e.target.value);
           }}
           onKeyDown={handleKeyDown}
         />
         {isEditing? 
-          <button className={styles.accept_button} onClick={handleEdit}>
+          <button className={styles.accept_button} onClick={() => handleEdit()}>
             <div className={styles.accept_img}></div>
           </button>
           :

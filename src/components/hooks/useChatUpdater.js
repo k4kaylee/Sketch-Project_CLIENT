@@ -1,7 +1,10 @@
 import axios from "../../api/axios";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const useChatUpdater = () => {
+  
+  const { user } = useContext(AuthContext)
 
   const sendMessage = useCallback(async (newMessage, user, currentChatId) => {
     try {
@@ -21,30 +24,45 @@ const useChatUpdater = () => {
 
 
 
-  const updateChat = async( setChats, currentChatId ) => {
+  const updateChat = async (setChats, currentChatId) => {
     const response = await axios.get(`/chats/${currentChatId}`);
+    if (response.status === 200) {
+      setChats(prevChats => {
+        return prevChats.map(chat => {
+          if (chat.id === currentChatId) {
+            return {
+              ...chat,
+              messages: response.data.messages
+            };
+          }
+          return chat;
+        });
+      });
+    }
+  }
+
+  const editMessage = async (editedMessage, currentChatId, setChats) => {
+    try {
+      const response = await axios.put(`/chats/${currentChatId}/messages/${editedMessage.id}`, { content: editedMessage.message })
+      
       if (response.status === 200) {
         setChats(prevChats => {
           return prevChats.map(chat => {
-            if (chat.id === currentChatId) {
+            if (chat.id === response.data.chat.id) {
+              const chatName = chat.nameVocabulary.find((entry) => entry.id === user.id).name
               return {
-                ...chat,
-                messages: response.data.messages
-              };
+                ...response.data.chat,
+                name: chatName,
+              }
             }
             return chat;
           });
         });
       }
-  }
-
-  const editMessage = (editedMessage, currentChatId) => {
-    try{
-      
     } catch (error) {
-
+      console.log(error.message)
     }
-    
+
   }
 
   const deleteMessage = (currentChatId, messageToDelete, setChats) => {

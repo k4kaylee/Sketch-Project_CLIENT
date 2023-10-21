@@ -8,15 +8,15 @@ import useChatUpdater from '../../hooks/useChatUpdater';
 
 
 
-const Messages = ({ setIsInteractionTabVisible, 
-                    setEmbeddedMessage, 
-                    messages, 
-                    currentChatId, 
-                    setChats, 
-                    messageInputRef, 
-                    setMessageBeforeEdit,
-                    setIsEditing,
-                    socket }) => {
+const Messages = ({
+  setEmbeddedMessage,
+  messages,
+  currentChatId,
+  setChats,
+  messageInputRef,
+  setMessageBeforeEdit,
+  setIsEditing,
+  socket }) => {
 
   /* Context */
   const { user } = useContext(AuthContext);
@@ -27,7 +27,7 @@ const Messages = ({ setIsInteractionTabVisible,
   /* Custom hooks */
   const { setContextMenu } = useContextMenu();
   const { setModal } = useModal();
-  const { deleteMessage, editMessage } = useChatUpdater();
+  const { deleteMessage } = useChatUpdater();
 
   useEffect(() => {
     return () => {
@@ -58,60 +58,73 @@ const Messages = ({ setIsInteractionTabVisible,
   }
 
   /* Context Menu */
-  const contextMenu = useMemo(() => [
-    {
-      name: 'Edit',
-      onClick: (message) => {
-        editMessage(message);
-        setIsInteractionTabVisible(true);
-        setEmbeddedMessage({
-          icon: 'edit',
-          title: 'Editing message',
-          content: message.content,
-        });
-        messageInputRef.current.value = message.content;
-        messageInputRef.current.focus();
-        setIsEditing(true);
-        setMessageBeforeEdit(message.content)
-      }
-    },
-    {
-      name: 'Response',
-      onClick: (message) => {}
-    },
-    {
-      name: 'Delete',
-      onClick: (message) => {
-        setModal({
-          header: 'Delete message',
-          content: 'It will not be possible to restore this message. Are you sure?',
-          onSubmit: () => {
-            hideMessage(message);
-            setTimeout(() => {
-              deleteMessage(currentChatId, message, setChats);
-            }, 400);
-            // socket.emit()
-          }
-
-        });
-      }
-    },
-    {
-      name: 'Copy the text',
-      onClick: (message) => copyMessageToClipboard(message)
-    },
-    {
-      name: 'Select',
-      onClick: (message) => {}
-    }
-  ], [setModal, hideMessage]);
 
   const handleContextMenu = useCallback((event, message) => {
     event.preventDefault();
 
+    const contextMenu = () => {
+      const commonOptions = [
+        {
+          name: 'Response',
+          onClick: (message) => { }
+        },
+        {
+          name: 'Copy the text',
+          onClick: (message) => copyMessageToClipboard(message)
+        },
+        {
+          name: 'Select',
+          onClick: (message) => { }
+        }]
+
+      if (message.author.id === user.id)
+        return ([
+          {
+            name: 'Edit',
+            onClick: (message) => {
+              setEmbeddedMessage({
+                icon: 'edit',
+                title: 'Editing message',
+                content: {
+                  id: message.id,
+                  message: message.content,
+                }
+              });
+              messageInputRef.current.value = message.content;
+              messageInputRef.current.focus();
+              setIsEditing(true);
+              setMessageBeforeEdit(message.content)
+            }
+          },
+          {
+            name: 'Delete',
+            onClick: (message) => {
+              setModal({
+                header: 'Delete message',
+                content: 'It will not be possible to restore this message. Are you sure?',
+                onSubmit: () => {
+                  hideMessage(message);
+                  setTimeout(() => {
+                    deleteMessage(currentChatId, message, setChats);
+                  }, 400);
+                  // socket.emit()
+                }
+
+              });
+            }
+          },
+          ...commonOptions,
+        ])
+      else
+        return (
+          commonOptions
+        )
+    };
+
+
     const { clientX, clientY } = event
     setContextMenu(contextMenu, [clientX, clientY], message)
-  }, [setContextMenu, contextMenu])
+  }, [setContextMenu, currentChatId])
 
   function formatTimestamp(timestamp) {
     const date = new Date(timestamp);

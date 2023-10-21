@@ -39,7 +39,6 @@ const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
       return;
     }
     const result = users.filter((user) => {
-      console.log(user)
       return user.name.toLowerCase().includes(search.toLowerCase());
     });
     setUsersTabContent(result);

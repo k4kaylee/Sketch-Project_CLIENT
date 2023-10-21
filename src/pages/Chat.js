@@ -36,7 +36,6 @@ const Chat = () => {
   const [errorMsg, setErrorMsg] = useState('');
 
   /* To be restructured */
-  const [isInteractionTabVisible, setIsInteractionTabVisible] = useState(false);
   const [embeddedMessage, setEmbeddedMessage] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [messageBeforeEdit, setMessageBeforeEdit] = useState('');
@@ -78,7 +77,7 @@ const Chat = () => {
       newSocket.disconnect();
     }
   }, [])
-
+  
   useEffect(() => {
     if (socket === null)
       return;
@@ -164,25 +163,26 @@ const Chat = () => {
                 onlineUsers={onlineUsers} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
-                  <Messages setIsInteractionTabVisible={setIsInteractionTabVisible}
+                  <Messages
                     setEmbeddedMessage={setEmbeddedMessage}
                     messages={messages}
                     currentChatId={currentChat.id}
                     setChats={setChats}
                     messageInputRef={messageInputRef}
                     setMessageBeforeEdit={setMessageBeforeEdit}
+                    isEditing={isEditing}
                     setIsEditing={setIsEditing}
                     socket={socket}
-                  />
+                  />  
                   <Waves styles='chat-waves' />
                 </ContextMenuProvider>
               </SimpleBar>
-              <ChatInput isInteractionTabVisible={isInteractionTabVisible}
-                setIsInteractionTabVisible={setIsInteractionTabVisible}
+              <ChatInput 
                 embeddedMessage={embeddedMessage}
                 messageInputRef={messageInputRef}
                 messages={messages}
                 currentChat={currentChat}
+                setChats={setChats}
                 setMessages={setMessages}
                 setPendingMessage={setPendingMessage}
                 isEditing={isEditing}
