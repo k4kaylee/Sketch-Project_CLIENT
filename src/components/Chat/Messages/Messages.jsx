@@ -150,7 +150,7 @@ const Messages = ({
                 >
                   {message.content}
                   <div className={`${styles.timestamp} ${styles.unselectable}`}>
-                    <span>{formatTimestamp(message.time)}</span>
+                    <span>{message.isEdited && 'edited'} {formatTimestamp(message.time)}</span>
                   </div>
 
                 </li>
