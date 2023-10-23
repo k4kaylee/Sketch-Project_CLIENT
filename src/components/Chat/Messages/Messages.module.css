@@ -53,6 +53,10 @@
   margin-left: auto;
 }
 
+.isSelected, .byMe.isSelected{
+  background-color: #e47490;
+}
+
 .timestamp{
   display: flex; 
   justify-content: flex-end; 

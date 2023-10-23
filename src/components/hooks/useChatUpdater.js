@@ -44,8 +44,6 @@ const useChatUpdater = () => {
   const editMessage = async (editedMessage, currentChatId, setChats) => {
     try {
       const response = await axios.put(`/chats/${currentChatId}/messages/${editedMessage.id}`, { content: editedMessage.message })
-      
-      console.log(response.data.chat);
 
       if (response.status === 200) {
         setChats(prevChats => {

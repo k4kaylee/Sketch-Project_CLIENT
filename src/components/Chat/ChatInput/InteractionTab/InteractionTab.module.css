@@ -51,6 +51,12 @@
     background: url(../../../../../img/close.svg) no-repeat;
     background-size: contain;
     cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s opacity;
+}
+
+.cancelButton:hover{
+    opacity: 1;
 }
 
 .response{

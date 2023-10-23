@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styles from './Messages.module.css';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import { useContextMenu } from '../../hooks/useContextMenu';
@@ -23,6 +23,7 @@ const Messages = ({
 
   /* States */
   const [notification, setNotification] = useState('');
+  const [selectedMessages, setSelectedMessages] = useState([]);
 
   /* Custom hooks */
   const { setContextMenu } = useContextMenu();
@@ -74,7 +75,9 @@ const Messages = ({
         },
         {
           name: 'Select',
-          onClick: (message) => { }
+          onClick: (message) => {
+            message.isSelected = !message.isSelected;
+          }
         }]
 
       if (message.author.id === user.id)
@@ -132,7 +135,22 @@ const Messages = ({
     return `${date.getHours()}:${minutes}`;
   }
 
-
+  function switchIsSelected(message) {
+    const messageClassList = document.getElementById(message.id).classList;
+    if (!messageClassList.contains(`${styles.isSelected}`)) {
+      messageClassList.add(`${styles.isSelected}`)
+      setSelectedMessages((prevState) => [
+        ...prevState,
+        message
+      ])
+    }
+    else {
+      messageClassList.remove(`${styles.isSelected}`)
+      setSelectedMessages((prevState) => {
+        return prevState.filter((entry) => entry.id !== message.id)
+      })
+    }
+  }
 
 
   return (
@@ -141,30 +159,36 @@ const Messages = ({
         <div className={styles.chat_messages}>
           <Notice content={notification} />
           <ul>
-            {
-              messages.map((message, index) => (
-                <li className={user.id === message.author.id ? `${styles.message} ${styles.byMe}` : `${styles.message}`}
+            {messages.map((message, index) => {
+
+              let messageStyles = `${styles.message}`;
+              if (user.id === message.author.id) {
+                messageStyles += ` ${styles.byMe}`;
+              }
+
+              return (
+                <li
+                  className={messageStyles}
                   key={index}
                   id={message.id}
                   onContextMenu={(event) => handleContextMenu(event, message)}
+                  onClick={() => switchIsSelected(message)}
+
                 >
                   {message.content}
                   <div className={`${styles.timestamp} ${styles.unselectable}`}>
                     <span>{message.isEdited && 'edited'} {formatTimestamp(message.time)}</span>
                   </div>
-
                 </li>
-              ))
-            }
+              );
+            })}
           </ul>
-
-        </div>
+        </div >
       </>
-
     ) : (
-      <p className={`${styles.no_messages_info} ${styles.unselectable}`}><i>There is no messages yet. Send your first!</i></p>
+      <p className={`${styles.no_messages_info} ${styles.unselectable}`}><i>There are no messages yet. Send your first!</i></p>
     )
-  )
+  );
 }
 
 

@@ -10,7 +10,7 @@ import Chat from '../pages/Chat.js';
 const AppRoutes = () => {
     const {isAuth} = useContext(AuthContext);
 
-    return(
+    return( 
         isAuth ? (
             <Routes>
               <Route path='/' element={<Chat/>}/>

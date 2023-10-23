@@ -58,6 +58,12 @@
     opacity: 0.5;
     width: 25px;
     height: 25px;
+    transition: 0.3s opacity;
+}
+
+
+.accept_img:hover{
+    opacity: 1;
 }
 
 .__active {
