@@ -18,6 +18,24 @@
     display: flex;
 }
 
+.flex_container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button_container {
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selected_messages{
+    color: #cfd4d8;
+    margin-left: 10px;
+}
+
 .avatar {
     border-radius: 40px;
     background: url(../../../../img/empty-avatar.png);
@@ -67,4 +85,24 @@
     .arrow_back_icon {
         display: block;
     }
+}
+
+.button{
+    background: none; 
+    border-radius: 5px;
+    transition: background 0.2s;
+    border: none;   
+    cursor: pointer;
+    width: 70px;
+    height: 35px;
+    font-size: 16px;
+    color: #7d838b;
+}
+
+.delete{
+    color: #e93535; 
+}
+
+button:hover{
+    background: #35383c;
 }

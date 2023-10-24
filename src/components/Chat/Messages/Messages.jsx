@@ -16,6 +16,7 @@ const Messages = ({
   messageInputRef,
   setMessageBeforeEdit,
   setIsEditing,
+  setSelectedMessages,
   socket }) => {
 
   /* Context */
@@ -23,7 +24,6 @@ const Messages = ({
 
   /* States */
   const [notification, setNotification] = useState('');
-  const [selectedMessages, setSelectedMessages] = useState([]);
 
   /* Custom hooks */
   const { setContextMenu } = useContextMenu();

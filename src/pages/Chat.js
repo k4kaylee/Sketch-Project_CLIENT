@@ -34,6 +34,7 @@ const Chat = () => {
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
+  const [selectedMessages, setSelectedMessages] = useState([]);
 
   /* To be restructured */
   const [embeddedMessage, setEmbeddedMessage] = useState({});
@@ -155,11 +156,14 @@ const Chat = () => {
           onlineUsers={onlineUsers}
         />
         <div className={isAnyToggled ? 'chat' : 'offscreen'}>
-          {currentChat !== null ? (
+          {currentChat !== null && (
             <>
               <ChatTopInfo currentChat={currentChat}
                 setCurrentChat={setCurrentChat}
                 setIsAnyToggled={setIsAnyToggled}
+                selectedMessages={selectedMessages}
+                setSelectedMessages={setSelectedMessages}
+                setChats={setChats}
                 onlineUsers={onlineUsers} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
@@ -172,6 +176,7 @@ const Chat = () => {
                     setMessageBeforeEdit={setMessageBeforeEdit}
                     isEditing={isEditing}
                     setIsEditing={setIsEditing}
+                    setSelectedMessages={setSelectedMessages}
                     socket={socket}
                   />  
                   <Waves styles='chat-waves' />
@@ -191,9 +196,6 @@ const Chat = () => {
                 socket={socket}
               />
             </>
-
-          ) : (
-            <></>
           )}
         </div>
       </div>

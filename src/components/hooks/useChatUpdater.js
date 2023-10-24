@@ -2,7 +2,7 @@ import axios from "../../api/axios";
 import { useCallback, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
-const useChatUpdater = () => {
+const   useChatUpdater = () => {
   
   const { user } = useContext(AuthContext)
 

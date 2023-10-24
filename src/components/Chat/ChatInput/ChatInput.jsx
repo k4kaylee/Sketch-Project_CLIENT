@@ -95,7 +95,7 @@ const ChatInput = ({ embeddedMessage,
           }}
           onKeyDown={handleKeyDown}
         />
-        {isEditing? 
+        {isEditing ? 
           <button className={styles.accept_button} onClick={() => handleEdit()}>
             <div className={styles.accept_img}></div>
           </button>
