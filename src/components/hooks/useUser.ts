@@ -9,7 +9,7 @@ const useUser = () => {
             setUsers(response.data);
         }
         } catch (error) {
-        console.log(error.message);
+            console.log(error.message);
         }
     }
 

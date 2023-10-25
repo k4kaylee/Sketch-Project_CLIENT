@@ -14,6 +14,7 @@ import useChatUpdater from '../components/hooks/useChatUpdater';
 import Loader from '../components/misc/Loader/Loader';
 import Notice from '../components/misc/Notice/Notice';
 import { io } from 'socket.io-client'
+import { render } from 'react-dom';
 
 
 
@@ -33,8 +34,8 @@ const Chat = () => {
   const [chats, setChats] = useState([]);
   const [pendingMessage, setPendingMessage] = useState('');
   const [isLoadingChats, setIsLoadingChats] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
   const [selectedMessages, setSelectedMessages] = useState([]);
+  const [notification, setNotification] = useState('');
 
   /* To be restructured */
   const [embeddedMessage, setEmbeddedMessage] = useState({});
@@ -62,13 +63,19 @@ const Chat = () => {
         setChats(chats);
       }
     } catch (error) {
-      setErrorMsg(error.message);
+      setNotification(error.message); // Need to find a solution
+      
     } finally {
       setIsLoadingChats(false);
     }
   }
 
   /* useEffects */
+  useEffect(() => {
+    setTimeout(() => {
+      setNotification('')
+    }, 2000)
+  }, [notification])
 
   useEffect(() => {
     const newSocket = io("http://localhost:5001");
@@ -144,7 +151,6 @@ const Chat = () => {
 
   return (
     <ModalProvider>
-      <Notice content={errorMsg} />
       <div className='chat-container fadeIn'>
         <ChatList chats={chats}
           setChats={setChats}
@@ -164,6 +170,7 @@ const Chat = () => {
                 selectedMessages={selectedMessages}
                 setSelectedMessages={setSelectedMessages}
                 setChats={setChats}
+                setNotification={setNotification}
                 onlineUsers={onlineUsers} />
               <SimpleBar className='scroll' style={{ height: scrollHeight }}>
                 <ContextMenuProvider>
@@ -176,9 +183,12 @@ const Chat = () => {
                     setMessageBeforeEdit={setMessageBeforeEdit}
                     isEditing={isEditing}
                     setIsEditing={setIsEditing}
+                    setNotification={setNotification}
                     setSelectedMessages={setSelectedMessages}
                     socket={socket}
-                  />  
+                  >
+                    <Notice content={notification} />
+                  </Messages>  
                   <Waves styles='chat-waves' />
                 </ContextMenuProvider>
               </SimpleBar>

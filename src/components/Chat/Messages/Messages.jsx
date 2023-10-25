@@ -3,7 +3,6 @@ import styles from './Messages.module.css';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 import { useContextMenu } from '../../hooks/useContextMenu';
 import { useModal } from '../../hooks/useModal';
-import Notice from '../../misc/Notice/Notice';
 import useChatUpdater from '../../hooks/useChatUpdater';
 
 
@@ -17,13 +16,13 @@ const Messages = ({
   setMessageBeforeEdit,
   setIsEditing,
   setSelectedMessages,
-  socket }) => {
+  setNotification,
+  socket,
+  children }) => {
 
   /* Context */
   const { user } = useContext(AuthContext);
 
-  /* States */
-  const [notification, setNotification] = useState('');
 
   /* Custom hooks */
   const { setContextMenu } = useContextMenu();
@@ -75,9 +74,7 @@ const Messages = ({
         },
         {
           name: 'Select',
-          onClick: (message) => {
-            message.isSelected = !message.isSelected;
-          }
+          onClick: (message) => switchIsSelected(message)
         }]
 
       if (message.author.id === user.id)
@@ -157,7 +154,7 @@ const Messages = ({
     messages && messages.length !== 0 ? (
       <>
         <div className={styles.chat_messages}>
-          <Notice content={notification} />
+          {children}
           <ul>
             {messages.map((message, index) => {
 

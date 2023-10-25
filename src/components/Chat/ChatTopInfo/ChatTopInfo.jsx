@@ -3,8 +3,9 @@ import styles from './ChatTopInfo.module.css';
 import { AuthContext } from '../../../context/AuthContext';
 import messageStyles from '../Messages/Messages.module.css';
 import useChatUpdater from '../../hooks/useChatUpdater';
+import Notice from '../../misc/Notice/Notice';
 
-const {isSelected} = messageStyles;
+const { isSelected } = messageStyles;
 
 const ChatTopInfo = ({ currentChat,
   setCurrentChat,
@@ -12,6 +13,7 @@ const ChatTopInfo = ({ currentChat,
   selectedMessages,
   setSelectedMessages,
   setChats, /* TODO: put setChats to useChatUpdater */
+  setNotification,
   onlineUsers }) => {
   const [intelocutorStatus, setIntelocutorStatus] = useState('Loading...');
 
@@ -44,18 +46,26 @@ const ChatTopInfo = ({ currentChat,
 
   const onCancel = () => {
     selectedMessages.forEach((message) => {
-      console.log(isSelected);
       document.getElementById(message.id).classList.remove(isSelected);
     })
     setSelectedMessages([]);
   }
 
   const onDelete = () => {
+
     selectedMessages.forEach((message) => {
-      deleteMessage(currentChat.id, message, setChats)
-    })
-    setSelectedMessages([])
-  }
+      if (message.author.id === user.id) {
+        deleteMessage(currentChat.id, message, setChats);
+        setSelectedMessages([]);
+      } else {
+        document.getElementById(message.id).classList.remove(isSelected);
+        setSelectedMessages([]);
+        setNotification("Impossible to delete your interlocutor's message")
+      }
+    });
+
+  };
+
 
   return (
     <>
