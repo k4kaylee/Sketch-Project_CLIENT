@@ -36,6 +36,8 @@ const Messages = ({
   }, []);
 
   /* Custom functions */
+  const MAX_RESPONSE_LENGTH = 16;
+
   const hideMessage = (message) => {
     const messageElement = document.getElementById(message.id);
     if (messageElement) {
@@ -159,8 +161,15 @@ const Messages = ({
             {messages.map((message, index) => {
 
               let messageStyles = `${styles.message}`;
+              let responseStyles = `${styles.response}`
               if (user.id === message.author.id) {
                 messageStyles += ` ${styles.byMe}`;
+                responseStyles += ` ${styles.byMe}`
+              }
+
+              let truncatedResponse = message?.response?.content;
+              if (truncatedResponse?.length >= MAX_RESPONSE_LENGTH) {
+                truncatedResponse = truncatedResponse.slice(0, MAX_RESPONSE_LENGTH) + "...";
               }
 
               return (
@@ -170,8 +179,12 @@ const Messages = ({
                   id={message.id}
                   onContextMenu={(event) => handleContextMenu(event, message)}
                   onClick={() => switchIsSelected(message)}
-
                 >
+                  {truncatedResponse && 
+                    <div className={responseStyles}>
+                      <span className={`${styles.responseAuthor} ${styles.unselectable}`}><b>{message?.response?.author || "Author"}</b></span>
+                      <span className={`${styles.responseMessage} ${styles.unselectable}`}>{truncatedResponse}</span>
+                    </div>}
                   {message.content}
                   <div className={`${styles.timestamp} ${styles.unselectable}`}>
                     <span>{message.isEdited && 'edited'} {formatTimestamp(message.time)}</span>

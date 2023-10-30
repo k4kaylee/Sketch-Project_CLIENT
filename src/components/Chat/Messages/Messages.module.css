@@ -45,6 +45,7 @@
   border-radius: 0px 10px 10px 10px;
   margin-bottom: 5px;
   word-wrap: break-word;
+  color:#30101a;  
 }
 
 .message.byMe{
@@ -66,4 +67,28 @@
   font-size: 9px;
   margin-left: 5px;
   opacity: 0.6;
+}
+
+.response{
+  height: 35px;
+  border-left: 2px solid #984157;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-left: 5px;
+}
+
+.response.byMe{
+  border-left: 2px solid #f19ab0;
+}
+
+.responseAuthor{
+  font-size: 11px;
+  color:#30101a;  
+}
+
+.responseMessage{
+  font-size: 10px;
+  opacity: 0.8;
 }

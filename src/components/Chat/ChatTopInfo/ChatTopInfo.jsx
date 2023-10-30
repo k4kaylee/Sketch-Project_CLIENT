@@ -3,7 +3,6 @@ import styles from './ChatTopInfo.module.css';
 import { AuthContext } from '../../../context/AuthContext';
 import messageStyles from '../Messages/Messages.module.css';
 import useChatUpdater from '../../hooks/useChatUpdater';
-import Notice from '../../misc/Notice/Notice';
 
 const { isSelected } = messageStyles;
 
