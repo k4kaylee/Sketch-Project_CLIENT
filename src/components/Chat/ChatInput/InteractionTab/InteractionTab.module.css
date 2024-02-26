@@ -60,7 +60,7 @@
 }
 
 .response{
-    /*background: url('../../../../../img/response.svg') no-repeat;*/
+    background: url('../../../../../img/response.svg') no-repeat;
     background-size: cover;
 }
 

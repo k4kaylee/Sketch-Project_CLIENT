@@ -61,7 +61,12 @@ const ChatInput = ({ embeddedMessage,
       )
 
       setMessages(newMessages);
-      setPendingMessage(message);
+      setPendingMessage(
+        {
+          content: message,
+          response: response,
+        }
+        );
       messageInputRef.current.value = '';
       setMessage('');
     }

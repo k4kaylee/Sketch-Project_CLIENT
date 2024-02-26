@@ -32,7 +32,7 @@ const Chat = () => {
   const [currentChat, setCurrentChat] = useState({});
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
-  const [pendingMessage, setPendingMessage] = useState('');
+  const [pendingMessage, setPendingMessage] = useState({});
   const [isLoadingChats, setIsLoadingChats] = useState(true);
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [notification, setNotification] = useState('');
@@ -40,6 +40,7 @@ const Chat = () => {
   /* To be restructured */
   const [embeddedMessage, setEmbeddedMessage] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const [isInteractionTabVisible, setIsInteractionTabVisible] = useState(false);
   const [messageBeforeEdit, setMessageBeforeEdit] = useState('');
 
   const [socket, setSocket] = useState(null);
@@ -185,6 +186,7 @@ const Chat = () => {
                     setIsEditing={setIsEditing}
                     setNotification={setNotification}
                     setSelectedMessages={setSelectedMessages}
+                    setIsInteractionTabVisible={setIsInteractionTabVisible}
                     socket={socket}
                   >
                     <Notice content={notification} />
@@ -202,6 +204,8 @@ const Chat = () => {
                 setPendingMessage={setPendingMessage}
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}
+                isInteractionTabVisible={isInteractionTabVisible}
+                setIsInteractionTabVisible={setIsInteractionTabVisible}
                 messageBeforeEdit={messageBeforeEdit}
                 socket={socket}
               />

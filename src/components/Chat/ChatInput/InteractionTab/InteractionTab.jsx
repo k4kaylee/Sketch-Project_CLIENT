@@ -4,15 +4,19 @@ import styles from './InteractionTab.module.css'
 const InteractionTab = ({embeddedMessage, 
                          messageInputRef,
                          isEditing,
-                         setIsEditing}) => {
+                         setIsEditing,
+                         isInteractionTabVisible,
+                         setIsInteractionTabVisible
+                        }) => {
 
   const handleCancel = () => {
     messageInputRef.current.value = '';
     setIsEditing(false);
+    setIsInteractionTabVisible(false);
   }
 
 
-  if(isEditing)
+  if(isInteractionTabVisible)
     return (
       <div className={styles.tab}>
           <div className={`${styles.icon} ${styles[`${embeddedMessage.icon}`]}`}></div>

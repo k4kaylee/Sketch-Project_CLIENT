@@ -18,6 +18,7 @@ const Messages = ({
   setSelectedMessages,
   setNotification,
   socket,
+  setIsInteractionTabVisible,
   children }) => {
 
   /* Context */
@@ -68,7 +69,18 @@ const Messages = ({
       const commonOptions = [
         {
           name: 'Response',
-          onClick: (message) => { }
+          onClick: (message) => {
+            setEmbeddedMessage({
+              icon: 'response',
+              title: message.author.name,
+              content: {
+                id: message.id,
+                message: message.content
+              }
+            });
+            setIsInteractionTabVisible(true);
+            messageInputRef.current.focus();
+          }
         },
         {
           name: 'Copy the text',
@@ -168,8 +180,9 @@ const Messages = ({
               }
 
               let truncatedResponse = message?.response?.content;
+              
               if (truncatedResponse?.length >= MAX_RESPONSE_LENGTH) {
-                truncatedResponse = truncatedResponse.slice(0, MAX_RESPONSE_LENGTH) + "...";
+                truncatedResponse = truncatedResponse.content.slice(0, MAX_RESPONSE_LENGTH) + "...";
               }
 
               return (
@@ -182,7 +195,7 @@ const Messages = ({
                 >
                   {truncatedResponse && 
                     <div className={responseStyles}>
-                      <span className={`${styles.responseAuthor} ${styles.unselectable}`}><b>{message?.response?.author || "Author"}</b></span>
+                      <span className={`${styles.responseAuthor} ${styles.unselectable}`}><b>{message?.response?.author}</b></span>
                       <span className={`${styles.responseMessage} ${styles.unselectable}`}>{truncatedResponse}</span>
                     </div>}
                   {message.content}

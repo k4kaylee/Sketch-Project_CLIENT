@@ -13,7 +13,8 @@ const   useChatUpdater = () => {
           name: user.name,
           id: user.id,
         },
-        content: newMessage,
+        content: newMessage.content,
+        response: newMessage.response,
         time: new Date().toISOString()
       });
     } catch (error) {
