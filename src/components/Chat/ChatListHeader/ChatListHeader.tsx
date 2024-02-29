@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './ChatListHeader.module.css'
 import '../../../App.css'
-import useUser from 'components/hooks/useUser';
+import useUser from '../../../components/hooks/useUser';
 import { AuthContext } from '../../../context/AuthContext.jsx';
 
 
@@ -18,11 +18,11 @@ const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
   const [focus, setFocus] = useState(false);
   const [users, setUsers] = useState([]);
   const [usersTabContent, setUsersTabContent] = useState<User[]>([]);
-  
+
   // @ts-ignore
   const { handleLogout } = useContext(AuthContext);
 
-  const {loadUsers} = useUser();
+  const { loadUsers } = useUser();
 
   useEffect(() => {
     if (focus)
@@ -70,7 +70,7 @@ const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
               truncatedName = truncatedName.slice(0, MAX_USERNAME_LENGTH) + "...";
 
             const isUserOnline = !!onlineUsers.find((onlineUser) => onlineUser.id === user.id)
-            
+
             return (
               <div className={styles.user} key={i} onClick={() => openChat(user)}>
                 <div className={`${styles.avatar} ${styles.diminished}`}>
@@ -84,7 +84,7 @@ const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
       </>
       :
       <div className={styles.list_header}>
-        <div className={styles.options} onClick={handleLogout}/>
+        <div className={styles.options} onClick={handleLogout} />
         <div className={styles.logo} />
         <div className={styles.search}>
           <i className={styles.search_icon} onClick={toggleFocus} />

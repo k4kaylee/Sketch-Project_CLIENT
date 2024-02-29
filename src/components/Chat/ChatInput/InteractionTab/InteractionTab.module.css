@@ -48,7 +48,7 @@
     width: 20px;
     height: 20px;
     margin-left: auto;
-    background: url(../../../../../img/close.svg) no-repeat;
+    background: url(~/img/close.svg) no-repeat;
     background-size: contain;
     cursor: pointer;
     opacity: 0.5;
@@ -60,11 +60,11 @@
 }
 
 .response{
-    background: url('../../../../../img/response.svg') no-repeat;
+    background: url('~/img/response.svg') no-repeat;
     background-size: cover;
 }
 
 .edit{
-    background: url('../../../../../img/edit.svg') no-repeat;
+    background: url('~/img/edit.svg') no-repeat;
     background-size: cover;
 }

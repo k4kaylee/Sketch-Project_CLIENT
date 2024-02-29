@@ -3,6 +3,7 @@ import styles from './ChatTopInfo.module.css';
 import { AuthContext } from '../../../context/AuthContext';
 import messageStyles from '../Messages/Messages.module.css';
 import useChatUpdater from '../../hooks/useChatUpdater';
+import ProfileCard from './ProfileCard/ProfileCard';
 
 const { isSelected } = messageStyles;
 
@@ -14,7 +15,9 @@ const ChatTopInfo = ({ currentChat,
   setChats, /* TODO: put setChats to useChatUpdater */
   setNotification,
   onlineUsers }) => {
+
   const [intelocutorStatus, setIntelocutorStatus] = useState('Loading...');
+  const [isProfileCardVisible, setIsProfileCardVisible] = useState(false);
 
   const { user } = useContext(AuthContext);
   const { deleteMessage } = useChatUpdater();
@@ -51,7 +54,6 @@ const ChatTopInfo = ({ currentChat,
   }
 
   const onDelete = () => {
-
     selectedMessages.forEach((message) => {
       if (message.author.id === user.id) {
         deleteMessage(currentChat.id, message, setChats);
@@ -65,11 +67,10 @@ const ChatTopInfo = ({ currentChat,
 
   };
 
-
   return (
     <>
-      <div className={styles.top_info}>
-        {selectedMessages.length ? (
+    {selectedMessages.length ? (
+        <div className={styles.top_info}>
           <div className={styles.flex_container}>
             <p className={styles.selected_messages}>Selected: {selectedMessages.length}</p>
             <div className={styles.button_container}>
@@ -77,23 +78,25 @@ const ChatTopInfo = ({ currentChat,
               <button className={`${styles.button}`} onClick={onCancel}>Cancel</button>
             </div>
           </div>
-        ) : (
-          <>
-            <i
-              className={styles.arrow_back_icon}
-              onClick={() => {
-                setCurrentChat({});
-                setIsAnyToggled(false);
-              }}
-            />
-            <div className={`${styles.avatar} ${styles.diminished}`} />
-            <div className={styles.preview}>
-              <article className={`${styles.username} ${styles.unselectable}`}>{currentChat.name}</article>
-              <article className={styles.unselectable}>{intelocutorStatus}</article>
-            </div>
-          </>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className={styles.top_info} onClick={() => setIsProfileCardVisible(!isProfileCardVisible)}>
+          {isProfileCardVisible && <ProfileCard intelocutorStatus={intelocutorStatus} intelocutor={currentChat.name}/>}
+
+          <i
+            className={styles.arrow_back_icon}
+            onClick={() => {
+              setCurrentChat({});
+              setIsAnyToggled(false);
+            }}
+          />
+          <div className={`${styles.avatar} ${styles.diminished}`} />
+          <div className={styles.preview}>
+            <article className={`${styles.username} ${styles.unselectable}`}>{currentChat.name}</article>
+            <article className={styles.unselectable}>{intelocutorStatus}</article>
+          </div>
+        </div>
+      )}
     </>
   );
 };

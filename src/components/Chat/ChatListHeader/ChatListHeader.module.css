@@ -22,7 +22,7 @@
     padding: 5px;
     box-sizing: border-box;
     cursor: pointer;
-    background: url('../../../../img/exit.svg') no-repeat; /* has exit icon for now, as it is its only function atm */
+    background: url('~/img/exit.svg') no-repeat; /* has exit icon for now, as it is its only function atm */
     background-size: contain;
     opacity: 0.4;
     transition: opacity 0.3s;
@@ -33,7 +33,7 @@
 }
 
 .arrow_back_icon {
-    background: url('../../../../img/arrow-back.svg');
+    background: url('~/img/arrow-back.svg');
     height: 25px;
     width: 25px;
     margin-right: 5px;
@@ -55,7 +55,7 @@
 }
 
 .search_icon {
-    background-image: url(../../../../img/search-icon.svg);
+    background-image: url(~/img/search-icon.svg);
     width: 25px;
     height: 25px;
     background-size: contain;
@@ -102,7 +102,7 @@
     width: 100px;
     height: 30px;
     object-fit: fill;
-    background: url("../../../../img/logo.svg") no-repeat;
+    background: url("~/img/logo.svg") no-repeat;
     background-size: contain;
     align-self: center;
     margin: 0 auto;
@@ -177,7 +177,7 @@
 
 .avatar {
     border-radius: 40px;
-    background: url(../../../../img/empty-avatar.png);
+    background: url(~/img/empty-avatar.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

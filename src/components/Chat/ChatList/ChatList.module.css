@@ -60,7 +60,7 @@
 
 .avatar {
     border-radius: 40px;
-    background: url(../../../../img/empty-avatar.png);
+    background: url(~/img/empty-avatar.png);
     background-size: contain;
     width: 55px;
     height: 55px;

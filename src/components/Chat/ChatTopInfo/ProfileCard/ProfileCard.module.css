@@ -1,0 +1,82 @@
+@keyframes fade-in{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes fade-away{
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+.background{
+    background-color: #00000060;
+    cursor: pointer;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.5s;
+}
+
+.flex_container{
+    display: flex;
+}
+
+.preview {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #9e9e9e;
+}
+
+.username {
+    color: #BCC0C4;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.card {
+    height: 95%;
+    width: 500px;
+    border-radius: 15px;
+    background-color: #242a33;
+    color: #cfd4d8;
+    animation: pop-up 0.5s;
+    animation-fill-mode: forwards;
+    padding: 30px;
+    box-sizing: border-box; 
+    position: relative;
+    z-index: 20;
+    cursor: default;
+}
+
+.avatar {
+    border-radius: 40px;
+    background: url(~/img/empty-avatar.png);
+    background-size: contain;
+    width: 70px;
+    height: 70px;
+    align-self: center;
+}
+
+.unselectable {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}

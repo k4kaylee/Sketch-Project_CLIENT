@@ -38,7 +38,7 @@
 
 .avatar {
     border-radius: 40px;
-    background: url(../../../../img/empty-avatar.png);
+    background: url('~/img/empty-avatar.png');
     background-size: contain;
     width: 55px;
     height: 55px;
@@ -65,7 +65,7 @@
 }
 
 .arrow_back_icon {
-    background: url('../../../../img/arrow-back.svg');
+    background: url('~/img/arrow-back.svg');
     height: 25px;
     width: 25px;
     margin-right: 5px;
