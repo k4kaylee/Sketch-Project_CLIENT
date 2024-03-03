@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ChatListHeader.module.css'
-import '../../../App.css'
 import useUser from '../../../components/hooks/useUser';
-import { AuthContext } from '../../../context/AuthContext.jsx';
 
 
 interface User {
@@ -12,7 +10,7 @@ interface User {
 }
 
 
-const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
+const ChatListHeader = ({ search, setSearch, openChat, onlineUsers, setIsProfileSettingsVisible }) => {
 
   const MAX_USERNAME_LENGTH = 8;
   const [focus, setFocus] = useState(false);
@@ -20,7 +18,9 @@ const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
   const [usersTabContent, setUsersTabContent] = useState<User[]>([]);
 
   // @ts-ignore
-  const { handleLogout } = useContext(AuthContext);
+  const openProfile = () => {
+    setIsProfileSettingsVisible(true);
+  }
 
   const { loadUsers } = useUser();
 
@@ -84,7 +84,7 @@ const ChatListHeader = ({ search, setSearch, openChat, onlineUsers }) => {
       </>
       :
       <div className={styles.list_header}>
-        <div className={styles.options} onClick={handleLogout} />
+        <div className={styles.options} onClick={openProfile} /*onClick={handleLogout}*/ />
         <div className={styles.logo} />
         <div className={styles.search}>
           <i className={styles.search_icon} onClick={toggleFocus} />

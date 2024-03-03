@@ -22,7 +22,7 @@
     padding: 5px;
     box-sizing: border-box;
     cursor: pointer;
-    background: url('~/img/exit.svg') no-repeat; /* has exit icon for now, as it is its only function atm */
+    background: url('~/img/menu.svg') no-repeat; /* has exit icon for now, as it is its only function atm */
     background-size: contain;
     opacity: 0.4;
     transition: opacity 0.3s;

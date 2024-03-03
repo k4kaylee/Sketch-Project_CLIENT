@@ -6,6 +6,8 @@ import ResizeHandle from '../../misc/ResizeHandle/ResizeHandle';
 import styles from './ChatList.module.css'
 import axios from '../../../api/axios';
 import { AuthContext } from '../../../context/AuthContext.jsx';
+import ProfileSettings from './ProfileSettings/ProfileSettings'
+
 
 
 
@@ -16,6 +18,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
   const [isToggled, setIsToggled] = useState(Array(chats.length).fill(false));
   const [listContent, setListContent] = useState([]);
   const [search, setSearch] = useState('');
+  const [isProfileSettingsVisible, setIsProfileSettingsVisible] = useState(false);
 
   const chatRefs = useRef(Array.from({ length: chats.length }, () => React.createRef()));
 
@@ -82,7 +85,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
       console.log(error.message);
     }
   }
-  
+
 
   const openChat = async (user) => {
     const chatWithUser = chats.find(chat => {
@@ -127,54 +130,60 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
 
   return (
     <ResizeHandle isAnyToggled={isAnyToggled}>
-      <div className={isAnyToggled ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconcealable}`}>
-        <ChatListHeader search={search} 
-                        setSearch={setSearch} 
-                        openChat={openChat} 
-                        onlineUsers={onlineUsers}
-        />
-        <SimpleBar className={styles.scroll}>
-          <ul>
-            {chats && chats.length > 0 ? (
-              Array.from({ length: listContent.length }).map((_, index) => {
-                const chat = listContent[index];
-                const lastMessage = chat?.messages && chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
+      <div className={isAnyToggled || isProfileSettingsVisible ? `${styles.chatlist}` : `${styles.chatlist} ${styles.unconcealable}`}>
+        {isProfileSettingsVisible ? (
+          <ProfileSettings setIsProfileSettingsVisible={setIsProfileSettingsVisible}/>
+        ) : (
+          <>
+            <ChatListHeader search={search}
+              setSearch={setSearch}
+              openChat={openChat}
+              onlineUsers={onlineUsers}
+              setIsProfileSettingsVisible={setIsProfileSettingsVisible}
+            />
+            <SimpleBar className={styles.scroll}>
+              <ul>
+                {chats && chats.length > 0 ? (
+                  Array.from({ length: listContent.length }).map((_, index) => {
+                    const chat = listContent[index];
+                    const lastMessage = chat?.messages && chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
 
-                let truncatedMessage;
-                if (lastMessage && lastMessage.content) {
-                  truncatedMessage = lastMessage.content;
+                    let truncatedMessage;
+                    if (lastMessage && lastMessage.content) {
+                      truncatedMessage = lastMessage.content;
 
-                  if (truncatedMessage.length >= MAX_LASTMESSAGE_LENGTH) {
-                    truncatedMessage = truncatedMessage.slice(0, MAX_LASTMESSAGE_LENGTH) + "...";
-                  }
-                }
+                      if (truncatedMessage.length >= MAX_LASTMESSAGE_LENGTH) {
+                        truncatedMessage = truncatedMessage.slice(0, MAX_LASTMESSAGE_LENGTH) + "...";
+                      }
+                    }
 
-                const intelocutor = chat.participants.find((participant) => participant.id !== user.id);
-                const isInterlocutorOnline = !!onlineUsers.find((user) => user.id === intelocutor.id)
+                    const intelocutor = chat.participants.find((participant) => participant.id !== user.id);
+                    const isInterlocutorOnline = !!onlineUsers.find((user) => user.id === intelocutor.id)
 
-                return (
-                  <li
-                    key={index}
-                    className={isToggled[index] ? `${styles.profile} ${styles.__focus}` : `${styles.profile}`}
-                    ref={chatRefs.current[index]}
-                    onClick={() => toggleFocus(index)}
-                  >
-                    <div className={styles.avatar}>
-                      {isInterlocutorOnline && <div className={styles.online} />}
-                    </div>
-                    <div className={styles.preview}>
-                      <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
-                      <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
-                    </div>
-                  </li>
-                );
-              })
-            ) : (
-              <p className={`${styles.no_chats_message} ${styles.unselectable}`}><i>No chats available.</i></p>
-            )}
-          </ul>
+                    return (
+                      <li
+                        key={index}
+                        className={isToggled[index] ? `${styles.profile} ${styles.__focus}` : `${styles.profile}`}
+                        ref={chatRefs.current[index]}
+                        onClick={() => toggleFocus(index)}
+                      >
+                        <div className={styles.avatar}>
+                          {isInterlocutorOnline && <div className={styles.online} />}
+                        </div>
+                        <div className={styles.preview}>
+                          <article className={`${styles.username} ${styles.unselectable}`}>{chat.name}</article>
+                          <article className={`${styles.last_message} ${styles.unselectable}`}>{truncatedMessage}</article>
+                        </div>
+                      </li>
+                    );
+                  })
+                ) : (
+                  <p className={`${styles.no_chats_message} ${styles.unselectable}`}><i>No chats available.</i></p>
+                )}
+              </ul>
 
-        </SimpleBar>
+            </SimpleBar>
+          </>)}
       </div>
     </ResizeHandle>
   )

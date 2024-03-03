@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './ProfileCard.module.css';
 import SimpleBar from 'simplebar-react';
 
@@ -21,6 +21,9 @@ const ProfileCard = ({ intelocutorStatus, intelocutor })/*: ProfileCardData*/ =>
                                 <article className={styles.unselectable}>{intelocutorStatus}</article>
                             </div>
                         </div>
+                        <hr />
+
+                        <hr />
                     </SimpleBar>
                 </div>
             </div>
