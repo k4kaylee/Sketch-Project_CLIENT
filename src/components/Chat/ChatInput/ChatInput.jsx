@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
+import { AuthContext } from '@/context/AuthContext';
 import styles from './ChatInput.module.css';
 import InteractionTab from './InteractionTab/InteractionTab.jsx';
 import useChatUpdater from '../../hooks/useChatUpdater.js';

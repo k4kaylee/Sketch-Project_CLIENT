@@ -27,10 +27,10 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build --baseurl \"https://k4kaylee.github.io/Sketch-Project_CLIENT/\"",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build --baseurl \"https://k4kaylee.github.io/Sketch-Project_CLIENT/\"",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@types/node": "^20.5.0",
     "typescript": "^4.9.5"
   }

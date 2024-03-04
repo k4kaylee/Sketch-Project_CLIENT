@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useState, useEffect } from 'react';
 import styles from './Messages.module.css';
-import { AuthContext } from '../../../context/AuthContext.jsx';
+import { AuthContext } from '@/context/AuthContext.jsx';
 import { useContextMenu } from '../../hooks/useContextMenu';
 import { useModal } from '../../hooks/useModal';
 import useChatUpdater from '../../hooks/useChatUpdater';
