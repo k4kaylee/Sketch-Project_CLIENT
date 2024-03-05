@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useRef, useEffect } from 'react';
 import styles from './Messages.module.css';
 import { AuthContext } from '@/context/AuthContext.jsx';
 import { useContextMenu } from '../../hooks/useContextMenu';
@@ -35,6 +35,8 @@ const Messages = ({
       setNotification('');
     };
   }, []);
+
+  const messagesRef = useRef(new Map());
 
   /* Custom functions */
   const MAX_RESPONSE_LENGTH = 16;
@@ -147,7 +149,9 @@ const Messages = ({
   }
 
   function switchIsSelected(message) {
-    const messageClassList = document.getElementById(message.id).classList;
+    const ref = messagesRef.current.get(message.id);
+    if (ref == null) return;
+    const messageClassList = ref.element.classList;
     if (!messageClassList.contains(`${styles.isSelected}`)) {
       messageClassList.add(`${styles.isSelected}`)
       setSelectedMessages((prevState) => [
@@ -185,10 +189,19 @@ const Messages = ({
                 truncatedResponse = truncatedResponse.content.slice(0, MAX_RESPONSE_LENGTH) + "...";
               }
 
+              const messageRef = (element) => {
+                if (element != null) {
+                  messagesRef.current.set(message.id, { message, element });
+                } else {
+                  messagesRef.current.delete(message.id);
+                }
+              }
+
               return (
                 <li
                   className={messageStyles}
                   key={index}
+                  ref={messageRef}
                   id={message.id}
                   onContextMenu={(event) => handleContextMenu(event, message)}
                   onClick={() => switchIsSelected(message)}
