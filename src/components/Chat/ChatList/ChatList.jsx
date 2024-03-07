@@ -134,7 +134,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
         {isProfileSettingsVisible ? (
           <ProfileSettings setIsProfileSettingsVisible={setIsProfileSettingsVisible}/>
         ) : (
-          <>
+          <div className={styles.content}>
             <ChatListHeader search={search}
               setSearch={setSearch}
               openChat={openChat}
@@ -183,7 +183,7 @@ const ChatList = ({ chats, setChats, setCurrentChat, setChatIndex, setIsAnyToggl
               </ul>
 
             </SimpleBar>
-          </>)}
+          </div>)}
       </div>
     </ResizeHandle>
   )

@@ -13,7 +13,7 @@ const useUser = () => {
         }
     }
 
-    /* const loadUserById = async(id, setUser) => {
+    const loadUserById = async(id, setUser) => {
         try {
             const response = await axios.get(`/users/${id}`);
             if (response.status === 200) {
@@ -22,10 +22,11 @@ const useUser = () => {
         } catch (error) {
             console.log(error.message);
         }
-    } */
+    }
+
     return {
         loadUsers,
-        /* loadUserById,  */
+        loadUserById,
     }
 }
 

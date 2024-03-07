@@ -14,7 +14,6 @@ import useChatUpdater from '../components/hooks/useChatUpdater';
 import Loader from '../components/misc/Loader/Loader';
 import Notice from '../components/misc/Notice/Notice';
 import { io } from 'socket.io-client'
-import { render } from 'react-dom';
 
 
 

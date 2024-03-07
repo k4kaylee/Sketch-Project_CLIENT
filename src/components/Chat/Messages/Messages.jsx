@@ -106,6 +106,7 @@ const Messages = ({
                   message: message.content,
                 }
               });
+              setIsInteractionTabVisible(true);
               messageInputRef.current.value = message.content;
               messageInputRef.current.focus();
               setIsEditing(true);

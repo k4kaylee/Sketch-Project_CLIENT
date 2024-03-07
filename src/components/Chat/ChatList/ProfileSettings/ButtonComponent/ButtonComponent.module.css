@@ -1,0 +1,51 @@
+
+.button{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    padding: 5px;
+    box-sizing: border-box;
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.button:hover{
+    background-color: #272e39;
+}
+
+.icon{
+    height: 25px;
+    width: 25px;
+    display:block;
+    background-repeat: no-repeat;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.icon.exit{
+    background: url('~/img/exit.svg');
+    background-size: contain;
+}
+
+.icon.edit{
+    background: url('~/img/edit.svg');
+    background-size: contain;
+}
+
+.icon.settings{
+    background: url('~/img/settings.svg');
+    background-size: contain;
+}
+
+.content{
+    margin: auto;
+    font-family: -apple-system, 
+    BlinkMacSystemFont, 
+    'Segoe UI', 'Roboto', 
+    'Oxygen', 'Ubuntu', 
+    'Cantarell', 'Fira Sans', 
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+}
