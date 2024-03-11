@@ -190,9 +190,9 @@ const Chat = () => {
                   >
                     <Notice content={notification} />
                   </Messages>  
-                  <Waves styles='chat-waves' />
                 </ContextMenuProvider>
               </SimpleBar>
+              <Waves type='chat' />
               <ChatInput 
                 embeddedMessage={embeddedMessage}
                 messageInputRef={messageInputRef}

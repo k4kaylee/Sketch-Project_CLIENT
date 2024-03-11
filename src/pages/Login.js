@@ -23,7 +23,7 @@ const Login = () => {
       </div>
 
 
-      <Waves styles='waves' />
+      <Waves type='landing' />
     </div>
   );
 }

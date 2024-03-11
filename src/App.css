@@ -134,6 +134,7 @@ body{
 
 .waves {
     position: absolute;
+    bottom: 0;
 }
 
 
@@ -272,7 +273,7 @@ body{
 }
 
 .chat-waves{
-  position: fixed;
+  position: absolute;
   bottom: 0;
   max-width: 100%;
   z-index: 0;
@@ -288,6 +289,8 @@ body{
 .scroll {
   max-height: 92vh;
   margin-right: -3px;
+  position: relative;
+  z-index: 1;
 }
 
 .scroll .simplebar-scrollbar::before {

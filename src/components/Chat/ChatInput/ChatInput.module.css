@@ -9,7 +9,7 @@
 .chat_input {
     display: flex;
     width: 100%;
-    z-index: 3;
+    z-index: 5;
 }
 
 .chat_input input {
